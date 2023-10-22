@@ -5,7 +5,7 @@ import HeaderProfile from "./HeaderProfile/HeaderProfile";
 import HeaderNotification from "./HeaderNotification/HeaderNotification";
 import HeaderThemeSwitch from "./HeaderThemeSwitch/HeaderThemeSwitch";
 import HeaderLanguageSwitch from "./HeaderLanguageSwitch/HeaderLanguageSwitch";
-import HeaderChatMessage from "./HeaderChatMessage";
+import HeaderChatMessage from "./HeaderChatMessage/HeaderChatMessage";
 import store from "../../../../../../store/store";
 
 const HeaderNavbar = observer(() => {

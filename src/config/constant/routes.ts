@@ -4,8 +4,8 @@ export const authentication = {
     forgotPassword:'/forgot-password',
     resetPassword:'/reset-password/:token',
     verifyEmail:'/verify-account/:token',
-    createOrganisation:'/create/organisation/:token',
-    createOrganisationStep1:'/create/organisation',
+    createOrganisation:'/create/company/:token',
+    createOrganisationStep1:'/create/company',
 }
 
 export const dashboard = {
@@ -30,6 +30,7 @@ export const dashboard = {
 export const main = {
   home: "/",
   about: "/about",
+  project:"/project",
   changePassword: "/profile?&profileTab=change-password",
   contact: "/contact",
   courses: "/courses",

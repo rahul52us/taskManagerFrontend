@@ -10,9 +10,13 @@ import LinkText from "../../../../component/LinkText/LinkText";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { authentication } from "../../../../constant/routes";
+import store from "../../../../../store/store";
 
 const FooterBottom = observer(() => {
-  const navigate = useNavigate()
+  const {
+    auth: { user, doLogout },
+  } = store;
+  const navigate = useNavigate();
   return (
     <Box mt={5}>
       <Divider />
@@ -42,7 +46,22 @@ const FooterBottom = observer(() => {
           <LinkText text="Terms Of Condition" />
           <LinkText text="Privacy Policy" />
           <LinkText text="Subscription" />
-          <LinkText text="Login & Register" clickEvent={() => {navigate(authentication.login)}} />
+          {user ? (
+            <LinkText
+              text="Logout from site"
+              clickEvent={() => {
+                doLogout();
+                navigate(authentication.login);
+              }}
+            />
+          ) : (
+            <LinkText
+              text="Login & Register"
+              clickEvent={() => {
+                navigate(authentication.login);
+              }}
+            />
+          )}
         </Flex>
       </Grid>
     </Box>

@@ -82,6 +82,14 @@ const MessageMainContainer = observer(() => {
       me: false,
     },
     {
+      id: 11,
+      name: "Alice Johnson",
+      avatar: "/path/to/avatar3.png",
+      message: "Nice to meet you!",
+      createdAt: "12/10/2023",
+      me: false,
+    },
+    {
       id: 8,
       name: "Alice Johnson",
       avatar: "/path/to/avatar3.png",

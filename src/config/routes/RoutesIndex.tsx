@@ -8,8 +8,11 @@ import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import { observer } from "mobx-react-lite";
 import { mainPrivateRoutes } from "./PrivateMainRoutes";
 import PrivateMainLayout from "../layout/PrivateMainLayout/PrivateMainLayout";
+import store from "../../store/store";
 
 const RouterIndex = observer(() => {
+  const {auth : {user}} = store
+
   return (
     <Routes>
       <Route element={<PrivateMainLayout />}>
@@ -19,9 +22,10 @@ const RouterIndex = observer(() => {
       </Route>
 
       <Route element={<MainLayout />}>
-        {MainPublicRoutes.map((item, index) => {
-          return <Route key={index} path={item.path} element={item.element} />;
-        })}
+        {MainPublicRoutes.map((item, index) =>
+          user === null && item.publicRoute === false ? null :
+          <Route key={index} path={item.path} element={item.element} />
+        )}
       </Route>
 
       <Route element={<AuthenticateLayout />}>

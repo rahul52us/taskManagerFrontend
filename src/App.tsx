@@ -24,8 +24,8 @@ const App = observer(() => {
       en: { translation: enTranslation },
       hi: { translation: hiTranslation },
     },
-    lng: localStorage.getItem("setLanguage") as any, // Set the default language here
-    fallbackLng: "en", // Fallback language if the selected language is not available
+    lng: localStorage.getItem("setLanguage") as any,
+    fallbackLng: "en",
     interpolation: {
       escapeValue: false,
     },

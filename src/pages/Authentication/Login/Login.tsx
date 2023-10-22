@@ -63,10 +63,10 @@ const Login = observer(() => {
             validationSchema={LoginValidation}
             onSubmit={(values, { setSubmitting }) => {
               login(values)
-                .then(() => {
+                .then((data : any) => {
                   openNotification({
                     title: "Login Success",
-                    message: "username has been login successFully",
+                    message: data.message,
                     type: "success",
                   });
                   navigate(main.home);

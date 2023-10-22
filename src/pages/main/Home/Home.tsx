@@ -2,6 +2,7 @@ import { Heading, Stack, Text, Button, Container } from "@chakra-ui/react";
 import HomeServices from "./component/HomeServices/HomeServices";
 import CaptionCarousel from "../../../config/component/carousel/Carousel";
 import HomeExtraResources from "./component/HomeExtraResources/HomeExtraResources";
+import RoundButton from "../../../config/component/Button/RoundButton";
 
 export default function CallToActionWithIllustration() {
   return (
@@ -32,15 +33,7 @@ export default function CallToActionWithIllustration() {
           smart “Daily Agenda” every morning.
         </Text>
         <Stack spacing={6} direction={"row"}>
-          <Button
-            rounded={"full"}
-            px={6}
-            colorScheme={"orange"}
-            bg={"orange.400"}
-            _hover={{ bg: "orange.500" }}
-          >
-            Get started
-          </Button>
+          <RoundButton />
           <Button rounded={"full"} px={6}>
             Learn more
           </Button>

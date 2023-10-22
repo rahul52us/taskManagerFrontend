@@ -12,7 +12,7 @@ class OrganisationStore {
   filterOrganisation = async (searchValue: string) => {
     try {
       const { data } = await axios.get(
-        `/organisation/search?company=${searchValue}`
+        `/company/search?company=${searchValue}`
       );
       return data;
     } catch (err: any) {

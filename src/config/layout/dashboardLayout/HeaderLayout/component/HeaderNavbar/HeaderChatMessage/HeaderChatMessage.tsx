@@ -1,7 +1,7 @@
 import { IconButton } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { FaRegEnvelope } from "react-icons/fa";
-import store from "../../../../../../store/store";
+import store from "../../../../../../../store/store";
 
 const HeaderChatMessage = observer(() => {
   const {chatMessage : {setOpenMessageDrawer}} = store

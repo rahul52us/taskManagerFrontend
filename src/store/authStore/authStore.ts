@@ -92,7 +92,7 @@ class AuthStore {
     localStorage.removeItem(
       process.env.REACT_APP_AUTHORIZATION_TOKEN as string
     );
-    localStorage.removeItem("quizUserData");
+    localStorage.removeItem(process.env.REACT_APP_AUTHORIZATION_USER_DATA!);
   };
 
   updateUserProfile = async (sendData: any) => {
@@ -118,7 +118,7 @@ class AuthStore {
       });
       this.user = data.data;
       localStorage.setItem(
-        "quizUserData",
+        process.env.REACT_APP_AUTHORIZATION_USER_DATA!,
         CryptoJS.AES.encrypt(
           JSON.stringify(this.user),
           process.env.REACT_APP_ENCRYPT_SECRET_KEY!
@@ -137,7 +137,7 @@ class AuthStore {
         process.env.REACT_APP_AUTHORIZATION_TOKEN as string,
         data.data.authorization_token
       );
-      return data.data;
+      return data;
     } catch (err: any) {
       return Promise.reject(err?.response?.data || err.message);
     }
@@ -148,7 +148,7 @@ class AuthStore {
       const { remember_me, token, first_name, last_name, ...sendData } = value;
       sendData["name"] = `${first_name} ${last_name}`;
       const { data } = await axios.post(
-        `/organisation/create/${token}`,
+        `/company/create/${token}`,
         sendData
       );
       return data;
@@ -161,7 +161,7 @@ class AuthStore {
     try {
       const authorization_token = process.env.REACT_APP_AUTHORIZATION_TOKEN;
       if (authorization_token) {
-        const storedData = localStorage.getItem("quizUserData");
+        const storedData = localStorage.getItem(process.env.REACT_APP_AUTHORIZATION_USER_DATA!);
         if (storedData) {
           const decryptedBytes = CryptoJS.AES.decrypt(
             storedData,
@@ -198,7 +198,7 @@ class AuthStore {
       const { data } = await axios.put("/auth", sendData);
       this.user = data.data
       localStorage.setItem(
-        "quizUserData",
+        process.env.REACT_APP_AUTHORIZATION_USER_DATA!,
         CryptoJS.AES.encrypt(
           JSON.stringify(data.data),
           process.env.REACT_APP_ENCRYPT_SECRET_KEY!

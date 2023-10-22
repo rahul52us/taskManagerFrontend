@@ -17,7 +17,7 @@ const VerifyEmail = observer(() => {
             title: "Verify Successfully",
             message: data?.message,
           });
-          navigate(`/create/organisation/${token}`);
+          navigate(`/create/company/${token}`);
         })
         .catch((err: any) => {
           store.auth.openNotification({

@@ -12,23 +12,39 @@ import {
 } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import store from "../../../../../../../store/store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { authentication, main } from "../../../../../../constant/routes";
-import { FaCog, FaLock, FaPalette, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaCog,
+  FaLock,
+  FaPalette,
+  FaSignOutAlt,
+  FaUser,
+  FaKey,
+  FaHome,
+} from "react-icons/fa";
 
 const HeaderProfile = observer(() => {
+  const { pathname } = useLocation();
   const {
     auth: { user, doLogout },
     themeStore: { setOpenThemeDrawer },
   } = store;
   const navigate = useNavigate();
 
-  return (
+  return user ? (
     <Menu closeOnSelect={false} placement="bottom-end">
       <MenuButton
         as={IconButton}
         aria-label="User Menu"
-        icon={<Avatar src={user?.pic} size="sm" borderRadius={10} name={user?.name}/>}
+        icon={
+          <Avatar
+            src={user?.pic}
+            size="sm"
+            borderRadius={10}
+            name={user?.name}
+          />
+        }
         size="sm"
         variant="ghost"
       />
@@ -47,6 +63,11 @@ const HeaderProfile = observer(() => {
             </Text>
           </Box>
           <Divider />
+          {user && pathname !== main.home && (
+            <MenuItem onClick={() => navigate(main.home)}>
+              <FaHome style={{ marginRight: "8px" }} /> Home
+            </MenuItem>
+          )}
           <MenuItem onClick={() => navigate(main.profile)}>
             <FaCog style={{ marginRight: "8px" }} /> Profile Settings
           </MenuItem>
@@ -65,6 +86,35 @@ const HeaderProfile = observer(() => {
             // colorScheme="red"
           >
             <FaSignOutAlt style={{ marginRight: "8px" }} /> Logout
+          </MenuItem>
+        </VStack>
+      </MenuList>
+    </Menu>
+  ) : (
+    <Menu closeOnSelect={false} placement="bottom-end">
+      <MenuButton
+        as={IconButton}
+        aria-label="User Menu"
+        icon={<Avatar size="sm" borderRadius="full" />}
+        size="sm"
+        variant="ghost"
+      />
+      <MenuList
+        minWidth="220px"
+        boxShadow="md"
+        borderRadius="md"
+        zIndex={10}
+        p={2}
+      >
+        <VStack spacing={2}>
+          <MenuItem onClick={() => navigate(authentication.login)}>
+            <FaUser style={{ marginRight: "8px" }} /> Login
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            onClick={() => navigate(authentication.createOrganisationStep1)}
+          >
+            <FaKey style={{ marginRight: "8px" }} /> Create New Account
           </MenuItem>
         </VStack>
       </MenuList>

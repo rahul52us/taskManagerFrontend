@@ -28,7 +28,7 @@ const BlogSingleRight = observer(({ item }: any) => {
             {item?.createdBy?.bio && item?.createdBy?.bio}
           </Text>
           <Text mt={2} color="white" fontSize="sm" textAlign="center">
-            {item?.createdBy?.position?.length && item?.createdBy?.position[0]}
+            {item?.createdBy?.position?.length ? item?.createdBy?.position[0] : ''}
           </Text>
         </Box>
         <Box p={4} bgColor="white" borderRadius="0 0 lg lg">
