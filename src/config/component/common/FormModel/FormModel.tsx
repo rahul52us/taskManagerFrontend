@@ -10,11 +10,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-function DashFormModel({ open, close, isCentered, loading, title, children }: any) {
+function FormModel({ open, close, isCentered, loading, title, children }: any) {
   const OverlayOne = () => (
     <ModalOverlay
-      bg="blackAlpha.300"
-      backdropFilter="blur(10px) hue-rotate(90deg)"
+      // bg="blackAlpha.300"
+      // backdropFilter="blur(10px) hue-rotate(90deg)"
     >
       {loading && (
         <Spinner
@@ -55,4 +55,4 @@ function DashFormModel({ open, close, isCentered, loading, title, children }: an
   );
 }
 
-export default DashFormModel;
+export default FormModel;

@@ -16,6 +16,7 @@ import ScrollToTopButton from "./config/component/ScrollToTopBottom/ScrollToTopB
 import ChatMessageContainer from "./config/component/Chat/ChatMessageContainer";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import LoginModel from "./pages/Authentication/LoginModel/LoginModel";
 
 const App = observer(() => {
   const { pathname } = useLocation();
@@ -43,6 +44,7 @@ const App = observer(() => {
         <Notification />
         <RouterIndex />
         <ChatMessageContainer />
+        <LoginModel />
         <DashSearchBar />
         <ThemeChangeContainer />
         <ScrollToTopButton />

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../CustomInput/CustomInput";
-import DashFormModel from "../DashFormModel/DashFormModel";
+import DashFormModel from "../FormModel/FormModel";
 import store from "../../../../store/store";
 
 const DashSearchBar = observer(() => {

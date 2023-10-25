@@ -12,7 +12,7 @@ import TestimonialList from "./TestimonialGridList";
 import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
 import DashPageTitle from "../../../config/component/common/DashPageTitle/DashPageTitle";
 import { dashboard } from "../../../config/constant/routes";
-import DashFormModel from "../../../config/component/common/DashFormModel/DashFormModel";
+import DashFormModel from "../../../config/component/common/FormModel/FormModel";
 import CustomDrawer from "../../../config/component/Drawer/CustomDrawer";
 import store from "../../../store/store";
 import { FiPlusCircle, FiSettings } from "react-icons/fi";

@@ -7,7 +7,7 @@ import { dashboard } from "../../../config/constant/routes";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import VideoForm from "./component/VideosForm";
-import DashFormModel from "../../../config/component/common/DashFormModel/DashFormModel";
+import DashFormModel from "../../../config/component/common/FormModel/FormModel";
 
 const VideosIndex = observer(() => {
   const [openVideoModel, setOpenVideoModel] = useState<any>({

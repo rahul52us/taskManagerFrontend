@@ -8,7 +8,7 @@ const CreateComment = ({ editorHtml, setEditorHtml, blogItem }: any) => {
   const [loading, setLoading] = useState(false);
   const {
     BlogStore: { createComment },
-    auth: { openNotification, user },
+    auth: { openNotification, user, openLoginModel },
   } = store;
 
   const createCommentFun = () => {
@@ -61,7 +61,7 @@ const CreateComment = ({ editorHtml, setEditorHtml, blogItem }: any) => {
         <Box>
           <Button
             mr={3}
-            onClick={() => createCommentFun()}
+            onClick={user ? () => createCommentFun() : () => openLoginModel()}
             isDisabled={!editorHtml}
             isLoading={loading}
           >

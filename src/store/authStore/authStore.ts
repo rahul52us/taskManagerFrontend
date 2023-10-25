@@ -14,6 +14,7 @@ class AuthStore {
   loading: boolean = false;
   user: any | null = null;
   openSearch: any = false;
+  loginModel : Boolean = false;
   notification: Notification | null = null;
   isRememberCredential = true;
   companyUsers = [];
@@ -25,6 +26,8 @@ class AuthStore {
       notification: observable,
       companyUsers: observable,
       openSearch: observable,
+      loginModel:observable,
+      openLoginModel:action,
       login: action,
       register: action,
       doLogout: action,
@@ -324,6 +327,10 @@ class AuthStore {
       this.openSearch = true;
     }
   };
+
+  openLoginModel = async () => {
+    this.loginModel = !this.loginModel ? true : false
+  }
 }
 
 export default AuthStore;
