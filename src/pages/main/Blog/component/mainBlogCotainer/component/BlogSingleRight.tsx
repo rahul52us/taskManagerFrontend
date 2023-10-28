@@ -1,7 +1,10 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
+import { main } from "../../../../../../config/constant/routes";
 
 const BlogSingleRight = observer(({ item }: any) => {
+  const navigate = useNavigate()
   return (
     <Flex justifyContent="center" mb={10}>
       <Box
@@ -40,8 +43,9 @@ const BlogSingleRight = observer(({ item }: any) => {
             borderRadius="md"
             fontSize="sm"
             fontWeight="bold"
+            onClick={() => navigate(main.createBlog)}
           >
-            Add New Course
+            Add new Blog
           </Button>
         </Box>
       </Box>

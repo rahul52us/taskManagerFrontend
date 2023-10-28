@@ -40,6 +40,7 @@ export const main = {
   profileTab: "/profile/:profileTab",
   faq: "/faq",
   blog: "/blog",
+  createBlog: "/blog/create",
   singleBlog:'/blog/:blogTitle',
   addingparaform: "/addingparaform",
   quizIndex:'/quiz',
