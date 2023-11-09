@@ -45,7 +45,8 @@ export const main = {
   addingparaform: "/addingparaform",
   quizIndex:'/quiz',
   quizTitle:'/quiz/:quizTitle',
-  quizQuestionIndex:'/quiz/:quizTitle/:categoryTitle'
+  quizQuestionIndex:'/quiz/:quizTitle/:categoryTitle',
+  individualHomeCompany : '/:individualCompany'
 };
 
 export const privateMain = {

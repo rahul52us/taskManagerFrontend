@@ -4,7 +4,6 @@ import BlogTags from "./BlogTags";
 import BlogReaction from "./BlogReaction";
 import { useNavigate } from "react-router-dom";
 import BlogCommentIndex from "../../BlogComment/BlogCommentIndex";
-import ClapButton from "./BlogClapReaction";
 
 const BlogViewContainer = ({ item, multi }: any) => {
   const navigate = useNavigate();
@@ -41,7 +40,6 @@ const BlogViewContainer = ({ item, multi }: any) => {
         </Heading>
         <BlogTags item={item} />
         <BlogReaction item={item} multi={multi} />
-        <ClapButton initialClapCount={5} />
         {!multi && (
           <Box className="preview_blog_container" mt={3} p={2}>
             <div dangerouslySetInnerHTML={{ __html: item?.content }} />
