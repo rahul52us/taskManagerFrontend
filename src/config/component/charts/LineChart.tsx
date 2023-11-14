@@ -42,8 +42,7 @@
   };
 
   const options: any = {
-    maintainAspectRatio: false, // Allow the chart to resize with the container
-
+    maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {

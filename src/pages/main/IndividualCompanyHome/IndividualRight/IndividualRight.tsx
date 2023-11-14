@@ -5,19 +5,51 @@ import {
   Flex,
   IconButton,
   Text,
-  useColorModeValue,
+  useColorMode,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
 } from "@chakra-ui/react";
+
 import { observer } from "mobx-react-lite";
-import { AiOutlineMail } from "react-icons/ai";
 import IndividualRightFollowing from "./individualRightFollowing/IndividualRightFollowing";
+import { MdMailOutline } from "react-icons/md";
+import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { main } from "../../../../config/constant/routes";
 
 const IndividualRight = observer(() => {
-  const bgColor = useColorModeValue("white", "gray.700");
-  const textColor = useColorModeValue("gray.700", "gray.300");
-  const followersColor = useColorModeValue("blue.500", "blue.300");
+  const { colorMode } = useColorMode();
+  const navigate = useNavigate();
+  const bgColor = colorMode === "light" ? "white" : "";
+  const textColor = colorMode === "light" ? "gray.700" : "gray.300";
+  const followersColor = colorMode === "light" ? "blue.500" : "blue.300";
+
+  type MailPopoverProps = {
+    title: string;
+    children: ReactNode;
+  };
+
+  const MailPopover = ({ title, children }: MailPopoverProps) => {
+    const { colorMode } = useColorMode();
+    const textColor = colorMode === "light" ? "gray.800" : "gray.300";
+
+    return (
+      <Popover placement="bottom">
+        <PopoverTrigger>{children}</PopoverTrigger>
+        <PopoverContent p={1} maxW="180px" textAlign="center">
+          <PopoverArrow />
+          <Text fontSize="xs" fontWeight="semibold" color={textColor}>
+            {title}
+          </Text>
+        </PopoverContent>
+      </Popover>
+    );
+  };
 
   return (
-    <Box p={6} borderRadius="lg" bg={bgColor}>
+    <Box p={6} bg={bgColor}>
       <Box textAlign="center">
         <Avatar size="2xl" name="Rahul Kushwah" mb={4} />
         <Text fontSize="xl" fontWeight="bold" color={textColor}>
@@ -31,25 +63,39 @@ const IndividualRight = observer(() => {
           do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </Text>
       </Box>
-      <Flex justify="start" align="center" mt={6}>
+      <Flex justify="space-between" align="center" mt={6}>
+        <Box>
+          <Button
+            colorScheme="blue"
+            size="sm"
+            fontWeight="semibold"
+            borderRadius="full"
+            _hover={{ bg: "blue.600" }}
+          >
+            Follow
+          </Button>
+          <MailPopover title="Subscribe to get an email whenever Rahul Kushwah publishes">
+            <IconButton
+              ml={3}
+              color={followersColor}
+              aria-label="Send Email"
+              icon={<MdMailOutline size={18} />}
+              isRound
+              _hover={{ color: "blue.600" }}
+            />
+          </MailPopover>
+        </Box>
         <Button
           colorScheme="blue"
-          size="md"
-          fontWeight="bold"
+          fontWeight="semibold"
           borderRadius="full"
           _hover={{ bg: "blue.600" }}
+          onClick={() => {
+            navigate(main.createBlog);
+          }}
         >
-          Follow
+          create blog
         </Button>
-        <IconButton
-          ml={3}
-          color={followersColor}
-          aria-label="Send Email"
-          icon={<AiOutlineMail size={20} />}
-          isRound
-          size="md"
-          _hover={{ color: "blue.600" }}
-        />
       </Flex>
       <IndividualRightFollowing />
     </Box>

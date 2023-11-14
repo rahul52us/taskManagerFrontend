@@ -143,7 +143,7 @@ const YoutubeVideoCard = ({ link }: any) => {
 						React Front To Back
 					</Heading>
 				</Flex>
-				<Text textAlign="start" mt={4} mb={1} color="gray.500" fontSize={14}>
+				<Text textAlign="start" mt={4} mb={1} color="gray.500" fontSize={'small'}>
 					This is description for the videos why is it good for us and it is
 					neccessary for our future
 				</Text>

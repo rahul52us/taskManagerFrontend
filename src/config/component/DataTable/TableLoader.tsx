@@ -24,7 +24,7 @@ const TableLoader: React.FC<TableLoaderProps> = ({ loader, show, children }) => 
       <Tr>
         <Td colSpan={10} p={5}>
           <Flex justifyContent="center">
-            <Heading fontSize="lg" color="red.400" cursor="pointer">No Related Data are Found</Heading>
+            <Heading fontSize="md" color="red.400" cursor="pointer">No Related Data are Found</Heading>
           </Flex>
         </Td>
       </Tr>

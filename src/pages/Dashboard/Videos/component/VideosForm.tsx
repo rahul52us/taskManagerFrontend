@@ -5,17 +5,18 @@ import CustomInput from "../../../../config/component/CustomInput/CustomInput";
 import { Form, Formik } from "formik";
 import { observer } from "mobx-react-lite";
 import store from "../../../../store/store";
-import videosValidation from "../utils/videos.validation";
+import { videosValidation } from "../utils/videos.validation";
+import FormModel from "../../../../config/component/common/FormModel/FormModel";
 
 interface VideoFormValues {
   title: string;
   videoType: any;
   videoLink: string;
   description: string;
-  category?:string
+  category?: string;
 }
 
-const VideoForm = observer(({ close }: any) => {
+const VideoForm = observer(({ open, close, type, categoryId }: any) => {
   const [showError, setShowError] = useState(false);
   const {
     VideoStore: { createVideo },
@@ -23,110 +24,117 @@ const VideoForm = observer(({ close }: any) => {
   } = store;
 
   return (
-    <Box>
-      <Formik<VideoFormValues>
-        initialValues={{
-          title: "",
-          videoLink: "",
-          description: "",
-          videoType: "",
-        }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          values.category = "64fc28f23b503a037d90c7d4"
-          values.videoType = values.videoType.value;
-          createVideo(values)
-            .then((data) => {
-              openNotification({
-                title: "Create Successfully",
-                message: data?.message,
-                type: "success",
+    <FormModel
+      isCentered={true}
+      title={type === "add" ? "Add New Video" : "Edit Video"}
+      open={open}
+      close={close}
+    >
+      <Box p={4}>
+        <Formik<VideoFormValues>
+          initialValues={{
+            title: "",
+            videoLink: "",
+            description: "",
+            videoType: "",
+          }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            values.category = categoryId;
+            values.videoType = values.videoType.value;
+            createVideo(values)
+              .then((data) => {
+                openNotification({
+                  title: "Create Successfully",
+                  message: data?.message,
+                  type: "success",
+                });
+                resetForm();
+                close();
+              })
+              .catch((err) => [
+                openNotification({
+                  title: "Create Failed",
+                  message: err?.message,
+                  type: "error",
+                }),
+              ])
+              .finally(() => {
+                setSubmitting(false);
+                setShowError(false);
               });
-              resetForm();
-              close();
-            })
-            .catch((err) => [
-              openNotification({
-                title: "Create Failed",
-                message: err?.message,
-                type: "error",
-              }),
-            ])
-            .finally(() => {
-              setSubmitting(false);
-              setShowError(false);
-            });
-        }}
-        validationSchema={videosValidation}
-      >
-        {({ handleChange, setFieldValue, values, errors, isSubmitting }) => {
-          return (
-            <Form>
-              <Flex gap={4}>
+          }}
+          validationSchema={videosValidation}
+        >
+          {({ handleChange, setFieldValue, values, errors, isSubmitting }) => {
+            return (
+              <Form>
+                <Flex gap={4}>
+                  <CustomInput
+                    name="title"
+                    placeholder="Enter the Title"
+                    label="Title"
+                    required={true}
+                    onChange={handleChange}
+                    value={values.title}
+                    error={errors.title}
+                    showError={showError}
+                  />
+                  <CustomInput
+                    label="Video Type"
+                    required={true}
+                    type="select"
+                    name="videoType"
+                    value={values.videoType}
+                    error={errors.videoType}
+                    options={[{ label: "Youtube", value: "youtube" }]}
+                    onChange={(e: any) => setFieldValue("videoType", e)}
+                    showError={showError}
+                  />
+                </Flex>
                 <CustomInput
-                  name="title"
-                  placeholder="Enter the Title"
-                  label="Title"
+                  name="videoLink"
+                  placeholder="Enter the Video Link"
+                  label="Video Link"
                   required={true}
                   onChange={handleChange}
-                  value={values.title}
-                  error={errors.title}
+                  value={values.videoLink}
+                  error={errors.videoLink}
                   showError={showError}
                 />
                 <CustomInput
-                  label="Video Type"
-                  required={true}
-                  type="select"
-                  name="videoType"
-                  value={values.videoType}
-                  error={errors.videoType}
-                  options={[{ label: "Youtube", value: "youtube" }]}
-                  onChange={(e: any) => setFieldValue("videoType", e)}
+                  name="description"
+                  placeholder="Description"
+                  label="Description"
+                  type="textarea"
+                  error={errors.description}
+                  onChange={handleChange}
+                  value={values.description}
+                  rows={4}
                   showError={showError}
+                  required
                 />
-              </Flex>
-              <CustomInput
-                name="videoLink"
-                placeholder="Enter the Video Link"
-                label="Video Link"
-                required={true}
-                onChange={handleChange}
-                value={values.videoLink}
-                error={errors.videoLink}
-                showError={showError}
-              />
-              <CustomInput
-                name="description"
-                placeholder="Description"
-                label="Description"
-                type="textarea"
-                error={errors.description}
-                onChange={handleChange}
-                value={values.description}
-                rows={4}
-                showError={showError}
-                required
-              />
-              <Flex justifyContent="end" mt={5} mr={3} mb={2}>
-                <Button leftIcon={<FaTimes />} mr={2} onClick={close}>
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  leftIcon={<FaPlus />}
-                  colorScheme="blue"
-                  isLoading={isSubmitting}
-                  onClick={() => {
-                    setShowError(true);
-                  }}
-                >
-                  Create
-                </Button>
-              </Flex>
-            </Form>
-          );
-        }}
-      </Formik>
-    </Box>
+                <Flex justifyContent="end" mt={5} mr={3} mb={2}>
+                  <Button leftIcon={<FaTimes />} mr={2} onClick={close}>
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    leftIcon={<FaPlus />}
+                    colorScheme="blue"
+                    isLoading={isSubmitting}
+                    onClick={() => {
+                      setShowError(true);
+                    }}
+                  >
+                    Create
+                  </Button>
+                </Flex>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Box>
+    </FormModel>
   );
 });
 

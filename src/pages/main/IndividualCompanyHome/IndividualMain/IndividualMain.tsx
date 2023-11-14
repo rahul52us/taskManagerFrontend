@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Flex,
@@ -8,28 +9,50 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useColorMode,
 } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { useParams } from "react-router-dom";
+import MainBlogContainer from "../../Blog/component/mainBlogCotainer/MainBlogContainer";
 
-const tabNames = ["Home", "About", "List", "Videos"];
 const tabContents = [
   "Home Content",
   "About Content",
-  "List Content",
   "Video Content",
+  "Blog Content",
 ];
 
 const backgroundImageUrl =
   "https://miro.medium.com/v2/resize:fit:5880/1*ZHmzChivsHJ71QxTFnvp-g.jpeg";
 
 const IndividualMain = observer(() => {
-  const [selectedTab, setSelectedTab] = useState("Home");
+  const { colorMode } = useColorMode();
   const { individualCompany } = useParams();
+  const tabNames = [
+    { name: `${individualCompany}`, title: "Home" },
+    { name: `${individualCompany}/About`, title: "About" },
+    { name: `${individualCompany}/Videos`, title: "Videos" },
+    { name: `${individualCompany}/Blogs`, title: "Blogs" },
+  ];
+  const [selectedTab, setSelectedTab] = useState(0); // Use an index
 
-  const handleTabChange = (index: number) => setSelectedTab(tabNames[index]);
+  const handleTabChange = (index: number) => setSelectedTab(index);
+
+  const RenderSelectedTab = () => {
+    switch (selectedTab) {
+      case 0: // Home
+        return <h1>This is Home Page</h1>;
+      case 1: // About
+        return <h1>This is About Page</h1>;
+      case 2: // Videos
+        return <h1>This is Video Page</h1>;
+      case 3: // Blogs
+        return <MainBlogContainer />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Box
@@ -47,9 +70,8 @@ const IndividualMain = observer(() => {
         }}
       />
       <Flex
-        // direction={{ base: "column", md: "row" }}
         justifyContent="space-between"
-        align="center"
+        alignItems="center"
         cursor="pointer"
         mt={{ base: 3, md: 5 }}
         mb={{ base: 3, md: 5 }}
@@ -68,7 +90,8 @@ const IndividualMain = observer(() => {
         isFitted
         variant="enclosed"
         size="sm"
-        colorScheme="#f0f0f0"
+        colorScheme={colorMode === "light" ? "teal" : "teal"}
+        index={selectedTab} // Use the index here
         onChange={handleTabChange}
         transition="background 0.3s ease"
       >
@@ -76,31 +99,16 @@ const IndividualMain = observer(() => {
           {tabNames.map((name, index) => (
             <Tab
               key={index}
-              isSelected={selectedTab === name}
-              _selected={{
-                color: "white",
-                bg: "teal.500",
-                borderBottom: "0px solid #f0f0f0",
-              }}
-              fontSize={{ base: "sm", md: "md" }}
+              fontSize="md" // Use a valid font size
               transition="background 0.3s ease"
-              mb={1}
             >
-              {name}
+              {name.title}
             </Tab>
           ))}
         </TabList>
         <TabPanels>
-          {tabContents.map((content, index) => (
-            <TabPanel key={index}>
-              <Text
-                fontSize={{ base: "lg", md: "xl" }}
-                fontWeight="bold"
-                color="teal.500"
-              >
-                {content}
-              </Text>
-            </TabPanel>
+          {tabContents.map((_, index) => (
+            <TabPanel key={index}>{RenderSelectedTab()}</TabPanel>
           ))}
         </TabPanels>
       </Tabs>

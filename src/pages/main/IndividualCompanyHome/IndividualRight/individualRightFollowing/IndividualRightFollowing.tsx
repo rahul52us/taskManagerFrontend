@@ -47,17 +47,23 @@ const IndividualRightFollowing = observer(() => {
         {[1, 2, 3, 4, 5, 6].map(renderFollowingItem)}
       </Flex>
       <Text
-      mt={3}
-      fontSize="sm"
-      fontWeight="semibold"
-      cursor="pointer"
-      color="blue.500"
-      _hover={{ textDecoration: "underline", color: "blue.600" }}
-    >
-      <Link fontSize="2xs">
-        See All <Icon size="sm" as={FaArrowRight} ml={1} style={{ position: "relative", top: "2px" }} />
-      </Link>
-    </Text>
+        mt={3}
+        fontSize="sm"
+        fontWeight="semibold"
+        cursor="pointer"
+        color="blue.500"
+        _hover={{ textDecoration: "underline", color: "blue.600" }}
+      >
+        <Link fontSize="2xs">
+          See All{" "}
+          <Icon
+            size="sm"
+            as={FaArrowRight}
+            ml={1}
+            style={{ position: "relative", top: "2px" }}
+          />
+        </Link>
+      </Text>
     </Box>
   );
 });
