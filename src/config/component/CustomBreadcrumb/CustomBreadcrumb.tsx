@@ -29,7 +29,7 @@ const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
       }
       fontSize="smaller"
       fontWeight="bold"
-      ml={-5}
+      ml={-6}
     >
       {items?.map((item, index) => (
         <BreadcrumbItem key={index} isCurrentPage={index === items.length - 1}>

@@ -48,14 +48,13 @@ const DashPageHeader = observer(
         <Flex
           justify="space-between"
           alignItems="center"
-          mt={{ base: 1, sm: 5 }}
-          mb={{ base: 1, sm: 4 }}
-          mr={4}
-          ml={4}
+          mt={{ base: 1 }}
+          mb={{ base: 5 }}
+          mr={{ base: 1, sm: 2 }}
         >
           <Box>
             {breadcrumb ? (
-              <Box display={{ base: "none", sm: "block" }}>
+              <Box>
                 <CustomBreadcrumb items={breadcrumb} />
               </Box>
             ) : (
@@ -67,22 +66,24 @@ const DashPageHeader = observer(
               </>
             )}
           </Box>
-          <Box>
-            <Button
-              leftIcon={titleIcon}
-              onClick={btnAction}
-              colorScheme="blue"
-              variant="solid" // Change to "solid" for a filled button
-              size="sm"
-              // Customize other button styles here
-              _hover={{
-                bg: theme.colors.blue[600],
-                color: "white",
-              }}
-            >
-              {btnTitle}
-            </Button>
-          </Box>
+          {btnAction && (
+            <Box>
+              <Button
+                leftIcon={titleIcon}
+                onClick={btnAction}
+                colorScheme="blue"
+                variant="solid" // Change to "solid" for a filled button
+                size="sm"
+                // Customize other button styles here
+                _hover={{
+                  bg: theme.colors.blue[600],
+                  color: "white",
+                }}
+              >
+                {btnTitle}
+              </Button>
+            </Box>
+          )}
         </Flex>
       </>
     );

@@ -1,4 +1,4 @@
-export const makeChartResponse = (data: any, labelProp: string = "title", valueProp: string = "count", colors: string[] = []) => {
+export const makeChartResponse = (data: any, chartTitle : string, labelProp: string = "title", valueProp: string = "count", colors: string[] = []) => {
   const labels = data.map((entry : any) => entry[labelProp]);
   const values = data.map((entry : any) => entry[valueProp]);
 
@@ -25,7 +25,7 @@ export const makeChartResponse = (data: any, labelProp: string = "title", valueP
       },
       title: {
         display: true,
-        text: "Videos Count",
+        text: chartTitle,
       },
     },
   };

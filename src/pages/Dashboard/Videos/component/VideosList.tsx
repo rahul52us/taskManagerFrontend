@@ -103,7 +103,7 @@ const VideosList = observer(
             borderRadius="sm"
           >
             <Table className="customTable" variant="striped" size="sm">
-              <Thead>
+            <Thead bg={"whiteAlpha.900"} stroke={"whiteAlpha.500"} h={10}>
                 <Tr>
                   <HeaderCell label="Title" />
                   <HeaderCell label="Details" />

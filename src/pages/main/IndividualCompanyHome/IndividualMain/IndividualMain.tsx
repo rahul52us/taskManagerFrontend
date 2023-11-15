@@ -39,6 +39,7 @@ const IndividualMain = observer(() => {
 
   const handleTabChange = (index: number) => setSelectedTab(index);
 
+  // Select the Tab for the specific page
   const RenderSelectedTab = () => {
     switch (selectedTab) {
       case 0: // Home

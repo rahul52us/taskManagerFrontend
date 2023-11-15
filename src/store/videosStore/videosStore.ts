@@ -83,6 +83,7 @@ class VideoStore {
       this.categoryVideosCount.loading = false;
     }
   }
+
   getCategories = async (sendData: any) => {
     try {
       this.categories.loading = true;

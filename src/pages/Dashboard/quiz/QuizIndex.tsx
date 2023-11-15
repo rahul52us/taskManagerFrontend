@@ -8,6 +8,9 @@ import { Box } from "@chakra-ui/react";
 import QuizCategories from "./component/Forms/QuizCategories";
 import QuestionForm from "./component/Forms/QuestionForm";
 import { currentYear, oneYearLater } from "../../../config/constant/dateUtils";
+import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
+import { headerHeight } from "../../../config/constant/variable";
+import { dashboard } from "../../../config/constant/routes";
 
 const QuizIndex = observer(() => {
   const [quizForm, setQuizForm] = useState({
@@ -54,8 +57,15 @@ const QuizIndex = observer(() => {
       });
   }, [getClasses, openNotification]);
 
+  const items = [
+    { label: "Home", link: "/" },
+    { label: "Dashboard", link: dashboard.home },
+    { label: "Quiz" },
+  ];
+
   return (
-    <div>
+    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
+      <DashPageHeader title="Videos" breadcrumb={items} />
       <ChartIndex setQuizForm={setQuizForm} setQuestionForm={setQuestionForm} />
       <Box mt={5}>
         <QuizTable />
@@ -78,7 +88,7 @@ const QuizIndex = observer(() => {
       >
         <QuestionForm />
       </CustomDrawer>
-    </div>
+    </Box>
   );
 });
 

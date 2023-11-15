@@ -47,10 +47,10 @@ const BarChart = observer(
               marginTop={2}
               fontWeight="bold"
               style={{
-                animation: "text-fade 1s ease-in-out infinite", // Text animation
+                animation: "text-fade 1s ease-in-out infinite",
               }}
             >
-              Loading Chart...
+              Loading Data...
             </Text>
           </Box>
         </Box>

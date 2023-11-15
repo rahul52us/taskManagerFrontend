@@ -11,13 +11,20 @@ class NotesStore {
     totalPages: 0,
   };
 
+  categoryCoursesCount : any = {
+    data : [],
+    loading : true
+  }
+
   originalData: any[] = [];
 
   constructor() {
     makeObservable(this, {
       categories: observable,
       originalData: observable,
+      categoryCoursesCount:observable,
       getCategories: action,
+      getCategoryCoursesCount:action,
       createCategory: action,
       localFiltering: action,
       getSingleCategory: action,
@@ -52,6 +59,19 @@ class NotesStore {
       return Promise.reject(err?.response?.data || err);
     }
   };
+
+  getCategoryCoursesCount = async () => {
+    try {
+      this.categoryCoursesCount.loading = true;
+      const { data } = await axios.get(`/notes/categoryCoursescounts`);
+      this.categoryCoursesCount.data = data?.data
+      return data;
+    } catch (err: any) {
+      return Promise.reject(err?.response?.data);
+    } finally {
+      this.categoryCoursesCount.loading = false;
+    }
+  }
 
   getSingleCategory = async (Id: any) => {
     return this.categories.data.filter((item: any) => item._id === Id);

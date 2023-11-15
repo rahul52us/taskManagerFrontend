@@ -113,7 +113,7 @@ const VideosCategoryList = observer(({ title, open, close }: IVideoList) => {
             colorScheme="teal"
             size="sm"
           >
-            <Thead>
+          <Thead bg={"whiteAlpha.900"} stroke={"whiteAlpha.500"} h={10}>
               <Tr>
                 <HeaderCell label="Title" />
                 <HeaderCell label="Details" />
