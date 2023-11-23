@@ -9,12 +9,9 @@ import CustomSubmitBtn from "../../../../config/component/Button/CustomSubmitBtn
 import store from "../../../../store/store";
 import { NotesCategoryFormDto } from "../utils/dto";
 import moment from "moment";
-import { toJS } from "mobx";
 import { AmountTypeData, setCategoryInitialValue } from "../utils/common";
-// import {  convertToRaw } from "draft-js";
 
 const FormComponent = observer(({ formData }: any) => {
-  console.log(toJS(formData.data));
   const {
     notesStore: { createCategory },
     auth: { openNotification },

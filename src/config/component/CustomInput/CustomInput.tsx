@@ -24,6 +24,7 @@ interface CustomInputProps {
     | "password"
     | "number"
     | "text"
+    | "file"
     | "switch"
     | "textarea"
     | "select"
@@ -222,7 +223,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
         return <AdvancedEditor editorState={value} setEditorState={onChange} />;
       case "phone":
         return <PhoneInput country={"in"} value={value} onChange={onChange} placeholder={placeholder} />;
-
+      case "file":
+        return <Input
+            type="file"
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            name={name}
+            disabled={disabled}
+            _placeholder={{ fontSize: "12px" }}
+            {...rest}
+          />
       default:
         return (
           <Input

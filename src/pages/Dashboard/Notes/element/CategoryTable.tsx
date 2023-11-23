@@ -15,11 +15,11 @@ import StarRatingIcon from "../../../../config/component/StarRatingIcon/StarRati
 import { FaEdit } from "react-icons/fa";
 import Pagination from "../../../../config/component/pagination/Pagination";
 
-const CategoryTable = ({ data, setFormModel }: any) => {
+const CategoryTable = ({ data, setFormModel, totalPages, currentPage,handleCourseModel }: any) => {
   return (
     <Box boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)" pt={1} pr={1} pl={1} pb={4}>
       <Box m={2}>
-        <Text fontWeight="bold" fontSize="xl" color="gray.400">
+        <Text fontWeight="bold" fontSize={{base : 'sm', md : 'xl'}} color="gray.400">
           COURSES CATEGORIES
         </Text>
       </Box>
@@ -78,7 +78,7 @@ const CategoryTable = ({ data, setFormModel }: any) => {
                       h={5}
                     />
                   </Td>
-                  <Td fontSize={"sm"} textAlign="center" minW={180}>
+                  <Td fontSize={"sm"} textAlign="center" minW={180} onClick={() => handleCourseModel(item)} _hover={{textDecoration:'underline',cursor:'pointer'}}>
                     {item.title}
                   </Td>
                   <Td textAlign="center">{item.totalChildData}</Td>
@@ -115,7 +115,7 @@ const CategoryTable = ({ data, setFormModel }: any) => {
         </Table>
       </Box>
       <Box mt={4}>
-      <Pagination totalPages={5} currentPage={2} onPageChange={() => {}}/>
+      <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={() => {}}/>
       </Box>
     </Box>
   );

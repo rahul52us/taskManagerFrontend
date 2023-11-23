@@ -17,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
     totalPages ?
     <Box display="flex" alignItems="center" justifyContent="center" marginTop="0.1rem">
       <ReactPaginate
-        previousLabel="Previous"
+        previousLabel="Prev"
         nextLabel="Next"
         breakLabel="..."
         pageCount={totalPages}

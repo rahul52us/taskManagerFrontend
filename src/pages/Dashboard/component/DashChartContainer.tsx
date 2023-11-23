@@ -22,8 +22,7 @@ const DashChartContainer = observer(() => {
       fetchData(getCategoryCoursesCount),
       fetchData(getCategoryVideoCount),
     ])
-      .then(() => {
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
@@ -47,18 +46,11 @@ const DashChartContainer = observer(() => {
 
   return (
     <Grid
-      templateColumns={{ base: "1fr", md: "1fr 1fr", xl: "1fr 1fr 1fr" }}
+      templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
       gap={5}
       mb={5}
       mt={5}
     >
-      <Card width={"100%"} minH={350} p={{ base: 0, sm: 2 }}>
-        <BarChart
-          data={videosChartData?.data}
-          options={videosChartData?.options}
-          loading={categoryVideosCount.loading}
-        />
-      </Card>
       <Card width={"100%"} minH={350} p={{ base: 0, sm: 2 }}>
         <BarChart
           data={coursesChartData?.data}

@@ -16,6 +16,15 @@ class NotesStore {
     loading : true
   }
 
+  courses : any = {
+    data: [],
+    currentPage: 1,
+    hasMore: false,
+    loading: true,
+    hasFetch: false,
+    totalPages: 0,
+  };
+
   originalData: any[] = [];
 
   constructor() {
@@ -23,11 +32,13 @@ class NotesStore {
       categories: observable,
       originalData: observable,
       categoryCoursesCount:observable,
+      courses:observable,
       getCategories: action,
       getCategoryCoursesCount:action,
       createCategory: action,
       localFiltering: action,
       getSingleCategory: action,
+      getcourses:action,
       filteredData: computed,
     });
   }
@@ -50,6 +61,22 @@ class NotesStore {
       this.categories.loading = false;
     }
   });
+
+  getcourses = async (sendData : any) => {
+    try {
+      this.courses.loading = true;
+      this.courses.hasFetch = true;
+      const { data } = await axios.get(`/notes?category=${sendData.category}&page=${sendData.page}`);
+      this.courses.data = data?.data?.courses || [];
+      this.courses.totalPages = data.data?.totalPages || 1;
+      return data;
+    } catch (err: any) {
+      this.courses.hasFetch = false;
+      return Promise.reject(err?.response?.data);
+    } finally {
+      this.courses.loading = false;
+    }
+  }
 
   createCategory = async (sendData: any) => {
     try {
