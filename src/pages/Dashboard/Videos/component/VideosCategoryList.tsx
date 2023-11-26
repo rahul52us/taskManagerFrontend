@@ -23,6 +23,8 @@ interface IVideoList {
   title: string;
   open: boolean;
   close: any;
+  selectedCategory:any,
+  setSelectedCategory:any,
   videos: Array<{
     title: string;
     details: string;
@@ -56,11 +58,7 @@ const HeaderCell = ({
   </Th>
 );
 
-const VideosCategoryList = observer(({ title, open, close }: IVideoList) => {
-  const [selectedCategory, setSelectedCategory] = useState<any>({
-    open: false,
-    category: null,
-  });
+const VideosCategoryList = observer(({ title, open, close, setSelectedCategory, selectedCategory }: IVideoList) => {
 
   const {
     VideoStore: { getCategories, categories },

@@ -18,6 +18,7 @@ import StarRatingIcon from "../../../../config/component/StarRatingIcon/StarRati
 import { FaChevronLeft } from "react-icons/fa";
 import TableLoader from "../../../../config/component/DataTable/TableLoader";
 import VideoForm from "./VideosForm";
+import YoutubeVideoPlayer from "../../../../config/component/VideoPlayer/YoutubeVideoPlayer";
 
 interface IVideoList {
   title: string;
@@ -50,7 +51,7 @@ const VideosList = observer(
     const {
       VideoStore: { videos, getVideos },
     } = store;
-
+    const [selectedVideo, setSelectedVideo] = useState<any>(null);
     const [openVideoModel, setOpenVideoModel] = useState<any>({
       open: false,
       data: null,
@@ -103,14 +104,15 @@ const VideosList = observer(
             borderRadius="sm"
           >
             <Table className="customTable" variant="striped" size="sm">
-            <Thead bg={"whiteAlpha.900"} stroke={"whiteAlpha.500"} h={10}>
+              <Thead bg={"whiteAlpha.900"} stroke={"whiteAlpha.500"} h={10}>
                 <Tr>
                   <HeaderCell label="Title" />
-                  <HeaderCell label="Details" />
-                  <HeaderCell label="Description" />
+                  <HeaderCell label="Video" />
                   <HeaderCell label="Price" isEllipsis={false} />
                   <HeaderCell label="Type" />
                   <HeaderCell label="Rating" />
+                  <HeaderCell label="Details" />
+                  <HeaderCell label="Description" />
                   <HeaderCell label="Created At" />
                 </Tr>
               </Thead>
@@ -132,15 +134,9 @@ const VideosList = observer(
                         whiteSpace="nowrap"
                         overflow="hidden"
                         textOverflow="ellipsis"
+                        onClick={() => setSelectedVideo(video.videoLink)}
                       >
-                        {video.details}
-                      </Td>
-                      <Td
-                        whiteSpace="nowrap"
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                      >
-                        {video.description}
+                        {video.videoLink}
                       </Td>
                       <Td>{video.discountPrice}</Td>
                       <Td
@@ -156,6 +152,20 @@ const VideosList = observer(
                         textOverflow="ellipsis"
                       >
                         <StarRatingIcon rating={video.rating} />
+                      </Td>
+                      <Td
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                      >
+                        {video.description}
+                      </Td>
+                      <Td
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                      >
+                        {video.details}
                       </Td>
                       <Td
                         whiteSpace="nowrap"
@@ -179,6 +189,7 @@ const VideosList = observer(
           data={openVideoModel.data}
           categoryId={categoryData?._id}
         />
+        {selectedVideo && <YoutubeVideoPlayer link={selectedVideo} handleClose={() => setSelectedVideo(null)}/>}
       </React.Fragment>
     );
   }

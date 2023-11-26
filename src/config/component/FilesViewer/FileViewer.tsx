@@ -1,7 +1,7 @@
 import { Box, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 
-const FileViewer = () => {
+const FileViewer = ({url} : any) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleFileLoad = () => {
@@ -29,7 +29,7 @@ const FileViewer = () => {
         width="100%"
         height="100%"
         className="customScrollBar"
-        src={"http://localhost:8080/notes/file-1690226408570-941033796.pdf"}
+        src={url}
         type="application/pdf"
         onLoad={handleFileLoad}
       ></embed>

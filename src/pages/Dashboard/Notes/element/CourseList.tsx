@@ -18,12 +18,10 @@ import StarRatingIcon from "../../../../config/component/StarRatingIcon/StarRati
 import moment from "moment";
 import { FaEdit } from "react-icons/fa";
 
-const CourseList = observer(({ type, category, open, close }: any) => {
+const CourseList = observer(({ category, open, close }: any) => {
   const {
     notesStore: { getcourses, courses },
   } = store;
-  console.log(type);
-  console.log(category);
 
   useEffect(() => {
     if (category) {

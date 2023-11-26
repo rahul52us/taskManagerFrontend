@@ -68,7 +68,7 @@ const VideoForm = observer(({ open, close, type, categoryId }: any) => {
           {({ handleChange, setFieldValue, values, errors, isSubmitting }) => {
             return (
               <Form>
-                <Flex gap={4}>
+                <Flex gap={4} flexDirection={{base : 'column', sm : 'row'}}>
                   <CustomInput
                     name="title"
                     placeholder="Enter the Title"

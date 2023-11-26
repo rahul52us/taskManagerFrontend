@@ -13,7 +13,7 @@ import { useRef } from "react";
 
 interface CustomDrawerProps {
   open: boolean;
-  title: string;
+  title?: string;
   close: any;
   children: any;
   size?: string;

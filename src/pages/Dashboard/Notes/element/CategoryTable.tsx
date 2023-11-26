@@ -5,7 +5,6 @@ import {
   Table,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
@@ -17,12 +16,7 @@ import Pagination from "../../../../config/component/pagination/Pagination";
 
 const CategoryTable = ({ data, setFormModel, totalPages, currentPage,handleCourseModel }: any) => {
   return (
-    <Box boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)" pt={1} pr={1} pl={1} pb={4}>
-      <Box m={2}>
-        <Text fontWeight="bold" fontSize={{base : 'sm', md : 'xl'}} color="gray.400">
-          COURSES CATEGORIES
-        </Text>
-      </Box>
+    <>
       <Box
         position="relative"
         overflow="auto hidden"
@@ -117,7 +111,7 @@ const CategoryTable = ({ data, setFormModel, totalPages, currentPage,handleCours
       <Box mt={4}>
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={() => {}}/>
       </Box>
-    </Box>
+    </>
   );
 };
 

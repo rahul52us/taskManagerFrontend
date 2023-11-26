@@ -10,7 +10,7 @@ import {
   useColorModeValue,
   Button,
 } from "@chakra-ui/react";
-import { FaStar } from "react-icons/fa";
+import { FaFilePdf, FaStar } from "react-icons/fa";
 import React, { useState } from "react";
 import VideoCategoryForm from "./VideoCategoryForm";
 
@@ -91,11 +91,12 @@ const VideosList = observer(({ title, open, close }: IVideoList) => {
           <Thead>
             <Tr>
               <Th>Title</Th>
-              <Th>Details</Th>
-              <Th>Description</Th>
+              <Th>Video</Th>
               <Th>Price</Th>
               <Th>Type</Th>
               <Th>Rating</Th>
+              <Th>Details</Th>
+              <Th>Description</Th>
               <Th>Created At</Th>
               <Th>Updated At</Th>
             </Tr>
@@ -104,8 +105,7 @@ const VideosList = observer(({ title, open, close }: IVideoList) => {
             {dummyData.map((video, index) => (
               <Tr key={index} borderBottom={`1px solid ${tableBorderColor}`}>
                 <Td>{video.title}</Td>
-                <Td>{video.details}</Td>
-                <Td>{video.description}</Td>
+                <Td><FaFilePdf /></Td>
                 <Td>{video.discountPrice}</Td>
                 <Td>{video.pricingType}</Td>
                 <Td>
@@ -114,6 +114,8 @@ const VideosList = observer(({ title, open, close }: IVideoList) => {
                     {video.rating}
                   </div>
                 </Td>
+                <Td>{video.details}</Td>
+                <Td>{video.description}</Td>
                 <Td>{video.createdAt.toLocaleDateString()}</Td>
                 <Td>{video.updatedAt.toLocaleDateString()}</Td>
               </Tr>

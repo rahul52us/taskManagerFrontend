@@ -10,9 +10,9 @@ const RecentActivityFeed = () => {
   const recentActivities = [
     { icon: <Icon as={FaUser} boxSize={5} color={iconColor} />, text: "New user registered", timestamp: "2 hours ago" },
     { icon: <Icon as={FaComment} boxSize={5} color={iconColor} />, text: "You have a new message", timestamp: "1 day ago" },
-    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed", timestamp: "3 days ago" },
-    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed", timestamp: "3 days ago" },
-    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed", timestamp: "3 days ago" },
+    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed1", timestamp: "3 days ago" },
+    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed2", timestamp: "3 days ago" },
+    { icon: <Icon as={FaCheck} boxSize={5} color={iconColor} />, text: "Task completed3", timestamp: "3 days ago" },
   ];
 
   return (

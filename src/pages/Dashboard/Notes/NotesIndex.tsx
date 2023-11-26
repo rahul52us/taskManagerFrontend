@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Card, Grid } from "@chakra-ui/react";
+import { Box, Button, Card, Flex, Grid, IconButton } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import BarChart from "../../../config/component/charts/BarChart";
 import store from "../../../store/store";
@@ -11,8 +11,13 @@ import { makeChartResponse } from "../component/utils/common";
 import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
 import { coursesBreadCrumb } from "../utils/breadcrumb.constant";
 import CourseList from "./element/CourseList";
+import CourseCategoryGridLayout from "./Layout/CourseCategoryGridLayout";
+import { BiArrowBack } from "react-icons/bi";
 
 const NotesIndex = observer(() => {
+  const [openCategoryList, setOpenCategoryList] = useState({
+    open: false,
+  });
   const [courseListModel, setCourseListModel] = useState({
     open: false,
     type: "add",
@@ -78,17 +83,50 @@ const NotesIndex = observer(() => {
         </Card>
         <Card p={3} boxShadow={CardBoxShadow}>
           <div>
-            <Button
-              onClick={() =>
-                setCategoryFormModel({ open: true, type: "add", data: null })
-              }
-            >
+            <Button onClick={() => setOpenCategoryList({ open: true })}>
               Add New
             </Button>
           </div>
         </Card>
       </Grid>
-      <Box flex={1} mt={5} boxShadow={CardBoxShadow} rounded={8} my={4}>
+      <Box mt={5}>
+        <CourseCategoryGridLayout
+          handleClick={(item: any) => {
+            setCourseListModel({
+              type: "add",
+              open: true,
+              category: item,
+              data: null,
+            });
+          }}
+        />
+      </Box>
+      <CustomDrawer
+        title="Course Categories"
+        open={openCategoryList.open}
+        close={() => setOpenCategoryList({ open: false })}
+      >
+        <Flex mb={2} justifyContent="space-between">
+          <Box>
+            <IconButton
+              title="back"
+              aria-label="back-btn"
+              onClick={() => {
+                setOpenCategoryList({ open: false });
+              }}
+            >
+              <BiArrowBack />
+            </IconButton>
+          </Box>
+          <Button
+            title="create new category"
+            onClick={() =>
+              setCategoryFormModel({ open: true, type: "add", data: null })
+            }
+          >
+            CREATE
+          </Button>
+        </Flex>
         <CategoryTable
           data={categories.data}
           setFormModel={setCategoryFormModel}
@@ -103,7 +141,7 @@ const NotesIndex = observer(() => {
             });
           }}
         />
-      </Box>
+      </CustomDrawer>
       <CustomDrawer
         open={CategoryformModel.open}
         close={() => {

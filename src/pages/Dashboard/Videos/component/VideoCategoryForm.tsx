@@ -7,6 +7,12 @@ import CustomInput from "../../../../config/component/CustomInput/CustomInput";
 import FormModel from "../../../../config/component/common/FormModel/FormModel";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { videosCategoryValidation } from "../utils/videos.validation";
+import {
+  insertUniqueFile,
+  readFileAsBase64,
+  removeDataByIndex,
+} from "../../../../config/constant/function";
+import ShowFileUploadFile from "../../../../config/component/common/ShowFileUploadFile/ShowFileUploadFile";
 
 interface IProductForm {
   open: boolean;
@@ -15,29 +21,9 @@ interface IProductForm {
   close: any;
 }
 
-
-function readFileAsBuffer(file: File): Promise<ArrayBuffer> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const base64String : any = reader.result as string;
-      resolve(base64String);
-    };
-
-    reader.onerror = (error) => {
-      reject(error);
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-
-
-
 const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
   const [showError, setShowError] = useState(false);
-  const [thumbnail, setThumbnail] = useState<any>(null)
+  const [thumbnail, setThumbnail] = useState<any>([]);
   const {
     auth: { openNotification },
     VideoStore: { createVideoCategory },
@@ -47,7 +33,7 @@ const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
       open={open}
       close={() => {
         close();
-        setThumbnail(null)
+        setThumbnail([]);
       }}
       title={`${title}`}
     >
@@ -62,19 +48,15 @@ const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
             pricingType: "",
             amountType: "",
           }}
-          onSubmit={ async (values, { setSubmitting, resetForm }) => {
-            if (type === "add")
-            {
-
-              const buffer = await readFileAsBuffer(thumbnail);
+          onSubmit={async (values, {resetForm, setSubmitting }) => {
+            if (type === "add") {
+              const buffer = await readFileAsBase64(thumbnail[0]);
               const fileData = {
                 buffer: buffer,
-                filename: thumbnail.name,
-                type: thumbnail.type,
+                filename: thumbnail[0].name,
+                type: thumbnail[0].type,
               };
-
-
-              createVideoCategory({...values, thumbnail : fileData})
+              createVideoCategory({ ...values, thumbnail: fileData })
                 .then((data: any) => {
                   openNotification({
                     title: "Create Successfully",
@@ -82,6 +64,7 @@ const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
                     type: "success",
                   });
                   resetForm();
+                  setThumbnail([])
                   close();
                 })
                 .catch((err: any) => {
@@ -92,9 +75,10 @@ const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
                   });
                 })
                 .finally(() => {
+                  alert("close");
                   setSubmitting(false);
                   setShowError(false);
-                })
+                });
             }
           }}
           validationSchema={videosCategoryValidation}
@@ -102,12 +86,37 @@ const ProductForm = observer(({ open, close, type, title }: IProductForm) => {
           {({ handleChange, values, errors, isSubmitting }) => (
             <Form>
               <Stack spacing={4}>
+                <Flex>
+                  {thumbnail.length === 0 ? (
+                    <CustomInput
+                      type="file-drag"
+                      name="thumbnail"
+                      value={thumbnail}
+                      isMulti={false}
+                      onChange={(e: any) => {
+                        insertUniqueFile(
+                          setThumbnail,
+                          thumbnail,
+                          e.target.files
+                        );
+                      }}
+                    />
+                  ) : (
+                    <Box mt={-5} width="100%">
+                      <ShowFileUploadFile
+                        files={thumbnail}
+                        removeFile={(_: any, index: number) =>
+                          setThumbnail(removeDataByIndex(thumbnail, index))
+                        }
+                      />
+                    </Box>
+                  )}
+                </Flex>
                 <Flex
                   justifyContent="space-between"
                   columnGap={4}
                   flexDirection={{ base: "column", md: "row" }}
                 >
-                  <CustomInput label="Upload thumbnail" type="file" name="thumbnail" onChange={(e : any) => {setThumbnail(e.target.files[0]); console.log(e.target.files[0])}}/>
                   <CustomInput
                     name="title"
                     placeholder="Enter the Title"

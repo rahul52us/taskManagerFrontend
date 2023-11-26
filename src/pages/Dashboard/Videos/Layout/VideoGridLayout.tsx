@@ -1,20 +1,14 @@
-import { Grid, Box } from "@chakra-ui/react";
-import YoutubeVideoCard from "../../../../config/component/Videos/YoutubeVideos/YoutubeVideoCard";
-const videos: string[] = [
-  "XGgQaB-TbaM",
-  "hi0301FRL3g",
-  "3heVqPjpEww",
-  "ULVfS6SkvlY",
-  "B7wsylEjIjQ",
-  "XGgQaB-TbaM",
-  "hi0301FRL3g",
-  "3heVqPjpEww",
-  "ULVfS6SkvlY",
-  "B7wsylEjIjQ",
-  "jPo2DhrFkVM",
-];
+import { Grid, Box, GridItem } from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
+import store from "../../../../store/store";
+import VideoCategoryCard from "../../../../config/component/Card/CategoryCard/VideoCategoryCard";
+import SkeletanCategoryCard from "../../../../config/component/Card/CategoryCard/SkeletanCategoryCard";
 
-const YoutubeVideoIndex = () => {
+const VideoGridLayout = observer(({ handleClick }: any) => {
+  const {
+    VideoStore: { categories },
+  } = store;
+
   return (
     <Box p={4} pt={2}>
       <Grid
@@ -27,12 +21,36 @@ const YoutubeVideoIndex = () => {
         }}
         gap={6}
       >
-        {videos.map((item, index) => (
-          <YoutubeVideoCard link={item} key={index} />
+        {categories.data.map((item: any, index: number) => (
+          <VideoCategoryCard
+            link={item?.description}
+            item={item}
+            key={index}
+            handleClick={handleClick}
+          />
         ))}
       </Grid>
+      {categories.loading && (
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            sm: "repeat(2,1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)",
+          }}
+          gap={6}
+        >
+          {[1, 2, 3, 4].map((item: number) => {
+            return (
+              <GridItem key={item}>
+                <SkeletanCategoryCard />
+              </GridItem>
+            );
+          })}
+        </Grid>
+      )}
     </Box>
   );
-};
+});
 
-export default YoutubeVideoIndex;
+export default VideoGridLayout;

@@ -8,6 +8,10 @@ import VideoCategoryList from './component/VideosCategoryList'
 import { videoBreadCrumb } from "../utils/breadcrumb.constant";
 
 const VideosIndex = observer(() => {
+  const [selectedCategory, setSelectedCategory] = useState<any>({
+    open: false,
+    category: null,
+  });
   const [openVideosList, setOpenVideosList] = useState<any>({
     open: false,
     data: null,
@@ -21,11 +25,13 @@ const VideosIndex = observer(() => {
         btnAction={() => setOpenVideosList({ open: true })}
         breadcrumb={videoBreadCrumb}
       />
-      <VideoGridLayout />
+      <VideoGridLayout handleClick={(item : any) => {setSelectedCategory({open : true, category : item})}}/>
       <VideoCategoryList
         videos={[]}
         title="Videos Categories"
         open={openVideosList.open}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         close={() => {
           setOpenVideosList({ open: false, data: null });
         }}

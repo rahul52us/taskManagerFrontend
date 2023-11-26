@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import store from "../../../store/store";
 import CustomDrawer from "../Drawer/CustomDrawer";
 import MessageMainContainer from "./elements/MessageMainContainer";
-import FileViewer from "../FileViewer/FileViewer";
+import FileViewer from "../FilesViewer/FileViewer";
 
 const ChatMessageContainer = observer(() => {
   const {
@@ -50,7 +50,7 @@ const ChatMessageContainer = observer(() => {
         <MessageMainContainer />
       ) : (
         <>
-          <FileViewer />
+          <FileViewer url=""/>
         </>
       )}
     </CustomDrawer>
