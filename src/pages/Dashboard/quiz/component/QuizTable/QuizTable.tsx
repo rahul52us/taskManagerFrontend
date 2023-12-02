@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite"
 import store from "../../../../../store/store"
-import { toJS } from "mobx"
 import {
   Box,
+  Button,
   Flex,
   Heading,
   Table,
@@ -12,24 +12,15 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import SearchCardInput from "../../../../../config/component/SearchInput/SearchCardInput/SearchCardInput";
-import CustomInput from "../../../../../config/component/CustomInput/CustomInput";
-import { useState } from "react";
+import TableLoader from "../../../../../config/component/DataTable/TableLoader";
+import { formatDate } from "../../../../../config/constant/dateUtils";
 
-const QuizTable = observer(() => {
+const QuizTable = observer(({addData} : any) => {
   const {
     quiz: {
-      dashQuiz: { data },
+      dashQuiz: { data, loading },
     },
   } = store;
-
-  console.log(toJS(data));
-
-  // date
-  const [date, setDate] = useState({
-    startYear: undefined,
-    endYear: undefined,
-  });
 
   return (
     <Box
@@ -44,27 +35,9 @@ const QuizTable = observer(() => {
           QuizTable
         </Heading>
         <Flex gap={6}>
-          <Box width="10rem">
-            <CustomInput
-              type="date"
-              placeholder="Start Year"
-              value={date.startYear}
-              name="date"
-              onChange={(e: any) => setDate({ ...date, startYear: e })}
-            />
-          </Box>
-          <Box w="10rem">
-            <CustomInput
-              type="date"
-              placeholder="End Year"
-              value={date.endYear}
-              name="date"
-              minDate={date.startYear}
-              onChange={(e: any) => setDate({ ...date, endYear: e })}
-            />
-          </Box>
+
           <Box w="18rem">
-            <SearchCardInput />
+            <Button onClick={addData}>Add Category</Button>
           </Box>
         </Flex>
       </Flex>
@@ -76,26 +49,28 @@ const QuizTable = observer(() => {
         <Table className="customTable" variant="striped" mt="1rem">
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Name</Th>
-              <Th>Name</Th>
-              <Th>Name</Th>
-              <Th>Name</Th>
-              <Th>Name</Th>
-              <Th>Name</Th>
+              <Th>title</Th>
+              <Th>Description</Th>
+              <Th>Categories</Th>
+              <Th>Thumbnail</Th>
+              <Th>Created Date</Th>
             </Tr>
           </Thead>
+          <TableLoader show={data?.quiz?.length} loader={loading}>
           <Tbody>
-            <Tr>
-              <Td>sadasdfsdlkjasdflkjasdasdlfkj</Td>
-              <Td>sh fdhsjf dsfjhds fhdsf adasdfsdl</Td>
-              <Td>sadasdfsdlkjasdflkjasdasdlfkj</Td>
-              <Td>sadasdfsdlkjasdflkjasdafdsbf dsfkb fkdshfjdsfsdlfkj</Td>
-              <Td>sadasdfsdlkjhf djskhfdjs hfjdshf dshf dskfasdflkjasdasdlfkj</Td>
-              <Td>sadasdfsdlkjasdflkjasdasdlfkj</Td>
-              <Td>sadasdfsdlkjasdflkjasdasdlfkj</Td>
-            </Tr>
+            {
+              data?.quiz?.map((item : any, index : number) => { return(
+                <Tr key={index}>
+                  <Td>{item.title}</Td>
+                  <Td>{item.description?.length > 30 ? `${item.description?.substring(0,30)}...` : item.description}</Td>
+                  <Td>{item?.totalChildData}</Td>
+                  <Td>{item?.thumbnail?.name}</Td>
+                  <Td>{formatDate(item?.createdAt)}</Td>
+                </Tr>
+              )})
+            }
           </Tbody>
+          </TableLoader>
         </Table>
       </Box>
     </Box>

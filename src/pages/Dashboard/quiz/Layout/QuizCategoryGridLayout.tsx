@@ -2,14 +2,13 @@ import { Grid } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import store from "../../../../store/store";
 import SideFilterContainer from "../../../../config/component/FilterContainer/SideFilterContainer/SideFilterContainer";
-import CategoryCard from "../../../../config/component/Card/CategoryCard/CategoryCard";
 import SkeletanCategoryCard from "../../../../config/component/Card/CategoryCard/SkeletanCategoryCard";
+import QuizCategoryCard from "../../../../config/component/Card/CategoryCard/QuizCategoryCard";
 
-const CourseCategoryGridLayout = observer(({handleClick} : any) => {
+const QuizCategoryGridLayout = observer(({ handleClick }: any) => {
   const {
-    notesStore: {
-      categories: { data, loading },
-      localFiltering
+    quiz: {
+      dashQuiz: { data, loading },
     },
   } = store;
   return (
@@ -24,9 +23,9 @@ const CourseCategoryGridLayout = observer(({handleClick} : any) => {
       columnGap={3}
     >
       <SideFilterContainer
-        data={data}
+        data={data.quiz || []}
         loading={loading}
-        filtering={localFiltering}
+        filtering={() => {}}
       />
       <Grid
         templateColumns={{
@@ -38,11 +37,11 @@ const CourseCategoryGridLayout = observer(({handleClick} : any) => {
         }}
         gap={5}
       >
-        {data.map((item: any, index: any) => {
+        {data?.quiz?.map((item: any, index: any) => {
           return (
-            <CategoryCard
+            <QuizCategoryCard
               item={item}
-              thumbnail={item.thumbnail}
+              thumbnail={item.thumbnail?.url}
               key={index}
               title={item.title}
               description={item.description}
@@ -56,7 +55,7 @@ const CourseCategoryGridLayout = observer(({handleClick} : any) => {
             />
           );
         })}
-                {loading && (
+        {loading.loading && (
           <>
             <SkeletanCategoryCard />
             <SkeletanCategoryCard />
@@ -69,4 +68,4 @@ const CourseCategoryGridLayout = observer(({handleClick} : any) => {
   );
 });
 
-export default CourseCategoryGridLayout;
+export default QuizCategoryGridLayout;

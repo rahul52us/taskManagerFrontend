@@ -1,11 +1,5 @@
 import { Spinner, Text, Box } from "@chakra-ui/react";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from "chart.js";
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
 import { observer } from "mobx-react-lite";
 import { Pie } from "react-chartjs-2";
 import "./chart.css";
@@ -13,7 +7,7 @@ import "./chart.css";
 ChartJS.register(Title, Tooltip, ArcElement, Legend);
 
 const PieChart = observer(
-  ({ options = {}, data ={}, loading = true }: any) => {
+  ({ options = {}, data = {}, loading = true }: any) => {
     if (loading) {
       return (
         <Box
@@ -50,7 +44,6 @@ const PieChart = observer(
 
     const chartOptions =
       options && Object.keys(options).length ? options : { responsive: true };
-
     return <Pie options={chartOptions} data={data} />;
   }
 );

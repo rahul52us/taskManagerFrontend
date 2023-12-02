@@ -13,6 +13,7 @@ export const dashboard = {
     testimonial : '/dashboard/testimonial',
     videos:'/dashboard/videos',
     class:'/dashboard/class',
+    course:'/dashboard/courses',
     quiz:'/dashboard/quiz',
     student:{
       index : '/dashboard/students',

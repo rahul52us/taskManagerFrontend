@@ -52,6 +52,7 @@ interface CustomInputProps {
   rows?: number;
   disabled?: boolean;
   showError?: boolean;
+  style?:any;
   phone?: string;
   // Callback for file drop
   onFileDrop?: (files: FileList) => void;
@@ -74,6 +75,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   getOptionValue,
   disabled,
   rows,
+  style,
   showError,
   maxDate,
   minDate,
@@ -123,6 +125,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         return (
           <Input
             type="number"
+            style={style}
             value={value}
             onChange={onChange}
             name={name}
@@ -137,6 +140,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           <Input
             type="text"
             placeholder={placeholder}
+            style={style}
             value={value}
             onChange={onChange}
             name={name}
@@ -148,6 +152,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       case "textarea":
         return (
           <Textarea
+            style={style}
             rows={rows || 3}
             placeholder={placeholder}
             value={value}
@@ -159,7 +164,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
           />
         );
       case "switch":
-        return <Switch name={name} {...rest} />;
+        return <Switch             style={style}
+        name={name} {...rest} />;
       case "select":
         return (
           <Select
@@ -237,7 +243,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
           </div>
         );
       case "editor":
-        return <AdvancedEditor editorState={value} setEditorState={onChange} />;
+        return <AdvancedEditor             style={style}
+         editorState={value} setEditorState={onChange} />;
       case "phone":
         return (
           <PhoneInput
@@ -250,6 +257,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       case "file":
         return (
           <Input
+            style={style}
             type="file"
             placeholder={placeholder}
             value={value}
@@ -276,17 +284,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
             <p>Drag & drop files here or click to browse</p>
             <input
               type="file"
+              name={name}
               multiple={isMulti}
               onChange={onChange}
               style={{ display: "none" }}
-              id="multiple-file-upload-with-draggable"
+              id={`multiple-file-upload-with-draggable-${name}`}
             />
             <Button
               colorScheme="blue"
               onClick={() =>
                 (
                   document.getElementById(
-                    "multiple-file-upload-with-draggable"
+                    `multiple-file-upload-with-draggable-${name}`
                   ) as unknown as HTMLInputElement
                 )?.click()
               }
@@ -298,6 +307,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       default:
         return (
           <Input
+            style={style}
             type="text"
             placeholder={placeholder}
             value={value}

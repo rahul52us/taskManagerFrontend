@@ -42,11 +42,16 @@ const ShowFileUploadFile = observer(({ files, removeFile }: any) => {
     return null;
   };
 
+  const checkFilesType = () => {
+    if (Array.isArray(files))
+      return files;
+      return [files]};
+
   return (
     <>
       <Box mt={5}>
-        {Array.isArray(files) &&
-          files.map((item: any, index: number) => (
+        {
+          checkFilesType().map((item: any, index: number) => (
             <Box
               key={index}
               display="flex"

@@ -11,6 +11,7 @@ import {
 import styled from "styled-components";
 import { BiBookmark } from "react-icons/bi";
 import StarRatingIcon from "../../StarRatingIcon/StarRatingIcon";
+import { useState } from "react";
 
 const VideoWrapper = styled(Box)`
   position: relative;
@@ -24,6 +25,16 @@ const VideoWrapper = styled(Box)`
   cursor: pointer;
 `;
 
+const ThumbnailElementNoImage = styled(Box)`
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border-radius: 8px;
+background-color: lightgray;
+`;
+
 const VideoThumbnail = styled(Image)`
   position: absolute;
   top: 0;
@@ -35,6 +46,7 @@ const VideoThumbnail = styled(Image)`
 `;
 
 const VideoCategoryCard = ({ item, handleClick }: any) => {
+  const [thumbnailLoadError, setThumbnailLoadError] = useState(false)
   const bookmarkColor = useColorModeValue("gray.600", "gray.500");
 
   const { title, description, thumbnail, rating, totalChildData } = item;
@@ -42,7 +54,9 @@ const VideoCategoryCard = ({ item, handleClick }: any) => {
   return (
     <Card p={2} borderRadius="8px" overflow="hidden">
       <VideoWrapper>
-        <VideoThumbnail src={thumbnail} alt={thumbnail} />
+      {thumbnailLoadError ?  <ThumbnailElementNoImage /> :
+          <VideoThumbnail src={thumbnail} alt={thumbnail} onError={() => {setThumbnailLoadError(true)}} />
+        }
       </VideoWrapper>
       <Flex mt={5} justify="space-between" alignItems="center">
         <StarRatingIcon rating={rating} size="1rem" color="gold" />

@@ -74,19 +74,17 @@ const NotesIndex = observer(() => {
     <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader title="Videos" breadcrumb={coursesBreadCrumb} />
       <Grid gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-        <Card p={3} boxShadow={CardBoxShadow}>
+        <Card width={"100%"} minH={350} p={3} boxShadow={CardBoxShadow}>
           <BarChart
             data={CoursesChartData?.data}
             options={CoursesChartData?.options}
             loading={categoryCoursesCount.loading}
           />{" "}
         </Card>
-        <Card p={3} boxShadow={CardBoxShadow}>
-          <div>
-            <Button onClick={() => setOpenCategoryList({ open: true })}>
-              Add New
-            </Button>
-          </div>
+        <Card width={"100%"} minH={350} p={3} boxShadow={CardBoxShadow}>
+          <Button onClick={() => setOpenCategoryList({ open: true })}>
+            Add New
+          </Button>
         </Card>
       </Grid>
       <Box mt={5}>

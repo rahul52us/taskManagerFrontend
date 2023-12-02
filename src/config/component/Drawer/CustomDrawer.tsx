@@ -68,7 +68,6 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
             />
           </Flex>
         )}
-
         <Divider />
         <DrawerBody style={{ overflowY: "auto" }}>
           <div style={{ minHeight: "calc(100vh - 245px)" }}>{children}</div>

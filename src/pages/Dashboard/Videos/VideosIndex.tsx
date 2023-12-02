@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import VideoCategoryList from './component/VideosCategoryList'
 import { videoBreadCrumb } from "../utils/breadcrumb.constant";
+import VideoChartContainer from "./component/VideoChartContainer";
 
 const VideosIndex = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState<any>({
@@ -18,13 +19,13 @@ const VideosIndex = observer(() => {
   });
 
   return (
-    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-4} p={3}>
+    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader
         title="Videos"
         btnTitle="CREATE"
-        btnAction={() => setOpenVideosList({ open: true })}
         breadcrumb={videoBreadCrumb}
       />
+      <VideoChartContainer addData={() => setOpenVideosList({ open: true })}/>
       <VideoGridLayout handleClick={(item : any) => {setSelectedCategory({open : true, category : item})}}/>
       <VideoCategoryList
         videos={[]}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Avatar,
   Box,
   Card,
   Flex,
@@ -16,43 +15,41 @@ import LinkText from "../../LinkText/LinkText";
 import styled from "styled-components";
 
 const CategoryThumbnailWrapper = styled(Box)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 8px;
-  cursor: pointer;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+padding-bottom: 56.25%;
+height: 0;
+overflow: hidden;
+border-radius: 8px;
+cursor: pointer;
 `;
 
 const ThumbnailElement = styled(Image)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  background-color: lightgray;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border-radius: 8px;
+background-color: lightgray;
 `;
 
 const ThumbnailElementNoImage = styled(Box)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  background-color: lightgray;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border-radius: 8px;
+background-color: lightgray;
 `;
 
-const CategoryCard = ({
+const QuizCategoryCard = ({
   thumbnail,
   title,
   description,
-  username,
-  userPic,
   discountPrice,
   originalPrice,
   rating,
@@ -60,7 +57,7 @@ const CategoryCard = ({
   handleClick,
   item,
 }: any) => {
-  const [thumbnailLoadError, setThumbnailLoadError] = useState(false);
+  const [thumbnailLoadError, setThumbnailLoadError] = useState(false)
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => setIsHovered(true);
@@ -79,17 +76,9 @@ const CategoryCard = ({
       transition="box-shadow 0.3s ease"
     >
       <CategoryThumbnailWrapper>
-        {thumbnailLoadError ? (
-          <ThumbnailElementNoImage />
-        ) : (
-          <ThumbnailElement
-            src={thumbnail}
-            alt={thumbnail}
-            onError={() => {
-              setThumbnailLoadError(true);
-            }}
-          />
-        )}
+        {thumbnailLoadError ?  <ThumbnailElementNoImage /> :
+          <ThumbnailElement src={thumbnail} alt={thumbnail} onError={() => {setThumbnailLoadError(true)}} />
+        }
       </CategoryThumbnailWrapper>
       <Flex mt={5} justify="space-between" alignItems="center">
         <StarRatingIcon rating={rating} size="1rem" color="gold" />
@@ -115,37 +104,16 @@ const CategoryCard = ({
       <Flex mt={2} justify="space-between" alignItems="center">
         <Text color="gray" fontSize="sm" display="flex" alignItems="center">
           <BiBookContent style={{ marginRight: "10px" }} color="gray" />{" "}
-          {totalCount} Lessons
+          {totalCount} Category
         </Text>
         <Text color="gray" fontSize="sm" display="flex" alignItems="center">
-          <BiUser style={{ marginRight: "10px" }} color="gray" /> Students
+          <BiUser style={{ marginRight: "10px" }} color="gray" /> Category
         </Text>
       </Flex>
 
       <Text textAlign="start" mt={4} mb={1} color="gray.500" fontSize={14}>
         {description}
       </Text>
-
-      <Flex mt={3} alignItems="center">
-        <Avatar
-          src={userPic}
-          style={{
-            width: "40px",
-            height: "40px",
-            objectFit: "cover",
-            padding: "1px",
-            border: "2px solid #2f57ef21",
-          }}
-          name={username}
-          borderRadius="100%"
-        />
-        <Text ml={3} color="gray.500" size="sm" fontWeight="bold">
-          By
-        </Text>
-        <Text fontSize="sm" ml={2} fontWeight="bold">
-          {username}
-        </Text>
-      </Flex>
 
       <Flex mt={4} justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
@@ -168,4 +136,4 @@ const CategoryCard = ({
   );
 };
 
-export default CategoryCard;
+export default QuizCategoryCard;

@@ -1,8 +1,9 @@
-import { Grid, Box, GridItem } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import store from "../../../../store/store";
 import VideoCategoryCard from "../../../../config/component/Card/CategoryCard/VideoCategoryCard";
 import SkeletanCategoryCard from "../../../../config/component/Card/CategoryCard/SkeletanCategoryCard";
+import SideFilterContainer from "../../../../config/component/FilterContainer/SideFilterContainer/SideFilterContainer";
 
 const VideoGridLayout = observer(({ handleClick }: any) => {
   const {
@@ -10,16 +11,30 @@ const VideoGridLayout = observer(({ handleClick }: any) => {
   } = store;
 
   return (
-    <Box p={4} pt={2}>
+    <Grid
+      templateColumns={{
+        base: "1fr",
+        sm: "1fr",
+        md: "1fr 2fr",
+        lg: "1fr 4fr",
+      }}
+      gap={4}
+      columnGap={3}
+    >
+      <SideFilterContainer
+        data={categories.data || []}
+        loading={categories.loading}
+        filtering={() => {}}
+      />
       <Grid
         templateColumns={{
           base: "1fr",
-          sm: "repeat(2,1fr)",
-          md: "repeat(3, 1fr)",
-          lg: "repeat(4, 1fr)",
-          xl: "repeat(5, 1fr)",
+          sm: "1fr",
+          md: "1fr 1fr",
+          lg: "1fr 1fr 1fr 1fr",
+          xl: "1fr 1fr 1fr 1fr",
         }}
-        gap={6}
+        gap={5}
       >
         {categories.data.map((item: any, index: number) => (
           <VideoCategoryCard
@@ -29,27 +44,16 @@ const VideoGridLayout = observer(({ handleClick }: any) => {
             handleClick={handleClick}
           />
         ))}
+        {categories.loading && (
+          <>
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+          </>
+        )}
       </Grid>
-      {categories.loading && (
-        <Grid
-          templateColumns={{
-            base: "1fr",
-            sm: "repeat(2,1fr)",
-            md: "repeat(3, 1fr)",
-            lg: "repeat(4, 1fr)",
-          }}
-          gap={6}
-        >
-          {[1, 2, 3, 4].map((item: number) => {
-            return (
-              <GridItem key={item}>
-                <SkeletanCategoryCard />
-              </GridItem>
-            );
-          })}
-        </Grid>
-      )}
-    </Box>
+    </Grid>
   );
 });
 

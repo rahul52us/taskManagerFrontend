@@ -2,6 +2,7 @@ import QuizCategoryForm from "./QuizCategoryForm";
 import { observer } from "mobx-react-lite";
 import store from "../../../../../store/store";
 import { QuizCategoryValue } from "./utils/dto";
+import { readFileAsBase64 } from "../../../../../config/constant/function";
 
 const AddQuizCategory = observer(() => {
   const {
@@ -14,14 +15,25 @@ const AddQuizCategory = observer(() => {
     description: "",
     class: undefined,
     section: undefined,
-    categories: [{ title: "", description: "" }],
+    thumbnail: "",
+    categories: [{ title: "", description: "", thumbnail: "" }],
   };
 
-  const addCategoryStore = (
+  const addCategoryStore = async (
     values: QuizCategoryValue,
     setSubmitting: (val: boolean) => void,
-    resetForm: () => void
+    resetForm: () => void,
+    setShowError: any
   ) => {
+    if (values.thumbnail.length) {
+      const buffer = await readFileAsBase64(values.thumbnail[0]);
+      const fileData = {
+        buffer: buffer,
+        filename: values.thumbnail[0].name,
+        type: values.thumbnail[0].type,
+      };
+      values.thumbnail = fileData;
+    }
     if (values.categories === 0) {
       delete values.categories;
     }
@@ -36,6 +48,7 @@ const AddQuizCategory = observer(() => {
           message: data.message,
         });
         resetForm();
+        setShowError(false);
       })
       .catch((err: any) => {
         if (err.statusCode === 422) {

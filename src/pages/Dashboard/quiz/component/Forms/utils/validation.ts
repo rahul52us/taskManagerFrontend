@@ -16,10 +16,6 @@ const QuizCreateValidation = Yup.object().shape({
     .max(120, "Title must not exceed 120 characters")
     .trim()
     .required("Title is required"),
-  class: Yup.mixed().required("Select the Class").typeError("Select the Class"),
-  section: Yup.mixed()
-    .required("Select the Section")
-    .typeError("Select the Section"),
   description: Yup.string()
     .trim()
     .min(3, "description must be at least 3 characters")

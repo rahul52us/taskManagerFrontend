@@ -17,6 +17,11 @@ import CustomSubmitBtn from "../../../../../config/component/Button/CustomSubmit
 import store from "../../../../../store/store";
 import { BiQuestionMark } from "react-icons/bi";
 import QuizCreateValidation from "./utils/validation";
+import ShowFileUploadFile from "../../../../../config/component/common/ShowFileUploadFile/ShowFileUploadFile";
+import {
+  insertUniqueFile,
+  removeDataByIndex,
+} from "../../../../../config/constant/function";
 
 const QuizCategoryForm = observer(
   ({ submitForm, initialValues }: QuizCategoryPara) => {
@@ -24,6 +29,7 @@ const QuizCategoryForm = observer(
     const {
       classStore: { classes },
     } = store;
+    const [thumbnail, setThumbnail] = useState<any>([]);
     const [showError, setShowError] = useState(false);
 
     const handleSections = (_id: any, setFieldValue: any) => {
@@ -52,15 +58,15 @@ const QuizCategoryForm = observer(
         return undefined;
       }
     };
-
     return (
       <div>
         <Formik
           initialValues={initialValues}
           validationSchema={QuizCreateValidation}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            console.log(values);
-            submitForm(values, setSubmitting, resetForm);
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            setSubmitting(true);
+            values.thumbnail = thumbnail;
+            submitForm(values, setSubmitting, resetForm, setShowError);
           }}
         >
           {({ values, errors, handleChange, isSubmitting, setFieldValue }) => {
@@ -81,6 +87,35 @@ const QuizCategoryForm = observer(
                     maxH={"85vh"}
                   >
                     <Box>
+                      <Flex mb={5}>
+                        {thumbnail.length === 0 ? (
+                          <CustomInput
+                            type="file-drag"
+                            name="thumbnail"
+                            value={thumbnail}
+                            isMulti={false}
+                            onChange={(e: any) => {
+                              insertUniqueFile(
+                                setThumbnail,
+                                thumbnail,
+                                e.target.files,
+                                "isMulti"
+                              );
+                            }}
+                          />
+                        ) : (
+                          <Box mt={-5} width="100%">
+                            <ShowFileUploadFile
+                              files={thumbnail}
+                              removeFile={(_: any, index: number) =>
+                                setThumbnail(
+                                  removeDataByIndex(thumbnail, index)
+                                )
+                              }
+                            />
+                          </Box>
+                        )}
+                      </Flex>
                       <CustomInput
                         label="Title"
                         type="text"
@@ -89,7 +124,7 @@ const QuizCategoryForm = observer(
                         onChange={handleChange}
                         error={errors.title}
                         placeholder="Enter the title"
-                        required
+                        required={true}
                         showError={showError}
                       />
                       <Grid
@@ -99,7 +134,6 @@ const QuizCategoryForm = observer(
                         <CustomInput
                           type="select"
                           label="Class"
-                          required
                           placeholder="Search Class"
                           name="class"
                           isSearchable
@@ -117,7 +151,6 @@ const QuizCategoryForm = observer(
                         <CustomInput
                           type="select"
                           label="Section"
-                          required
                           placeholder="Search search"
                           name="section"
                           isSearchable
@@ -139,7 +172,7 @@ const QuizCategoryForm = observer(
                         value={values.description}
                         onChange={handleChange}
                         error={errors.description}
-                        required
+                        required={true}
                         showError={showError}
                       />
                     </Box>
@@ -163,47 +196,81 @@ const QuizCategoryForm = observer(
                         {({ push, remove }) => (
                           <Box>
                             {values.categories.map(
-                              (section: any, index: number) => (
-                                <Box key={index} mb="20px">
-                                  <CustomInput
-                                    label="Category"
-                                    type="text"
-                                    name={`categories.${index}.title`}
-                                    value={section.title}
-                                    onChange={handleChange}
-                                    placeholder="Enter the Title"
-                                    showError={showError}
-                                    error={getCategoryError(
-                                      errors,
-                                      "title",
-                                      index
-                                    )}
-                                  />
-                                  <CustomInput
-                                    label="Description"
-                                    type="textarea"
-                                    name={`categories.${index}.description`}
-                                    value={section.description}
-                                    onChange={handleChange}
-                                    placeholder="Description"
-                                    showError={showError}
-                                    error={getCategoryError(
-                                      errors,
-                                      "description",
-                                      index
-                                    )}
-                                  />
-                                  <Button
-                                    colorScheme="red"
-                                    variant="outline"
-                                    size="sm"
-                                    mt="10px"
-                                    onClick={() => remove(index)}
-                                  >
-                                    Remove Section
-                                  </Button>
-                                </Box>
-                              )
+                              (section: any, index: number) => {
+                                return (
+                                  <Box key={index} mb="20px">
+                                    <Flex mb={5}>
+                                      {section?.thumbnail === "" ? (
+                                        <CustomInput
+                                          type="file-drag"
+                                          name={`categories.${index}.thumbnail`}
+                                          value={section?.thumbnail}
+                                          isMulti={false}
+                                          onChange={(e: any) =>
+                                            setFieldValue(
+                                              `categories.${index}.thumbnail`,
+                                              e.target.files[0]
+                                            )
+                                          }
+                                        />
+                                      ) : (
+                                        <Box mt={-5} width="100%">
+                                          <ShowFileUploadFile
+                                            files={section.thumbnail}
+                                            removeFile={(
+                                              _: any,
+                                              index: number
+                                            ) =>
+                                              setFieldValue(
+                                                `categories.${index}.thumbnail`,
+                                                ""
+                                              )
+                                            }
+                                          />
+                                        </Box>
+                                      )}
+                                    </Flex>
+                                    <CustomInput
+                                      label="Category"
+                                      type="text"
+                                      name={`categories.${index}.title`}
+                                      value={section.title}
+                                      onChange={handleChange}
+                                      placeholder="Enter the Title"
+                                      showError={showError}
+                                      error={getCategoryError(
+                                        errors,
+                                        "title",
+                                        index
+                                      )}
+                                    />
+                                    <CustomInput
+                                      label="Description"
+                                      type="textarea"
+                                      name={`categories.${index}.description`}
+                                      value={section.description}
+                                      onChange={handleChange}
+                                      required={true}
+                                      placeholder="Description"
+                                      showError={showError}
+                                      error={getCategoryError(
+                                        errors,
+                                        "description",
+                                        index
+                                      )}
+                                    />
+                                    <Button
+                                      colorScheme="red"
+                                      variant="outline"
+                                      size="sm"
+                                      mt="10px"
+                                      onClick={() => remove(index)}
+                                    >
+                                      Remove Section
+                                    </Button>
+                                  </Box>
+                                );
+                              }
                             )}
                             <Button
                               colorScheme="blue"
@@ -211,7 +278,11 @@ const QuizCategoryForm = observer(
                               size="sm"
                               mb="10px"
                               onClick={() =>
-                                push({ title: "", description: "" })
+                                push({
+                                  title: "",
+                                  description: "",
+                                  thumbnail: "",
+                                })
                               }
                             >
                               Add Section
