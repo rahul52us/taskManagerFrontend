@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 const ProfileTabAvatar = ({ profileData }: any) => {
+  const [loadProfileImage, setLoadProfileImage] = useState(false)
   return (
     <Box
       borderWidth="1px"
@@ -10,8 +12,12 @@ const ProfileTabAvatar = ({ profileData }: any) => {
       boxShadow="md"
     >
       <Box bgColor="#ff6575" p={6} borderRadius="lg 0 0 0">
-        <Flex justifyContent="center" alignItems="center" mb={4}>
-          <Avatar size="xl" src={profileData?.pic} borderColor="white" borderWidth={4} />
+        <Flex justifyContent="center" mb={4}>
+          {
+            loadProfileImage ?
+            <Avatar size="2xl" borderColor="white" borderWidth={4} /> :
+            <Avatar onError={() => {setLoadProfileImage(true)}} size="2xl" src={profileData?.pic || 'https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif'} borderColor="white" borderWidth={4} />
+          }
         </Flex>
         <Text fontWeight="bold" fontSize="xl" color="white" textAlign="center">
           {`${profileData?.firstName} ${profileData?.lastName}`}

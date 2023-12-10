@@ -3,19 +3,19 @@ import { Box, Flex, Grid } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { observer } from "mobx-react-lite";
 import { EditorState } from "draft-js";
-import CustomInput from "../../../../config/component/CustomInput/CustomInput";
-import CategoryValidation from "../utils/validation";
-import CustomSubmitBtn from "../../../../config/component/Button/CustomSubmitBtn";
-import store from "../../../../store/store";
-import { NotesCategoryFormDto } from "../utils/dto";
+import CustomInput from "../../../../../config/component/CustomInput/CustomInput";
+import CategoryValidation from "../../utils/validation";
+import CustomSubmitBtn from "../../../../../config/component/Button/CustomSubmitBtn";
+import store from "../../../../../store/store";
+import { NotesCategoryFormDto } from "../../utils/dto";
 import moment from "moment";
-import { AmountTypeData, setCategoryInitialValue } from "../utils/common";
-import ShowFileUploadFile from "../../../../config/component/common/ShowFileUploadFile/ShowFileUploadFile";
+import { AmountTypeData, setCategoryInitialValue } from "../../utils/common";
+import ShowFileUploadFile from "../../../../../config/component/common/ShowFileUploadFile/ShowFileUploadFile";
 import {
   insertUniqueFile,
   readFileAsBase64,
   removeDataByIndex,
-} from "../../../../config/constant/function";
+} from "../../../../../config/constant/function";
 
 const FormComponent = observer(({ formData }: any) => {
   const [thumbnail, setThumbnail] = useState<any>([]);

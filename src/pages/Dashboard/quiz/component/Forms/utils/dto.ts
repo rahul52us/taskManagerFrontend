@@ -17,9 +17,9 @@ export interface QuizCategoryPara {
       thumbnail:any;
       categories:any
     },
-    setSubmitting: (val: boolean) => void,
     resetForm: () => void,
     setShowError:any
   ) => void;
+   loading:boolean,
   initialValues : QuizCategoryValue
 }

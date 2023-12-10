@@ -3,16 +3,16 @@ import { Box, Button, Card, Flex, Grid, IconButton } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import BarChart from "../../../config/component/charts/BarChart";
 import store from "../../../store/store";
-import CategoryTable from "./element/CategoryTable";
+import CategoryTable from "./component/CategoryTable";
 import CustomDrawer from "../../../config/component/Drawer/CustomDrawer";
-import CategoryFormComponent from "./element/CategoryFormComponent";
 import { CardBoxShadow, headerHeight } from "../../../config/constant/variable";
 import { makeChartResponse } from "../component/utils/common";
 import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
 import { coursesBreadCrumb } from "../utils/breadcrumb.constant";
-import CourseList from "./element/CourseList";
+import CourseList from "./component/CourseList";
 import CourseCategoryGridLayout from "./Layout/CourseCategoryGridLayout";
 import { BiArrowBack } from "react-icons/bi";
+import MainNotesForm from "./component/forms/MainNotes/MainNotesForm";
 
 const NotesIndex = observer(() => {
   const [openCategoryList, setOpenCategoryList] = useState({
@@ -147,7 +147,7 @@ const NotesIndex = observer(() => {
         }}
         title="Add New Data"
       >
-        <CategoryFormComponent formData={CategoryformModel} />
+        <MainNotesForm formData={CategoryformModel} />
       </CustomDrawer>
       <CourseList
         category={courseListModel.category}

@@ -56,6 +56,7 @@ interface CustomInputProps {
   phone?: string;
   // Callback for file drop
   onFileDrop?: (files: FileList) => void;
+  props?:any
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -81,7 +82,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
   minDate,
   disabledDates,
   phone,
-  onFileDrop, // Added onFileDrop prop
+  onFileDrop,
+  props,
+  // Added onFileDrop prop
   ...rest
 }) => {
   const theme = useTheme();
@@ -132,6 +135,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             _placeholder={{ fontSize: "12px" }}
+            {...props}
             {...rest}
           />
         );

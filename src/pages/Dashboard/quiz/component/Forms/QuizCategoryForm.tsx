@@ -24,7 +24,7 @@ import {
 } from "../../../../../config/constant/function";
 
 const QuizCategoryForm = observer(
-  ({ submitForm, initialValues }: QuizCategoryPara) => {
+  ({ submitForm, initialValues, loading }: QuizCategoryPara) => {
     const [sections, setSections] = useState([]);
     const {
       classStore: { classes },
@@ -63,13 +63,12 @@ const QuizCategoryForm = observer(
         <Formik
           initialValues={initialValues}
           validationSchema={QuizCreateValidation}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            setSubmitting(true);
+          onSubmit={async (values, { resetForm }) => {
             values.thumbnail = thumbnail;
-            submitForm(values, setSubmitting, resetForm, setShowError);
+            submitForm(values, resetForm, setShowError);
           }}
         >
-          {({ values, errors, handleChange, isSubmitting, setFieldValue }) => {
+          {({ values, errors, handleChange, setFieldValue }) => {
             return (
               <Form>
                 <Flex
@@ -217,15 +216,12 @@ const QuizCategoryForm = observer(
                                         <Box mt={-5} width="100%">
                                           <ShowFileUploadFile
                                             files={section.thumbnail}
-                                            removeFile={(
-                                              _: any,
-                                              index: number
-                                            ) =>
+                                            removeFile={() => {
                                               setFieldValue(
                                                 `categories.${index}.thumbnail`,
                                                 ""
-                                              )
-                                            }
+                                              );
+                                            }}
                                           />
                                         </Box>
                                       )}
@@ -294,7 +290,7 @@ const QuizCategoryForm = observer(
                   </Box>
                   <Flex justifyContent="flex-end" mt={5} mr={5}>
                     <CustomSubmitBtn
-                      loading={isSubmitting}
+                      loading={loading}
                       type="submit"
                       onClick={() => setShowError(true)}
                     />
