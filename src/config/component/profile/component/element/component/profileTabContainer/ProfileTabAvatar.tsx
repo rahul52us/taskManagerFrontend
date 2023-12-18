@@ -16,7 +16,7 @@ const ProfileTabAvatar = ({ profileData }: any) => {
           {
             loadProfileImage ?
             <Avatar size="2xl" borderColor="white" borderWidth={4} /> :
-            <Avatar onError={() => {setLoadProfileImage(true)}} size="2xl" src={profileData?.pic || 'https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif'} borderColor="white" borderWidth={4} />
+            <Avatar onError={() => {setLoadProfileImage(true)}} size="2xl" src={profileData?.pic || 'https://scontent.fbho4-4.fna.fbcdn.net/v/t39.30808-6/344463938_1296266511234177_6930527913844228528_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=C4zrX-yM-YkAX9RiP7m&_nc_oc=AQkaQG_OKdqtmcc5a-xZ9Y27zWEdNykcIYe_TOO0bLH2iZ4mxnmGL0iW1VyM1XZCJxKKqHimdZFgHKOS3JPGLCp_&_nc_ht=scontent.fbho4-4.fna&oh=00_AfAZnsb61lb-O7B3kbFfsnLvM9LmVx3LbSeRVWvn_pjL2g&oe=6582EE14'} borderColor="white" borderWidth={4} />
           }
         </Flex>
         <Text fontWeight="bold" fontSize="xl" color="white" textAlign="center">

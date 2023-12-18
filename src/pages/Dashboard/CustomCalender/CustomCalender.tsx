@@ -26,13 +26,16 @@ const MyCalendar: React.FC = () => {
   const handleAddTask = () => {
     const newTask: Task = {
       title: 'Task 1',
-      start: '2023-07-23',
-      end: '2023-07-25',
-      description: 'This is task 1 description',
+      start: '2023-07-26',
+      end: '2023-07-28',
+      description: 'This is task 2 description',
       location: 'Task Location',
     };
     setTasks([...tasks, newTask]);
   };
+
+
+  console.log(tasks)
 
   const renderEventContent = (eventInfo: any) => {
     const { event } = eventInfo;
