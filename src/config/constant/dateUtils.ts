@@ -57,8 +57,6 @@ export function getCustomTextDate(
   }
 }
 
-
-
 export const currentYear = new Date();
 export const oneYearLater = new Date(
   currentYear.getFullYear() + 1,

@@ -1,6 +1,12 @@
 import React from "react";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Box, useColorModeValue } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { FiChevronRight } from "react-icons/fi";
 
 interface BreadcrumbItems {
   label: string;
@@ -17,7 +23,14 @@ const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   const activeColor = useColorModeValue("gray.700", "gray.300");
 
   return (
-    <Breadcrumb separator={<Box color={separatorColor}>&gt;</Box>} fontWeight="medium" fontSize="sm">
+    <Breadcrumb
+      separator={
+        <FiChevronRight color={separatorColor} size={8} />
+      }
+      fontSize="smaller"
+      fontWeight="bold"
+      ml={-6}
+    >
       {items?.map((item, index) => (
         <BreadcrumbItem key={index} isCurrentPage={index === items.length - 1}>
           {item.link ? (
@@ -32,7 +45,7 @@ const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
               {item.label}
             </BreadcrumbLink>
           ) : (
-            <Box color={activeColor}>{item.label}</Box>
+            <span style={{ color: activeColor }}>{item.label}</span>
           )}
         </BreadcrumbItem>
       ))}

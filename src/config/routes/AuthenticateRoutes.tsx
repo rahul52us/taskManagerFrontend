@@ -17,7 +17,7 @@ const CreateOrganisation = lazy(
 
 const VerifyEmail = lazy(
     () => import("../../pages/Authentication/VerifyEmail/VerifyEmail")
-  );
+);
 
 const CreateOrganisationStep1 = lazy(() => import('../../pages/Authentication/CreateOrganisation/CreateOrganisationStep1'))
 

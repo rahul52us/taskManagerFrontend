@@ -11,16 +11,34 @@ class NotesStore {
     totalPages: 0,
   };
 
+  categoryCoursesCount : any = {
+    data : [],
+    loading : true
+  }
+
+  courses : any = {
+    data: [],
+    currentPage: 1,
+    hasMore: false,
+    loading: true,
+    hasFetch: false,
+    totalPages: 0,
+  };
+
   originalData: any[] = [];
 
   constructor() {
     makeObservable(this, {
       categories: observable,
       originalData: observable,
+      categoryCoursesCount:observable,
+      courses:observable,
       getCategories: action,
+      getCategoryCoursesCount:action,
       createCategory: action,
       localFiltering: action,
       getSingleCategory: action,
+      getcourses:action,
       filteredData: computed,
     });
   }
@@ -44,6 +62,22 @@ class NotesStore {
     }
   });
 
+  getcourses = async (sendData : any) => {
+    try {
+      this.courses.loading = true;
+      this.courses.hasFetch = true;
+      const { data } = await axios.get(`/notes?category=${sendData.category}&page=${sendData.page}`);
+      this.courses.data = data?.data?.courses || [];
+      this.courses.totalPages = data.data?.totalPages || 1;
+      return data;
+    } catch (err: any) {
+      this.courses.hasFetch = false;
+      return Promise.reject(err?.response?.data);
+    } finally {
+      this.courses.loading = false;
+    }
+  }
+
   createCategory = async (sendData: any) => {
     try {
       const { data } = await axios.post("/notes/category", sendData);
@@ -52,6 +86,19 @@ class NotesStore {
       return Promise.reject(err?.response?.data || err);
     }
   };
+
+  getCategoryCoursesCount = async () => {
+    try {
+      this.categoryCoursesCount.loading = true;
+      const { data } = await axios.get(`/notes/categoryCoursescounts`);
+      this.categoryCoursesCount.data = data?.data
+      return data;
+    } catch (err: any) {
+      return Promise.reject(err?.response?.data);
+    } finally {
+      this.categoryCoursesCount.loading = false;
+    }
+  }
 
   getSingleCategory = async (Id: any) => {
     return this.categories.data.filter((item: any) => item._id === Id);

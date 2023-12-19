@@ -8,10 +8,44 @@ import {
   IconButton,
   Image,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { BiBookContent, BiBookmark, BiCart, BiUser } from "react-icons/bi";
 import StarRatingIcon from "../../StarRatingIcon/StarRatingIcon";
 import LinkText from "../../LinkText/LinkText";
+import styled from "styled-components";
+
+const CategoryThumbnailWrapper = styled(Box)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+const ThumbnailElement = styled(Image)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background-color: lightgray;
+`;
+
+const ThumbnailElementNoImage = styled(Box)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background-color: lightgray;
+`;
 
 const CategoryCard = ({
   thumbnail,
@@ -23,11 +57,16 @@ const CategoryCard = ({
   originalPrice,
   rating,
   totalCount,
+  handleClick,
+  item,
 }: any) => {
+  const [thumbnailLoadError, setThumbnailLoadError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
+
+  const bookmarkColor = useColorModeValue("gray.600", "gray.500");
 
   return (
     <Card
@@ -39,17 +78,19 @@ const CategoryCard = ({
       onMouseLeave={handleMouseLeave}
       transition="box-shadow 0.3s ease"
     >
-      <Image
-        src={thumbnail}
-        backgroundColor="gray.300"
-        alt=""
-        borderRadius={5}
-        minH={220}
-        height="100%"
-        width="100%"
-        objectFit="contain"
-        maxH={{ md: "320", lg: 220 }}
-      />
+      <CategoryThumbnailWrapper>
+        {thumbnailLoadError ? (
+          <ThumbnailElementNoImage />
+        ) : (
+          <ThumbnailElement
+            src={thumbnail}
+            alt={thumbnail}
+            onError={() => {
+              setThumbnailLoadError(true);
+            }}
+          />
+        )}
+      </CategoryThumbnailWrapper>
       <Flex mt={5} justify="space-between" alignItems="center">
         <StarRatingIcon rating={rating} size="1rem" color="gold" />
         <IconButton
@@ -59,11 +100,18 @@ const CategoryCard = ({
           title="Bookmark"
         />
       </Flex>
-
-      <Heading size="sm" mb={1} mt={1}>
+      <Heading
+        fontSize="lg"
+        mb={2}
+        mt={1}
+        cursor="pointer"
+        color={bookmarkColor}
+        _hover={{ color: "blue" }}
+        transition="0.5s ease-in-out"
+        onClick={() => handleClick && handleClick(item)}
+      >
         {title}
       </Heading>
-
       <Flex mt={2} justify="space-between" alignItems="center">
         <Text color="gray" fontSize="sm" display="flex" alignItems="center">
           <BiBookContent style={{ marginRight: "10px" }} color="gray" />{" "}

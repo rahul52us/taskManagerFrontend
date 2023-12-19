@@ -151,7 +151,7 @@ class AuthStore {
       const { remember_me, token, first_name, last_name, ...sendData } = value;
       sendData["name"] = `${first_name} ${last_name}`;
       const { data } = await axios.post(
-        `/company/create/${token}`,
+        `/company/create?token=${token}`,
         sendData
       );
       return data;

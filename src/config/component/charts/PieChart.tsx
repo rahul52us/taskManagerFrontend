@@ -1,51 +1,51 @@
+import { Spinner, Text, Box } from "@chakra-ui/react";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import { observer } from "mobx-react-lite";
 import { Pie } from "react-chartjs-2";
+import "./chart.css";
 
 ChartJS.register(Title, Tooltip, ArcElement, Legend);
 
-const labels: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const PieChart = observer(
+  ({ options = {}, data = {}, loading = true }: any) => {
+    if (loading) {
+      return (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+          background="#F0F0F0"
+          borderRadius="4px"
+          boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            padding="20px"
+          >
+            <Spinner color="blue.500" thickness="4px" size="lg" />
+            <Text
+              color="#333"
+              fontSize="sm"
+              marginTop={2}
+              fontWeight="bold"
+              style={{
+                animation: "text-fade 1s ease-in-out infinite",
+              }}
+            >
+              Loading Data...
+            </Text>
+          </Box>
+        </Box>
+      );
+    }
 
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: 'OUTCOME',
-      data: [200, 350, 450, 300, 550, 400, 600],
-      backgroundColor: [
-        '#38B2AC',
-        '#E53E3E',
-        '#F6AD55',
-        '#DD6B20',
-        '#4A5568',
-        '#667EEA',
-        '#9F7AEA',
-      ],
-    },
-  ],
-};
-
-const options: any = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-      position: window.innerWidth >= 768 ? 'right' : 'bottom', // Place legend at right on desktop, and bottom on mobile
-      align: 'center',
-      labels: {
-        boxWidth: 10,
-        padding: 10,
-      },
-    },
-    title: {
-      display: true,
-      text: 'Pie Chart',
-    },
-  },
-};
-
-const PieChart: React.FC = () => {
-  return <Pie options={options} data={data} />;
-};
+    const chartOptions =
+      options && Object.keys(options).length ? options : { responsive: true };
+    return <Pie options={chartOptions} data={data} />;
+  }
+);
 
 export default PieChart;

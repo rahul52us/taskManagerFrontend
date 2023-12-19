@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { formatDateTime, getCustomTextDate } from "../../../../../../config/constant/dateUtils";
+import { getCustomTextDate } from "../../../../../../config/constant/dateUtils";
 
 const BlogViewDetail = ({item} : any) => {
   return (
@@ -13,16 +13,12 @@ const BlogViewDetail = ({item} : any) => {
       </Box>
       <Box>
         <Box display="flex" fontSize="sm" gap={1}>
-          <Text fontWeight={700}>Nano David</Text>
-          <Text fontWeight={600}>for</Text>
           <Text color="gray.600" fontWeight={600}>
             {item?.createdBy?.name}
           </Text>
         </Box>
         <Text fontSize="xs" color="gray.600" fontWeight={600}>
           {getCustomTextDate('Posted on',item?.createdAt)}
-          <br />
-          {formatDateTime(item?.createdAt)}
         </Text>
       </Box>
     </Flex>

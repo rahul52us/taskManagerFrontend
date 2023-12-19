@@ -5,7 +5,8 @@ class OrganisationStore {
   constructor() {
     makeObservable(this, {
       filterOrganisation: action,
-      createOrganisationUser: action
+      createOrganisationUser: action,
+      getCompanyDetailsByName:action
     });
   }
 
@@ -26,6 +27,19 @@ class OrganisationStore {
       const { data } = await axios.post("/auth/create", value);
       return data.data;
     } catch (err: any) {
+      return Promise.reject(err?.response?.data || err?.message);
+    }
+  }
+
+  getCompanyDetailsByName = async (value : any) => {
+    try
+    {
+      const { data } = await axios.get(`/company/details?company=${value}`);
+      console.log(data)
+      return data.data;
+    }
+    catch(err : any)
+    {
       return Promise.reject(err?.response?.data || err?.message);
     }
   }

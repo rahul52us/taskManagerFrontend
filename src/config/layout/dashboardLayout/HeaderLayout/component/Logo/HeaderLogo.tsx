@@ -34,7 +34,8 @@ const HeaderLogo = observer(() => {
         ))}
       <Input
         type="text"
-        name="search"
+        // name="search"
+        value=""
         placeholder="Search here"
         w={isLargerThanXl ? "90%" : "95%"}
         onKeyDown={closeSearchBar}

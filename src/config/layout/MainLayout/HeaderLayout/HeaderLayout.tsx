@@ -29,7 +29,7 @@ const HeaderLayout = observer(() => {
       top={0}
       zIndex={999}
       backgroundColor={useColorModeValue(
-        themeConfig.colors.custom.light.primary,
+        '#ffffff',
         themeConfig.colors.custom.dark.primary
       )}
     >

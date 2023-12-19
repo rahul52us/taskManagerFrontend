@@ -8,9 +8,16 @@ import { Box } from "@chakra-ui/react";
 import QuizCategories from "./component/Forms/QuizCategories";
 import QuestionForm from "./component/Forms/QuestionForm";
 import { currentYear, oneYearLater } from "../../../config/constant/dateUtils";
+import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
+import { headerHeight } from "../../../config/constant/variable";
+import { quizBreadCrumb } from "../utils/breadcrumb.constant";
+import QuizCategoryGridLayout from "./Layout/QuizCategoryGridLayout";
 
 const QuizIndex = observer(() => {
-  const [quizForm, setQuizForm] = useState({
+  const [quizTableDrawer, setQuizTableDrawer] = useState<any>({
+    open: false
+  })
+  const [quizCategoryForm, setQuizCategoryForm] = useState({
     open: false,
     data: null,
     type: "create",
@@ -55,22 +62,32 @@ const QuizIndex = observer(() => {
   }, [getClasses, openNotification]);
 
   return (
-    <div>
-      <ChartIndex setQuizForm={setQuizForm} setQuestionForm={setQuestionForm} />
+    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
+      <DashPageHeader title="Videos" breadcrumb={quizBreadCrumb} />
+      <ChartIndex setQuizTableDrawer={setQuizTableDrawer} />
       <Box mt={5}>
-        <QuizTable />
+        <QuizCategoryGridLayout />
       </Box>
       <CustomDrawer
         title="CREATE QUIZ"
-        open={quizForm.open}
+        open={quizTableDrawer.open}
         close={() => {
-          setQuizForm({ type: "create", data: null, open: false });
+          setQuizTableDrawer({ open: false });
+        }}
+      >
+        <QuizTable addData={() => setQuizCategoryForm({open : true, data : null, type : 'create'})}/>
+      </CustomDrawer>
+      <CustomDrawer
+        title="Quiz"
+        open={quizCategoryForm.open}
+        close={() => {
+          setQuizCategoryForm({ open: false, data : null, type : 'create' });
         }}
       >
         <QuizCategories />
       </CustomDrawer>
       <CustomDrawer
-        title="CREATE QUIZ"
+        title="CREATE Category"
         open={questionForm.open}
         close={() => {
           setQuestionForm({ type: "create", data: null, open: false });
@@ -78,7 +95,7 @@ const QuizIndex = observer(() => {
       >
         <QuestionForm />
       </CustomDrawer>
-    </div>
+    </Box>
   );
 });
 

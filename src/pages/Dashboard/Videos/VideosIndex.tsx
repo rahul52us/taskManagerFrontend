@@ -1,53 +1,42 @@
 import { Box } from "@chakra-ui/react";
 import DashPageHeader from "../../../config/component/common/DashPageHeader/DashPageHeader";
 import VideoGridLayout from "./Layout/VideoGridLayout";
-import DashPageTitle from "../../../config/component/common/DashPageTitle/DashPageTitle";
 import { headerHeight } from "../../../config/constant/variable";
-import { dashboard } from "../../../config/constant/routes";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import VideoForm from "./component/VideosForm";
-import DashFormModel from "../../../config/component/common/FormModel/FormModel";
+import VideoCategoryList from './component/VideosCategoryList'
+import { videoBreadCrumb } from "../utils/breadcrumb.constant";
+import VideoChartContainer from "./component/VideoChartContainer";
 
 const VideosIndex = observer(() => {
-  const [openVideoModel, setOpenVideoModel] = useState<any>({
+  const [selectedCategory, setSelectedCategory] = useState<any>({
+    open: false,
+    category: null,
+  });
+  const [openVideosList, setOpenVideosList] = useState<any>({
     open: false,
     data: null,
   });
 
-  const items = [
-    { label: "Home", link: "/" },
-    { label: "Dashboard", link: dashboard.home },
-    { label: "Videos" },
-  ];
-
   return (
-    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-4} p={3}>
+    <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader
         title="Videos"
         btnTitle="CREATE"
-        btnAction={() => setOpenVideoModel({ open: true })}
-        breadcrumb={items}
+        breadcrumb={videoBreadCrumb}
       />
-      <DashPageTitle
-        title="Our Youtube Videos"
-        subTitle="Videos container contains the all types of videos"
-      />
-      <VideoGridLayout />
-      <DashFormModel
-        isCentered={true}
-        title="Add Videos"
-        open={openVideoModel.open}
+      <VideoChartContainer addData={() => setOpenVideosList({ open: true })}/>
+      <VideoGridLayout handleClick={(item : any) => {setSelectedCategory({open : true, category : item})}}/>
+      <VideoCategoryList
+        videos={[]}
+        title="Videos Categories"
+        open={openVideosList.open}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         close={() => {
-          setOpenVideoModel({ open: false, data: null });
+          setOpenVideosList({ open: false, data: null });
         }}
-      >
-        <VideoForm
-          close={() => {
-            setOpenVideoModel({ open: false, data: null });
-          }}
-        />
-      </DashFormModel>
+      />
     </Box>
   );
 });

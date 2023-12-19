@@ -1,4 +1,4 @@
-import  { Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./FooterLayout/FooterLayout";
 import HeaderLayout from "./HeaderLayout/HeaderLayout";
@@ -26,7 +26,7 @@ const MainLayout = observer(() => {
   return (
     <div
       style={{
-        backgroundColor: useColorModeValue("rgb(245, 245, 245)", "#1A202C"),
+        backgroundColor: useColorModeValue("#ffffff", "#1A202C"),
       }}
     >
       <HeaderLayout />

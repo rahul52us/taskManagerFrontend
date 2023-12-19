@@ -3,25 +3,33 @@ import { useEffect } from "react";
 import { Box, Grid } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import BlogLikeContainer from "./component/mainBlogCotainer/component/BLogLikeContainer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import BlogViewContainer from "./component/mainBlogCotainer/component/BlogViewContainer";
 import store from "../../../store/store";
 import BlogSingleRight from "./component/mainBlogCotainer/component/BlogSingleRight";
 
 const SingleBlogIndex = observer(() => {
-  const [blogData, setBlogData] = useState(null);
+  const [blogData, setBlogData] = useState<any>(null);
   const {
     BlogStore: {
       getSingleBlogs,
       getComments,
-      blogComments :{currentPage}
+      blogComments: { currentPage },
     },
     auth: { openNotification },
   } = store;
   const { state } = useLocation();
+  const param = useParams();
 
   useEffect(() => {
-    getSingleBlogs(state)
+    let key: any = {};
+    if (state) {
+      key["blogId"] = state;
+    } else {
+      key["title"] = param.blogTitle?.split("-").join(" ");
+    }
+
+    getSingleBlogs(key)
       .then((data) => {
         setBlogData(data);
       })
@@ -35,7 +43,8 @@ const SingleBlogIndex = observer(() => {
   }, [openNotification, getSingleBlogs, state]);
 
   useEffect(() => {
-    getComments(state, currentPage + 1)
+    if(blogData){
+    getComments(blogData?._id, currentPage + 1)
       .then(() => {})
       .catch((err: any) => {
         openNotification({
@@ -43,8 +52,9 @@ const SingleBlogIndex = observer(() => {
           message: err.message,
           type: "error",
         });
-      });
-  }, [openNotification, getComments, state]);
+      })
+    }
+  }, [openNotification, getComments, blogData]);
 
   return (
     <Box display="flex" justifyContent="center">
@@ -68,7 +78,7 @@ const SingleBlogIndex = observer(() => {
           <BlogViewContainer item={blogData} />
         </Box>
         <Box position="sticky" top={5} right={0} alignSelf="flex-start">
-          <BlogSingleRight item={blogData}/>
+          <BlogSingleRight item={blogData} />
         </Box>
       </Grid>
     </Box>

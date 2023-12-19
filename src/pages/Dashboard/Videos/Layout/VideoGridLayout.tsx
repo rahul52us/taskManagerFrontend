@@ -1,38 +1,60 @@
-import { Grid, Box } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
+import store from "../../../../store/store";
+import VideoCategoryCard from "../../../../config/component/Card/CategoryCard/VideoCategoryCard";
+import SkeletanCategoryCard from "../../../../config/component/Card/CategoryCard/SkeletanCategoryCard";
+import SideFilterContainer from "../../../../config/component/FilterContainer/SideFilterContainer/SideFilterContainer";
 
-import YoutubeVideoCard from "../../../../config/component/Videos/YoutubeVideos/YoutubeVideoCard";
-const videos: string[] = [
-  "XGgQaB-TbaM",
-  "hi0301FRL3g",
-  "3heVqPjpEww",
-  "ULVfS6SkvlY",
-  "B7wsylEjIjQ",
-  "XGgQaB-TbaM",
-  "hi0301FRL3g",
-  "3heVqPjpEww",
-  "ULVfS6SkvlY",
-  "B7wsylEjIjQ",
-  "jPo2DhrFkVM",
-];
+const VideoGridLayout = observer(({ handleClick }: any) => {
+  const {
+    VideoStore: { categories },
+  } = store;
 
-const YoutubeVideoIndex = () => {
   return (
-    <Box p={5}>
+    <Grid
+      templateColumns={{
+        base: "1fr",
+        sm: "1fr",
+        md: "1fr 2fr",
+        lg: "1fr 4fr",
+      }}
+      gap={4}
+      columnGap={3}
+    >
+      <SideFilterContainer
+        data={categories.data || []}
+        loading={categories.loading}
+        filtering={() => {}}
+      />
       <Grid
         templateColumns={{
           base: "1fr",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-          xl: "repeat(4, 1fr)",
+          sm: "1fr",
+          md: "1fr 1fr",
+          lg: "1fr 1fr 1fr 1fr",
+          xl: "1fr 1fr 1fr 1fr",
         }}
-        gap={6}
+        gap={5}
       >
-        {videos.map((item, index) => (
-          <YoutubeVideoCard link={item} key={index} />
+        {categories.data.map((item: any, index: number) => (
+          <VideoCategoryCard
+            link={item?.description}
+            item={item}
+            key={index}
+            handleClick={handleClick}
+          />
         ))}
+        {categories.loading && (
+          <>
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+          </>
+        )}
       </Grid>
-    </Box>
+    </Grid>
   );
-};
+});
 
-export default YoutubeVideoIndex;
+export default VideoGridLayout;

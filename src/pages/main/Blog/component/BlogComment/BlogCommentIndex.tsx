@@ -16,7 +16,7 @@ const BlogCommentIndex = observer(({ item }: any) => {
   } = store;
 
   return (
-    <Box m={{ base: 1, lg: 5 }} p={{ base: 1, lg: 5 }} mt={2}>
+    <Box m={{ base: 1, lg: 5 }} marginTop={3} p={{ base: 1, lg: 5 }} mt={2}>
       <Heading
         fontSize="2xl"
         cursor="pointer"

@@ -1,21 +1,23 @@
 import {
-  Divider,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   Spinner,
+  useColorMode,
+  Flex,
   Text,
 } from "@chakra-ui/react";
 
 function FormModel({ open, close, isCentered, loading, title, children }: any) {
+  const { colorMode } = useColorMode();
+
+  const headerBgColor = colorMode === "dark" ? "blue.900" : "blue.500";
+  const headerTextColor = colorMode === "dark" ? "white" : "white";
+
   const OverlayOne = () => (
-    <ModalOverlay
-      // bg="blackAlpha.300"
-      // backdropFilter="blur(10px) hue-rotate(90deg)"
-    >
+    <ModalOverlay>
       {loading && (
         <Spinner
           thickness="4px"
@@ -38,17 +40,25 @@ function FormModel({ open, close, isCentered, loading, title, children }: any) {
         {open && <OverlayOne />}
         <ModalContent>
           {title && (
-            <>
-              <ModalHeader>
-                <Text color={"gray.600"}>{title}</Text>
-              </ModalHeader>
-              <ModalCloseButton mt={2} />
-              <Divider />
-            </>
+            <Flex
+              justify="space-between"
+              align="center"
+              p={4}
+              bg={headerBgColor}
+              color={headerTextColor}
+            >
+              <Text fontSize="xl">{title}</Text>
+              <ModalCloseButton
+                color={headerTextColor}
+                bg="red.500"
+                _hover={{ color: "#00000" }}
+                size="lg"
+                mt={1}
+              />
+            </Flex>
           )}
 
-          <ModalBody>{children}</ModalBody>
-          <Divider />
+          <ModalBody p={-5}>{children}</ModalBody>
         </ModalContent>
       </Modal>
     </>

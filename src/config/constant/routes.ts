@@ -13,6 +13,7 @@ export const dashboard = {
     testimonial : '/dashboard/testimonial',
     videos:'/dashboard/videos',
     class:'/dashboard/class',
+    course:'/dashboard/courses',
     quiz:'/dashboard/quiz',
     student:{
       index : '/dashboard/students',
@@ -40,11 +41,13 @@ export const main = {
   profileTab: "/profile/:profileTab",
   faq: "/faq",
   blog: "/blog",
+  createBlog: "/blog/create",
   singleBlog:'/blog/:blogTitle',
   addingparaform: "/addingparaform",
   quizIndex:'/quiz',
   quizTitle:'/quiz/:quizTitle',
-  quizQuestionIndex:'/quiz/:quizTitle/:categoryTitle'
+  quizQuestionIndex:'/quiz/:quizTitle/:categoryTitle',
+  individualHomeCompany : '/:individualCompany'
 };
 
 export const privateMain = {

@@ -1,12 +1,22 @@
-import { Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Heading } from "@chakra-ui/react";
+import {
+  Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import { useRef } from "react";
 
 interface CustomDrawerProps {
   open: boolean;
-  title: string;
+  title?: string;
   close: any;
   children: any;
-  size?:string
+  size?: string;
 }
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({
@@ -17,7 +27,10 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
   children,
 }) => {
   const drawerRef = useRef<HTMLDivElement>(null);
+  const { colorMode } = useColorMode();
 
+  const headerBgColor = colorMode === "dark" ? "blue.900" : "blue.500";
+  const headerTextColor = colorMode === "dark" ? "white" : "white";
   const handleCloseDrawer = () => {
     close();
   };
@@ -27,7 +40,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
       isOpen={open}
       placement="right"
       onClose={handleCloseDrawer}
-      size={size ? size : 'xl'}
+      size={size ? size : "xl"}
       finalFocusRef={drawerRef}
     >
       <DrawerOverlay />
@@ -37,17 +50,27 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
           transform: open ? "translateX(0)" : "translateX(100%)",
         }}
       >
-        <DrawerCloseButton />
-        <DrawerHeader ref={drawerRef}>
-          <Heading color="gray.400" fontSize="md">
-            {title}
-          </Heading>
-        </DrawerHeader>
+        {title && (
+          <Flex
+            justify="space-between"
+            alignItems="center"
+            p={4}
+            bg={headerBgColor}
+            color={headerTextColor}
+          >
+            <Text fontSize="xl">{title}</Text>
+            <DrawerCloseButton
+              color={headerTextColor}
+              bg="red.500"
+              _hover={{color : '#00000'}}
+              size="lg"
+              mt={1}
+            />
+          </Flex>
+        )}
         <Divider />
-        <DrawerBody style={{ overflowY: 'auto' }}>
-          <div style={{ minHeight: 'calc(100vh - 245px)' }}>
-            {children}
-          </div>
+        <DrawerBody style={{ overflowY: "auto" }}>
+          <div style={{ minHeight: "calc(100vh - 245px)" }}>{children}</div>
         </DrawerBody>
       </DrawerContent>
     </Drawer>

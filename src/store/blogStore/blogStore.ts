@@ -46,7 +46,8 @@ class BlogStore {
   getSingleBlogs = async (sendData: any) => {
     try {
       this.blogs.loading = true;
-      const { data } = await axios.get(`/blog/${sendData}`);
+      let url = sendData.title ? `title=${sendData.title}` :`blogId=${sendData.blogId}`
+      const { data } = await axios.get(`/blog/?${url}`);
       return data.data;
     } catch (err: any) {
       return Promise.reject(err?.response?.data || err);

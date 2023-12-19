@@ -21,19 +21,27 @@ class QuizStore {
     open: false,
   };
 
+  categoryQuizCount : any = {
+    data : [],
+    loading : true
+  }
+
+
   constructor() {
     makeObservable(this, {
       categories: observable,
       openDeleteCategoryModal: observable,
       dashQuiz: observable,
       questions:observable,
+      categoryQuizCount:observable,
       CreateQuiz:action,
       getCategories: action,
       getDashQuiz: action,
       createCategory: action,
       deleteCategory: action,
       setDeleteCategoryModal: action,
-      getQuestionsByCategory:action
+      getQuestionsByCategory:action,
+      getCategoryQuizCount:action
     });
   }
 
@@ -67,9 +75,8 @@ class QuizStore {
   getDashQuiz = async () => {
     try {
       this.dashQuiz.loading = true;
-      const { data } = await axios.post("/quiz");
+      const { data } = await axios.get("/quiz");
       this.dashQuiz.data = data.data;
-      console.log(data);
       return data;
     } catch (err: any) {
       return Promise.reject(err?.response?.data || err?.message);
@@ -82,8 +89,6 @@ class QuizStore {
     try {
       this.dashQuiz.loading = true;
       const { data } = await axios.post("/quiz");
-      // this.dashQuiz.data = data.data;
-      // console.log(data);
       return data;
     } catch (err: any) {
       return Promise.reject(err?.response?.data || err?.message);
@@ -128,6 +133,19 @@ class QuizStore {
     }
     finally {
       this.questions.loading = false
+    }
+  }
+
+  getCategoryQuizCount = async () => {
+    try {
+      this.categoryQuizCount.loading = true;
+      const { data } = await axios.get(`/quiz/categoryQuizcounts`);
+      this.categoryQuizCount.data = data?.data
+      return data;
+    } catch (err: any) {
+      return Promise.reject(err?.response?.data);
+    } finally {
+      this.categoryQuizCount.loading = false;
     }
   }
 }

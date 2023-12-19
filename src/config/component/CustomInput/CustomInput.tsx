@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -24,11 +25,13 @@ interface CustomInputProps {
     | "password"
     | "number"
     | "text"
+    | "file"
     | "switch"
     | "textarea"
     | "select"
     | "date"
-    | "phone";
+    | "phone"
+    | "file-drag"; // New type for file drag-and-drop
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -37,7 +40,7 @@ interface CustomInputProps {
   minDate?: any;
   disabledDates?: any;
   name: string;
-  isClear?:Boolean;
+  isClear?: boolean;
   onChange?: (value: any) => void;
   value?: any;
   w?: string;
@@ -49,7 +52,11 @@ interface CustomInputProps {
   rows?: number;
   disabled?: boolean;
   showError?: boolean;
+  style?:any;
   phone?: string;
+  // Callback for file drop
+  onFileDrop?: (files: FileList) => void;
+  props?:any
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -69,11 +76,15 @@ const CustomInput: React.FC<CustomInputProps> = ({
   getOptionValue,
   disabled,
   rows,
+  style,
   showError,
   maxDate,
   minDate,
   disabledDates,
   phone,
+  onFileDrop,
+  props,
+  // Added onFileDrop prop
   ...rest
 }) => {
   const theme = useTheme();
@@ -82,6 +93,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleFileDrop = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      const files = event.dataTransfer.files;
+      console.log(files)
+      if (onFileDrop) {
+        onFileDrop(files);
+      }
+    },
+    [onFileDrop]
+  );
 
   const renderInputComponent = () => {
     switch (type) {
@@ -105,12 +128,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
         return (
           <Input
             type="number"
+            style={style}
             value={value}
             onChange={onChange}
             name={name}
             placeholder={placeholder}
             disabled={disabled}
             _placeholder={{ fontSize: "12px" }}
+            {...props}
             {...rest}
           />
         );
@@ -119,6 +144,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           <Input
             type="text"
             placeholder={placeholder}
+            style={style}
             value={value}
             onChange={onChange}
             name={name}
@@ -130,6 +156,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       case "textarea":
         return (
           <Textarea
+            style={style}
             rows={rows || 3}
             placeholder={placeholder}
             value={value}
@@ -141,7 +168,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
           />
         );
       case "switch":
-        return <Switch name={name} {...rest} />;
+        return <Switch             style={style}
+        name={name} {...rest} />;
       case "select":
         return (
           <Select
@@ -213,19 +241,77 @@ const CustomInput: React.FC<CustomInputProps> = ({
                   transform: "translateY(-50%)",
                 }}
               >
-               <Icon as={RiCloseFill} />
+                <Icon as={RiCloseFill} />
               </Button>
             )}
           </div>
         );
       case "editor":
-        return <AdvancedEditor editorState={value} setEditorState={onChange} />;
+        return <AdvancedEditor             style={style}
+         editorState={value} setEditorState={onChange} />;
       case "phone":
-        return <PhoneInput country={"in"} value={value} onChange={onChange} placeholder={placeholder} />;
-
+        return (
+          <PhoneInput
+            country={"in"}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+          />
+        );
+      case "file":
+        return (
+          <Input
+            style={style}
+            type="file"
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            name={name}
+            disabled={disabled}
+            _placeholder={{ fontSize: "12px" }}
+            {...rest}
+          />
+        );
+      // New case for file drag-and-drop
+      case "file-drag":
+        return (
+          <div
+            style={{
+              border: "2px dashed #ddd",
+              borderRadius: "8px",
+              padding: "1rem",
+              textAlign: "center",
+            }}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={handleFileDrop}
+          >
+            <p>Drag & drop files here or click to browse</p>
+            <input
+              type="file"
+              name={name}
+              multiple={isMulti}
+              onChange={onChange}
+              style={{ display: "none" }}
+              id={`multiple-file-upload-with-draggable-${name}`}
+            />
+            <Button
+              colorScheme="blue"
+              onClick={() =>
+                (
+                  document.getElementById(
+                    `multiple-file-upload-with-draggable-${name}`
+                  ) as unknown as HTMLInputElement
+                )?.click()
+              }
+            >
+              Browse
+            </Button>
+          </div>
+        );
       default:
         return (
           <Input
+            style={style}
             type="text"
             placeholder={placeholder}
             value={value}

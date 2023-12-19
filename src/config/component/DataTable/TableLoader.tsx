@@ -1,4 +1,4 @@
-import { Flex, Heading, Spinner, Td, Tr } from "@chakra-ui/react";
+import { Flex, Heading, Spinner, Tbody, Td, Tr } from "@chakra-ui/react";
 
 interface TableLoaderProps {
   loader: boolean;
@@ -9,6 +9,7 @@ interface TableLoaderProps {
 const TableLoader: React.FC<TableLoaderProps> = ({ loader, show, children }) => {
   if (loader) {
     return (
+      <Tbody>
       <Tr>
         <Td colSpan={10} p={5}>
           <Flex justifyContent="center">
@@ -16,21 +17,23 @@ const TableLoader: React.FC<TableLoaderProps> = ({ loader, show, children }) => 
           </Flex>
         </Td>
       </Tr>
+      </Tbody>
     );
   }
 
   if (show === 0) {
     return (
+      <Tbody>
       <Tr>
         <Td colSpan={10} p={5}>
           <Flex justifyContent="center">
-            <Heading fontSize="lg" color="red.400" cursor="pointer">No Related Data are Found</Heading>
+            <Heading fontSize="md" color="red.400" cursor="pointer">No Related Data are Found</Heading>
           </Flex>
         </Td>
       </Tr>
+      </Tbody>
     );
   }
-
   return <>{children}</>;
 };
 
