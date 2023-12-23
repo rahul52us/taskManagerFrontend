@@ -53,6 +53,9 @@ const ChartIndex = observer(({ setQuizTableDrawer }: QuizFormI) => {
           />{" "}
         </Card>
         <Card width={"100%"} minH={350} p={3} boxShadow={CardBoxShadow}>
+          <Button mt={5} onClick={() => setQuizTableDrawer({ open: true })}>
+            Add New
+          </Button>
           <DataTable
             columns={[
               { headerName: "Name", columnName: "name" },
@@ -90,9 +93,6 @@ const ChartIndex = observer(({ setQuizTableDrawer }: QuizFormI) => {
               },
             }}
           />
-          <Button mt={5} onClick={() => setQuizTableDrawer({ open: true })}>
-            Add New
-          </Button>
         </Card>
       </Grid>
     </div>

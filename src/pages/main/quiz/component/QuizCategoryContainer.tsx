@@ -1,59 +1,84 @@
-import { useEffect } from "react";
-import { Box, Grid } from "@chakra-ui/react";
-import QuizCategoryCard from "./QuizCategoryCard";
+import { Grid } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import store from "../../../../store/store";
+import SideFilterContainer from "../../../../config/component/FilterContainer/SideFilterContainer/SideFilterContainer";
 import SkeletanCategoryCard from "../../../../config/component/Card/CategoryCard/SkeletanCategoryCard";
-import { useNavigate } from "react-router-dom";
+import QuizCategoryCard from "../../../../config/component/Card/CategoryCard/QuizCategoryCard";
+import { useEffect } from "react";
 
-const QuizCategoryContainer = observer(() => {
-  const navigate = useNavigate();
+const QuizCategoryContainer = observer(({ handleClick }: any) => {
   const {
-    quiz: { getDashQuiz, dashQuiz },
+    quiz: {
+      dashQuiz: { hasFetch, data, loading },
+      getDashQuiz,
+    },
+    auth : {openNotification}
   } = store;
 
   useEffect(() => {
-    getDashQuiz()
-      .then((data) => {
-        console.log(data);
-      })
-      .catch(() => {});
-  }, [getDashQuiz]);
-
-  const onClickEvent = (item: any) => {
-    sessionStorage.setItem("selectQuiz", JSON.stringify(item));
-    navigate(`/quiz/${item.title?.split(" ")?.join("-")}`, {
-      state: item._id,
-    });
-  };
+    if (!hasFetch) {
+      getDashQuiz()
+        .then(() => {})
+        .catch((err) => {
+          openNotification({ message: err.message, title: "Get Quiz Failed" });
+        });
+    }
+  }, [hasFetch, getDashQuiz, openNotification]);
 
   return (
-    <Box p={5}>
+    <Grid
+      templateColumns={{
+        base: "1fr",
+        sm: "1fr",
+        md: "1fr 2fr",
+        lg: "1fr 4fr",
+      }}
+      gap={4}
+      columnGap={3}
+    >
+      <SideFilterContainer
+        data={data.quiz || []}
+        loading={loading}
+        filtering={() => {}}
+      />
       <Grid
         templateColumns={{
           base: "1fr",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-          xl: "repeat(4, 1fr)",
+          sm: "1fr",
+          md: "1fr",
+          lg: "1fr 1fr",
+          xl: "1fr 1fr 1fr",
         }}
-        gap={6}
+        gap={5}
       >
-        {!dashQuiz.loading
-          ? dashQuiz.data.map((item: any, index: number) => (
-              <Box key={index}>
-                <QuizCategoryCard
-                  item={item}
-                  onChange={(data: any) => {
-                    onClickEvent(data);
-                  }}
-                />
-              </Box>
-            ))
-          : [1, 2, 3, 4, 5].map((item) => {
-              return <SkeletanCategoryCard key={item} />;
-            })}
+        {data?.quiz && data?.quiz?.map((item: any, index: any) => {
+          return (
+            <QuizCategoryCard
+              item={item}
+              thumbnail={item.thumbnail?.url}
+              key={index}
+              title={item.title}
+              description={item.description}
+              username={item?.createdBy?.name}
+              userPic={item?.createdBy?.pic}
+              discountPrice={item.discountPrice}
+              originalPrice={item.originalPrice}
+              rating={item.rating}
+              totalCount={item?.totalChildData}
+              handleClick={handleClick}
+            />
+          );
+        })}
+        {loading && (
+          <>
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+            <SkeletanCategoryCard />
+          </>
+        )}
       </Grid>
-    </Box>
+    </Grid>
   );
 });
 
