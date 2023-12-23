@@ -25,6 +25,9 @@ export const dashboard = {
     },
     staff:{
       index : '/dashboard/staffs'
+    },
+    tripManagement : {
+      index : '/dashboard/trip'
     }
 }
 
