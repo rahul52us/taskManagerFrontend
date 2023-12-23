@@ -51,7 +51,7 @@ const QuizCategoryContainer = observer(({ handleClick }: any) => {
         }}
         gap={5}
       >
-        {data?.quiz?.map((item: any, index: any) => {
+        {data?.quiz && data?.quiz?.map((item: any, index: any) => {
           return (
             <QuizCategoryCard
               item={item}
