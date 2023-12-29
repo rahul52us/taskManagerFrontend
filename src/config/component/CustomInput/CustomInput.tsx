@@ -9,6 +9,9 @@ import {
   useTheme,
   Button,
   Icon,
+  Flex,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 import { RiCloseFill, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { useState } from "react";
@@ -25,6 +28,7 @@ interface CustomInputProps {
     | "password"
     | "number"
     | "text"
+    | "radio"
     | "file"
     | "switch"
     | "textarea"
@@ -52,11 +56,11 @@ interface CustomInputProps {
   rows?: number;
   disabled?: boolean;
   showError?: boolean;
-  style?:any;
+  style?: any;
   phone?: string;
   // Callback for file drop
   onFileDrop?: (files: FileList) => void;
-  props?:any
+  props?: any;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -98,7 +102,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
       const files = event.dataTransfer.files;
-      console.log(files)
+      console.log(files);
       if (onFileDrop) {
         onFileDrop(files);
       }
@@ -167,9 +171,39 @@ const CustomInput: React.FC<CustomInputProps> = ({
             {...rest}
           />
         );
+      case "radio":
+        return (
+          <RadioGroup
+            name={name}
+            value={value}
+            onChange={(val) => onChange && onChange(val)}
+          >
+            <Flex>
+              {options &&
+                options.map((opt) => (
+                  <Radio
+                    key={`${name}-${opt.value}`}
+                    value={opt.value}
+                    isDisabled={disabled}
+                    mr={4}
+                  >
+                    {opt.label}
+                  </Radio>
+                ))}
+            </Flex>
+          </RadioGroup>
+        );
       case "switch":
-        return <Switch             style={style}
-        name={name} {...rest} />;
+        return (
+          <Switch
+            style={style}
+            name={name}
+            onChange={onChange}
+            isChecked={value}
+            {...props}
+            {...rest}
+          />
+        );
       case "select":
         return (
           <Select
@@ -247,8 +281,13 @@ const CustomInput: React.FC<CustomInputProps> = ({
           </div>
         );
       case "editor":
-        return <AdvancedEditor             style={style}
-         editorState={value} setEditorState={onChange} />;
+        return (
+          <AdvancedEditor
+            style={style}
+            editorState={value}
+            setEditorState={onChange}
+          />
+        );
       case "phone":
         return (
           <PhoneInput

@@ -17,6 +17,7 @@ interface CustomDrawerProps {
   close: any;
   children: any;
   size?: string;
+  props?:any
 }
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({
@@ -25,6 +26,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
   close,
   size,
   children,
+  props
 }) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const { colorMode } = useColorMode();
@@ -35,6 +37,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
     close();
   };
 
+  console.log(size)
   return (
     <Drawer
       isOpen={open}
@@ -42,12 +45,15 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
       onClose={handleCloseDrawer}
       size={size ? size : "xl"}
       finalFocusRef={drawerRef}
+
+      {...props}
     >
       <DrawerOverlay />
       <DrawerContent
         css={{
           transition: "transform 0.1s ease-out",
           transform: open ? "translateX(0)" : "translateX(100%)",
+          ...props
         }}
       >
         {title && (

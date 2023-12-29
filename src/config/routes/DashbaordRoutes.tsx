@@ -61,7 +61,7 @@ const StaffIndex = lazy(
 // trip
 
 const TripManagementIndex = lazy(
-  () => import("../../pages/Dashboard/ExpenseManagement/TripManagement")
+  () => import("../../pages/Dashboard/Trip/TripManagement")
 );
 export const DashboardRoutes = [
   {
