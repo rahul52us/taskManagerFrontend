@@ -1,9 +1,10 @@
-import { observer } from "mobx-react-lite"
+import React from 'react'
 
-const EditTripForm = observer(() => {
+const EditTripForm = () => {
+  console.log(React)
   return (
     <div>EditTripForm</div>
   )
-})
+}
 
 export default EditTripForm
