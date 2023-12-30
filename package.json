@@ -22,6 +22,8 @@
     "axios": "^1.4.0",
     "chakra-dayzed-datepicker": "^0.2.9",
     "chart.js": "^4.3.0",
+    "countries-states-cities": "^1.0.6",
+    "country-state-city": "^3.2.1",
     "crypto-js": "^4.1.1",
     "dayzed": "^3.2.3",
     "draft-js": "^0.11.7",

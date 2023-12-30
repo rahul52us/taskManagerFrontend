@@ -15,6 +15,7 @@ import ClassStore from "./classStore/ClassStore";
 import ExamStore from "./examStore/examStore";
 import BlogStore from './blogStore/blogStore'
 import StudentStore from "./userTypes/StudentStore";
+import TripStore from './tripStore/tripStore'
 configure({ enforceActions: "never" });
 
 const store = {
@@ -33,6 +34,7 @@ const store = {
   classStore: new ClassStore(),
   ExamStore: new ExamStore(),
   BlogStore: new BlogStore(),
+  tripStore: new TripStore(),
   // users
   Student: new StudentStore(),
 };

@@ -8,28 +8,30 @@ export const authentication = {
     createOrganisationStep1:'/create/company',
 }
 
+const dashboardName = "dashboard";
+
 export const dashboard = {
-    home:'/dashboard',
-    testimonial : '/dashboard/testimonial',
-    videos:'/dashboard/videos',
-    class:'/dashboard/class',
-    course:'/dashboard/courses',
-    quiz:'/dashboard/quiz',
-    student:{
-      index : '/dashboard/students',
-      table : '/dashboard/students/:type',
-      profile : '/dashboard/students/class/:className/:profileTab'
+    home: `/${dashboardName}`,
+    testimonial: `/${dashboardName}/testimonial`,
+    videos: `/${dashboardName}/videos`,
+    class: `/${dashboardName}/class`,
+    course: `/${dashboardName}/courses`,
+    quiz: `/${dashboardName}/quiz`,
+    student: {
+        index: `/${dashboardName}/students`,
+        table: `/${dashboardName}/students/:type`,
+        profile: `/${dashboardName}/students/class/:className/:profileTab`,
     },
-    teacher:{
-      index : '/dashboard/teachers'
+    teacher: {
+        index: `/${dashboardName}/teachers`,
     },
-    staff:{
-      index : '/dashboard/staffs'
+    staff: {
+        index: `/${dashboardName}/staffs`,
     },
-    tripManagement : {
-      index : '/dashboard/trip'
-    }
-}
+    tripManagement: {
+        index: `/${dashboardName}/trip`,
+    },
+};
 
 export const main = {
   home: "/",

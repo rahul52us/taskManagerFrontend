@@ -23,4 +23,10 @@ const coursesBreadCrumb = [
   { label: "Courses" },
 ];
 
-export {videoBreadCrumb, coursesBreadCrumb, quizBreadCrumb, dashBreadCrumb}
+const tripBreadCrumb = [
+  { label: "Home", link: "/" },
+  { label: "Dashboard", link: dashboard.home },
+  { label: "Trip" },
+];
+
+export {videoBreadCrumb, coursesBreadCrumb, quizBreadCrumb, dashBreadCrumb,tripBreadCrumb}

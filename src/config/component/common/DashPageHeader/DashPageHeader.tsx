@@ -72,12 +72,11 @@ const DashPageHeader = observer(
                 leftIcon={titleIcon}
                 onClick={btnAction}
                 colorScheme="blue"
-                variant="solid" // Change to "solid" for a filled button
+                variant="solid"
                 size="sm"
-                // Customize other button styles here
                 _hover={{
                   bg: theme.colors.blue[600],
-                  color: "white",
+                  color: "white"
                 }}
               >
                 {btnTitle}
