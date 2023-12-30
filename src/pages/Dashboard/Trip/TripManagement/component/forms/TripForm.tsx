@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { FaPlus, FaTimes } from "react-icons/fa";
@@ -17,10 +18,16 @@ import {
   removeDataByIndex,
 } from "../../../../../../config/constant/function";
 import ShowFileUploadFile from "../../../../../../config/component/common/ShowFileUploadFile/ShowFileUploadFile";
-import { travelModes, tripTypes } from "../../utils/constant";
+import {
+  categoryTypes,
+  participants,
+  travelModes,
+  tripTypes,
+} from "../../utils/constant";
 
-const AddTravelDetailButton: React.FC<{ onClick: () => void }> = ({
+const AddDetailButton: React.FC<{ title: string; onClick: () => void }> = ({
   onClick,
+  title,
 }) => (
   <Button
     type="button"
@@ -30,7 +37,7 @@ const AddTravelDetailButton: React.FC<{ onClick: () => void }> = ({
     variant="solid"
     size="sm"
   >
-    Add Travel Detail
+    {title}
   </Button>
 );
 
@@ -84,84 +91,92 @@ const TripForm = ({
                   </Flex>
                 </GridItem>
               </SimpleGrid>
-              <Grid
-                columnGap={4}
-                templateColumns={{ base: "1fr", lg: "1fr 1fr 1fr" }}
+              {/* For the main trip title */}
+              <Text fontWeight="bold" mt={3}>Trip Details</Text>
+              <Box
+                p={4}
+                borderRadius="md"
+                borderWidth={3}
+                boxShadow="md"
+                mt={3}
+                pb={8}
               >
-                <GridItem>
-                  <CustomInput
-                    name="title"
-                    placeholder="Enter the Title"
-                    label="Title"
-                    required={true}
-                    onChange={handleChange}
-                    value={values.title}
-                  />
-                </GridItem>
-                <GridItem>
-                  <CustomInput
-                    label="Trip Type"
-                    required={true}
-                    type="select"
-                    name="type"
-                    value={values.type}
-                    options={tripTypes}
-                    onChange={(e: any) => setFieldValue("type", e)}
-                  />
-                </GridItem>
-                <GridItem>
-                  <CountrySelect
-                    label="Countries"
-                    name={`country`}
-                    value={values.country}
-                    onChange={(e) => {
-                      setFieldValue(`country`, e);
-                    }}
-                  />
-                </GridItem>
-                {values.type && values.type?.value === "group" && (
+                <Grid
+                  columnGap={4}
+                  templateColumns={{ base: "1fr", lg: "1fr 1fr 1fr" }}
+                >
+                  <GridItem>
+                    <CustomInput
+                      name="title"
+                      placeholder="Enter the Title"
+                      label="Title"
+                      required={true}
+                      onChange={handleChange}
+                      value={values.title}
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <CustomInput
+                      label="Trip Type"
+                      required={true}
+                      type="select"
+                      name="type"
+                      value={values.type}
+                      options={tripTypes}
+                      onChange={(e: any) => setFieldValue("type", e)}
+                    />
+                  </GridItem>
                   <GridItem>
                     <CountrySelect
-                      label="Participants"
-                      placeholder="Select Participants"
+                      label="Countries"
                       name={`country`}
                       value={values.country}
                       onChange={(e) => {
                         setFieldValue(`country`, e);
                       }}
-                      props={{isMulti : true}}
                     />
                   </GridItem>
-                )}
-              </Grid>
-              <GridItem colSpan={2}>
-                <CustomInput
-                  type="textarea"
-                  name="description"
-                  placeholder="Enter the Description"
-                  label="Description"
-                  required={true}
-                  onChange={handleChange}
-                  value={values.description}
-                />
-              </GridItem>
+                  {values.type && values.type?.value === tripTypes[1].value && (
+                    <GridItem>
+                      <CustomInput
+                        type="select"
+                        label="Participants"
+                        placeholder="Select Participants"
+                        name={`participants`}
+                        options={participants}
+                        value={values.participants}
+                        onChange={(e) => {
+                          setFieldValue(`participants`, e);
+                        }}
+                        isMulti={true}
+                      />
+                    </GridItem>
+                  )}
+                </Grid>
+              </Box>
+              {/* for the travels details */}
               <Box mt={4}>
                 <Flex alignItems="center">
                   <Box flexGrow={1}>
                     <strong>Travel Details</strong>
                   </Box>
-                  <AddTravelDetailButton
+                  <AddDetailButton
+                    title="Add Travel Details"
                     onClick={() => {
                       setFieldValue("travelDetails", [
                         ...values.travelDetails,
                         {
-                          state: "",
-                          city: "",
+                          fromState: "",
+                          toState: "",
+                          fromCity: "",
+                          toCity: "",
                           locality: "",
                           startDate: new Date(),
                           endDate: new Date(),
                           isCab: false,
                           travelMode: "",
+                          travelCost: "",
+                          cabCost: "",
                         },
                       ]);
                     }}
@@ -169,42 +184,95 @@ const TripForm = ({
                 </Flex>
                 <FieldArray name="travelDetails">
                   {({ remove }) => (
-                    <SimpleGrid columns={1} spacing={4}>
+                    <Grid>
                       {values.travelDetails.map((travel: any, index: any) => (
                         <Box
                           key={index}
                           p={4}
                           borderRadius="md"
+                          borderWidth={3}
                           boxShadow="md"
-                          bg="gray.100"
+                          mt={3}
                         >
-                          <Grid templateColumns="repeat(3, 1fr)" gap={4} mt={2}>
-                            <StateSelect
-                              name={`travelDetails[${index}].state`}
-                              country={values.country}
-                              label="State"
-                              onChange={(e: any) => {
-                                setFieldValue(
-                                  `travelDetails[${index}].state`,
-                                  e
-                                );
-                                setFieldValue(
-                                  `travelDetails[${index}].city`,
-                                  ""
-                                );
-                              }}
-                              value={travel.state}
-                            />
-                            <CitySelect
-                              country={values.country}
-                              state={travel.state}
-                              name={`travelDetails[${index}].city`}
-                              label="City"
-                              onChange={(e: any) =>
-                                setFieldValue(`travelDetails[${index}].city`, e)
-                              }
-                              value={travel.city}
-                            />
+                          <Grid
+                            templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
+                            gap={2}
+                            columnGap={4}
+                          >
+                            <Box>
+                              <Text fontWeight="bold">From</Text>
+                              <Grid
+                                templateColumns={{ base: "1fr 1fr" }}
+                                gap={2}
+                              >
+                                <StateSelect
+                                  name={`travelDetails[${index}].fromState`}
+                                  country={values.country}
+                                  label="State"
+                                  onChange={(e: any) => {
+                                    setFieldValue(
+                                      `travelDetails[${index}].fromState`,
+                                      e
+                                    );
+                                    setFieldValue(
+                                      `travelDetails[${index}].fromCity`,
+                                      ""
+                                    );
+                                  }}
+                                  value={travel.fromState}
+                                />
+                                <CitySelect
+                                  country={values.country}
+                                  state={travel.fromState}
+                                  name={`travelDetails[${index}].fromCity`}
+                                  label="City"
+                                  onChange={(e: any) =>
+                                    setFieldValue(
+                                      `travelDetails[${index}].fromCity`,
+                                      e
+                                    )
+                                  }
+                                  value={travel.fromCity}
+                                />
+                              </Grid>
+                            </Box>
+                            <Box>
+                              <Text fontWeight="bold">To</Text>
+                              <Grid
+                                templateColumns={{ base: "1fr 1fr" }}
+                                gap={2}
+                              >
+                                <StateSelect
+                                  name={`travelDetails[${index}].toState`}
+                                  country={values.country}
+                                  label="State"
+                                  onChange={(e: any) => {
+                                    setFieldValue(
+                                      `travelDetails[${index}].toState`,
+                                      e
+                                    );
+                                    setFieldValue(
+                                      `travelDetails[${index}].toCity`,
+                                      ""
+                                    );
+                                  }}
+                                  value={travel.toState}
+                                />
+                                <CitySelect
+                                  country={values.country}
+                                  state={travel.toState}
+                                  name={`travelDetails[${index}].toCity`}
+                                  label="City"
+                                  onChange={(e: any) =>
+                                    setFieldValue(
+                                      `travelDetails[${index}].toCity`,
+                                      e
+                                    )
+                                  }
+                                  value={travel.toCity}
+                                />
+                              </Grid>
+                            </Box>
                           </Grid>
                           <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={2}>
                             <CustomInput
@@ -251,91 +319,104 @@ const TripForm = ({
                               }}
                               label="Travel Mode"
                             />
-                            <CustomInput
-                              label="Amount"
-                              type="text"
-                              name={`travelDetails[${index}].amount`}
-                              onChange={handleChange}
-                              value={travel.amount}
-                            />
-                          </Grid>
-                          <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={2}>
-                            <CustomInput
-                              name={`travelDetails[${index}].isCab`}
-                              type="radio"
-                              label="Do you need a Cab?"
-                              options={[
-                                { value: "true", label: "Yes" },
-                                { value: "false", label: "No" },
-                              ]}
-                              value={travel.isCab}
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `travelDetails[${index}].isCab`,
-                                  e
-                                )
-                              }
-                            />
-                            {travel.isCab === "true" && (
+                            {travel.travelMode && (
                               <CustomInput
                                 label="Amount"
-                                type="text"
-                                name={`travelDetails[${index}].amount`}
+                                type="number"
+                                name={`travelDetails[${index}].travelCost`}
                                 onChange={handleChange}
-                                value={travel.amount}
+                                value={travel.travelCost}
                               />
                             )}
                           </Grid>
-                          <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={2}>
-                            <CustomInput
-                              name={`travelDetails[${index}].isAccommodation`}
-                              type="radio"
-                              label="Do you need Accommodation?"
-                              options={[
-                                { value: "true", label: "Yes" },
-                                { value: "false", label: "No" },
-                              ]}
-                              value={travel.isAccommodation}
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `travelDetails[${index}].isAccommodation`,
-                                  e
-                                )
-                              }
-                            />
-                            {travel.isAccommodation === "true" && (
-                              <Box>
+                          {travel.travelCost && (
+                            <Grid
+                              templateColumns="repeat(2, 1fr)"
+                              gap={4}
+                              mt={2}
+                            >
+                              <CustomInput
+                                name={`travelDetails[${index}].isCab`}
+                                type="radio"
+                                label="Do you need a Cab?"
+                                options={[
+                                  { value: "true", label: "Yes" },
+                                  { value: "false", label: "No" },
+                                ]}
+                                value={travel.isCab}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `travelDetails[${index}].isCab`,
+                                    e
+                                  )
+                                }
+                              />
+                              {travel.isCab === "true" && (
                                 <CustomInput
-                                  type="textarea"
-                                  name={`travelDetails[${index}].locality`}
-                                  placeholder="Locality"
-                                  label="Locality"
-                                  required={true}
-                                  onChange={handleChange}
-                                  value={travel.locality}
-                                />
-                                <CustomInput
+                                  label="Amount"
                                   type="number"
-                                  name={`travelDetails[${index}].durationOfStay`}
-                                  placeholder="No. of Days for Stays"
-                                  label="No. Of Days For Stays"
-                                  required={true}
+                                  name={`travelDetails[${index}].cabCost`}
                                   onChange={handleChange}
-                                  value={travel.durationOfStay}
+                                  value={travel.cabCost}
                                 />
-                                <CustomInput
-                                  type="number"
-                                  name={`travelDetails[${index}].accommodationCost`}
-                                  placeholder="Accommodation Total Cost"
-                                  label="Accommodation Total Cost"
-                                  required={true}
-                                  onChange={handleChange}
-                                  value={travel.accommodationCost}
-                                />
-                              </Box>
-                            )}
-                          </Grid>
-
+                              )}
+                            </Grid>
+                          )}
+                          {travel.travelCost && (
+                            <Grid
+                              // templateColumns="repeat(2, 1fr)"
+                              gap={4}
+                              mt={2}
+                            >
+                              <CustomInput
+                                name={`travelDetails[${index}].isAccommodation`}
+                                type="radio"
+                                label="Do you need Accommodation?"
+                                options={[
+                                  { value: "true", label: "Yes" },
+                                  { value: "false", label: "No" },
+                                ]}
+                                value={travel.isAccommodation}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `travelDetails[${index}].isAccommodation`,
+                                    e
+                                  )
+                                }
+                              />
+                              {travel.isAccommodation === "true" && (
+                                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                                  <CustomInput
+                                    type="text"
+                                    name={`travelDetails[${index}].locality`}
+                                    placeholder="Locality"
+                                    label="Locality"
+                                    required={true}
+                                    onChange={handleChange}
+                                    value={travel.locality}
+                                  />
+                                  <CustomInput
+                                    type="number"
+                                    name={`travelDetails[${index}].durationOfStay`}
+                                    placeholder="No. of Days for Stays"
+                                    label="No. Of Days For Stays"
+                                    required={true}
+                                    onChange={handleChange}
+                                    value={travel.durationOfStay}
+                                  />
+                                  <CustomInput
+                                    type="number"
+                                    name={`travelDetails[${index}].accommodationCost`}
+                                    placeholder="Accommodation Total Cost"
+                                    label="Accommodation Total Cost"
+                                    required={true}
+                                    onChange={handleChange}
+                                    value={travel.accommodationCost}
+                                  />
+                                </Grid>
+                              )}
+                            </Grid>
+                          )}
                           <Button
                             type="button"
                             mt={4}
@@ -349,10 +430,96 @@ const TripForm = ({
                           </Button>
                         </Box>
                       ))}
-                    </SimpleGrid>
+                    </Grid>
                   )}
                 </FieldArray>
               </Box>
+              {/* For the additional expenses */}
+              <Grid mt={4}>
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Text fontWeight="bold">Additional Expenses</Text>
+                  <AddDetailButton
+                    title="Add Expenses"
+                    onClick={() => {
+                      setFieldValue("additionalExpenses", [
+                        ...values.additionalExpenses,
+                        {
+                          type: "",
+                          amount: "",
+                        },
+                      ]);
+                    }}
+                  />
+                </Flex>
+                <FieldArray name="additionalExpenses">
+                  {({ remove }) => (
+                    <Grid>
+                      {values.additionalExpenses.map(
+                        (addition: any, index: any) => (
+                          <Box
+                            key={index}
+                            p={4}
+                            borderRadius="md"
+                            borderWidth={3}
+                            boxShadow="md"
+                            mt={3}
+                          >
+                            <Grid
+                              templateColumns={{ base: "1fr", sm: "1fr 1fr" }}
+                              columnGap={4}
+                            >
+                              <CustomInput
+                                label="Trip Type"
+                                required={true}
+                                type="select"
+                                name="type"
+                                value={addition.type}
+                                options={categoryTypes}
+                                onChange={(e: any) =>
+                                  setFieldValue(
+                                    `additionalExpenses[${index}].type`,
+                                    e
+                                  )
+                                }
+                              />
+                              <CustomInput
+                                type="number"
+                                name={`additionalExpenses[${index}].amount`}
+                                value={addition.amount}
+                                placeholder="Amount"
+                                label="Amount"
+                                onChange={handleChange}
+                              />
+                            </Grid>
+                            <Button
+                              type="button"
+                              mt={4}
+                              onClick={() => remove(index)}
+                              leftIcon={<FaTimes />}
+                              colorScheme="red"
+                              variant="outline"
+                              size="sm"
+                            >
+                              Remove
+                            </Button>
+                          </Box>
+                        )
+                      )}
+                    </Grid>
+                  )}
+                </FieldArray>
+              </Grid>
+              <GridItem colSpan={2}>
+                <CustomInput
+                  type="textarea"
+                  name="description"
+                  placeholder="Enter the Description"
+                  label="Description"
+                  required={true}
+                  onChange={handleChange}
+                  value={values.description}
+                />
+              </GridItem>
               <Flex justifyContent="end" mt={5} mr={3}>
                 <Button
                   type="button"

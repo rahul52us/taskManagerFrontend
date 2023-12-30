@@ -16,7 +16,9 @@ const AddTripForm = observer(({ tripFormData, setTripFormData }: any) => {
   const [thumbnail, setThumbnail] = useState<any>([]);
 
   const submitForm = async (values: any, resetForm: any) => {
-    setLoading(true);
+    // setLoading(true);
+    console.log('the values is', values)
+    return
     if (thumbnail.length) {
       const buffer = await readFileAsBase64(thumbnail[0]);
       const fileData = {
@@ -55,15 +57,16 @@ const AddTripForm = observer(({ tripFormData, setTripFormData }: any) => {
 
   interface TravelDetails {
     country?: string;
-    state?: string;
+    fromState?: string;
+    toState?:string;
     fromCity?: string;
     toCity?: string;
     startDate?: Date;
     endDate?: Date;
     travelMode?: string;
-    amount?: string;
+    travelCost?: string;
     isCab?: string;
-    cabFair?: string;
+    cabCost?: string;
     isAccommodation?: string;
     locality?: string;
     durationOfStay?: number;
@@ -93,15 +96,16 @@ const AddTripForm = observer(({ tripFormData, setTripFormData }: any) => {
     type: "individual",
     travelDetails: [
       {
-        state: "",
+        fromState: "",
+        toState:"",
         fromCity: "",
         toCity: "",
         startDate: new Date(),
         endDate: new Date(),
         travelMode: "",
-        amount: "",
+        travelCost: "",
         isCab: "false",
-        cabFair: "",
+        cabCost: "",
         isAccommodation: "false",
         locality: "",
         durationOfStay: 0,
