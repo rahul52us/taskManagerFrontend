@@ -8,9 +8,12 @@ interface StateSelectProps {
   onChange: (value: string) => void;
   name: string;
   label?: string;
+  showError?:boolean;
+  error?:any
+
 }
 
-const StateSelect: React.FC<StateSelectProps> = ({ country, value, onChange, name, label }) => {
+const StateSelect: React.FC<StateSelectProps> = ({ country, value, onChange, name, label, showError, error }) => {
   const [states, setStates] = useState<any[]>([]);
   const [selectedStates,setSelectedState ]  = useState<any>(value)
 
@@ -57,6 +60,8 @@ const StateSelect: React.FC<StateSelectProps> = ({ country, value, onChange, nam
       getOptionValue={(option) => option.isoCode}
       onChange={handleStateChange}
       placeholder="Select State"
+      showError={showError}
+      error={error}
     />
   );
 };

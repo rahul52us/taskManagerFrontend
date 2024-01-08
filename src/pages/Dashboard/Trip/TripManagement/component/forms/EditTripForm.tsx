@@ -1,9 +1,7 @@
-import { observer } from "mobx-react-lite"
-
-const EditTripForm = observer(() => {
+import {Box} from '@chakra-ui/react'
+const EditTripForm = () => {
   return (
-    <div>EditTripForm</div>
+    <Box>EditTripForm</Box>
   )
-})
-
-export default EditTripForm
+}
+export default EditTripForm;

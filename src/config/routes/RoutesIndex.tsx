@@ -11,7 +11,9 @@ import PrivateMainLayout from "../layout/PrivateMainLayout/PrivateMainLayout";
 import store from "../../store/store";
 
 const RouterIndex = observer(() => {
-  const {auth : {user}} = store
+  const {
+    auth: { user },
+  } = store;
 
   return (
     <Routes>
@@ -23,8 +25,9 @@ const RouterIndex = observer(() => {
 
       <Route element={<MainLayout />}>
         {MainPublicRoutes.map((item, index) =>
-          user === null && item.publicRoute === false ? null :
-          <Route key={index} path={item.path} element={item.element} />
+          user === null && item.publicRoute === false ? null : (
+            <Route key={index} path={item.path} element={item.element} />
+          )
         )}
       </Route>
 

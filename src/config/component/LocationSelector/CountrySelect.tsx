@@ -8,10 +8,12 @@ interface CountrySelectProps {
   name: string;
   label?: string;
   placeholder?:string;
-  props?:any
+  props?:any;
+  showError?:boolean;
+  error?:any
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({ label, name, value, onChange, placeholder,props }) => {
+const CountrySelect: React.FC<CountrySelectProps> = ({ label, name, value, onChange, placeholder, showError, error , props }) => {
   const [countries, setCountries] = useState<any[]>([]);
 
   useEffect(() => {
@@ -42,6 +44,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ label, name, value, onCha
       getOptionLabel={(option) => option.name}
       getOptionValue={(option) => option.isoCode}
       onChange={handleCountryChange}
+      showError={showError}
+      error={error}
       placeholder={placeholder ? placeholder : "Select Country"}
       {...props}
     />
