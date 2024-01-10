@@ -5,15 +5,31 @@ import TripChartContainer from "./component/TripChartContainer/TripChartContaine
 import TripLayout from "./layout/TripLayout";
 import { useState } from "react";
 import AddTripForm from "./component/forms/AddTripForm";
+import EditTripForm from "./component/forms/EditTripForm";
 
 const TripManagement = observer(() => {
-  const [tripFormData, setTripFormData] = useState({open : false, type : 'add'})
+  const [tripFormData, setTripFormData] = useState({
+    open: false,
+    type: "add",
+    data: null,
+  });
   return (
     <div>
       <DashPageHeader breadcrumb={tripBreadCrumb} />
-      <TripChartContainer addData={() => setTripFormData({ open : true, type : 'add' })}/>
-      <TripLayout />
-      <AddTripForm tripFormData={tripFormData} setTripFormData={setTripFormData} />
+      <TripChartContainer
+        addData={() => setTripFormData({ open: true, type: "add", data: null })}
+      />
+      <TripLayout setTripFormData={setTripFormData} />
+      <AddTripForm
+        tripFormData={tripFormData}
+        setTripFormData={setTripFormData}
+      />
+      {tripFormData?.type === "edit" && (
+        <EditTripForm
+          tripFormData={tripFormData}
+          setTripFormData={setTripFormData}
+        />
+      )}
     </div>
   );
 });

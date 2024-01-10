@@ -45,7 +45,7 @@ const AddTripForm = observer(({ tripFormData, setTripFormData }: any) => {
   return (
     <CustomDrawer
       title={`Create Trip`}
-      open={tripFormData.open}
+      open={tripFormData.open && tripFormData?.type === "add"}
       close={() => {
         setTripFormData({ open: false, data: null, type: "add" });
       }}

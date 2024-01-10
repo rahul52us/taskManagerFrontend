@@ -135,7 +135,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
             value={value}
             onKeyDown={(e: any) => {
               const regex = /^[0-9]*$/;
-
               if (e.key === "Backspace") {
                 const newValue = e.target?.value?.slice(0, -1);
                 onChange &&

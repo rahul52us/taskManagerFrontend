@@ -1,5 +1,4 @@
 import {
-Flex,
 Box,
 Checkbox,
 Stack,
@@ -8,7 +7,6 @@ Button,
 Heading,
 Text,
 useColorModeValue,
-useMediaQuery,
 } from "@chakra-ui/react";
 import CustomInput from "../../../config/component/CustomInput/CustomInput";
 import { Form, Formik } from "formik";
@@ -24,24 +22,12 @@ const {
   Organisation : {createOrganisationUser}
 } = store;
 const navigate = useNavigate();
-const [isBelowMd] = useMediaQuery("(max-width: md)");
 
 return (
-  <Flex
-    minH={"100vh"}
-    align={"center"}
-    justify={"center"}
-    bg={useColorModeValue("gray.50", "gray.800")}
-  >
-    <Stack
-      spacing={8}
-      mx="auto"
-      maxW="lg"
-      py={12}
-      px={2}
-      minW={isBelowMd ? "100%" : "30%"}
-    >
-      <Stack align={"center"}>
+  <Box
+    bg={useColorModeValue("", "gray.800")}
+  > 
+      <Stack align={"center"} mb={10}>
         <Heading fontSize={"4xl"}>Create Organisation</Heading>
         <Text fontSize={"lg"} color={"gray.600"}>
           to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
@@ -123,8 +109,7 @@ return (
           )}
         </Formik>
       </Box>
-    </Stack>
-  </Flex>
+  </Box>
 );
 });
 

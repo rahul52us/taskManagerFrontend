@@ -1,5 +1,4 @@
 import {
-  Flex,
   Box,
   FormControl,
   FormLabel,
@@ -15,17 +14,14 @@ import {
 
 const Register = () => {
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+    <Box
+      bg={useColorModeValue("", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
+      <Stack align={"center"} mb={10}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+            to enjoy all of
+             our cool <Link color={"blue.400"}>features</Link> ✌️
           </Text>
         </Stack>
         <Box
@@ -64,8 +60,7 @@ const Register = () => {
             </Stack>
           </Stack>
         </Box>
-      </Stack>
-    </Flex>
+    </Box>
   );
 };
 

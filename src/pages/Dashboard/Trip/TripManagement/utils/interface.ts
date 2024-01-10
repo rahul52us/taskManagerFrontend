@@ -47,8 +47,7 @@ export interface TripFormI {
   loading : boolean,
   onClose : any,
   onSubmit : any,
-   thumbnail : any,
+  thumbnail : any,
   setThumbnail : any,
-
-
+  isEdit? : boolean
 }

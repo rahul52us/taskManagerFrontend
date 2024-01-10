@@ -38,13 +38,13 @@ export const initialValues: TripFormValues = {
       startDate: new Date(),
       endDate: new Date(),
       travelMode: { label: travelModes[1].label, value: travelModes[1].value },
-      travelCost: "",
+      travelCost: undefined,
       isCab: "false",
-      cabCost: "",
+      cabCost: undefined,
       isAccommodation: "false",
       locality: "",
-      durationOfStay: 0,
-      accommodationCost: 0,
+      durationOfStay: undefined,
+      accommodationCost: undefined,
     },
   ],
   additionalExpenses: [
@@ -54,4 +54,42 @@ export const initialValues: TripFormValues = {
     },
   ],
   participants: [{ label: "", value: "" }],
+};
+
+export const getInitialValues = (data : any) => {
+  return {
+    title: data?.title || "",
+    description: data?.description || "",
+    thumbnail: "",
+    country: data.country || "IN",
+    type: { label: tripTypes[0].label, value: tripTypes[0].value },
+    travelDetails: [
+      {
+        fromState: "",
+        toState: "",
+        fromCity: "",
+        toCity: "",
+        startDate: new Date(),
+        endDate: new Date(),
+        travelMode: {
+          label: travelModes[1].label,
+          value: travelModes[1].value,
+        },
+        travelCost: undefined,
+        isCab: "false",
+        cabCost: undefined,
+        isAccommodation: "false",
+        locality: "",
+        durationOfStay: undefined,
+        accommodationCost: undefined,
+      },
+    ],
+    additionalExpenses: [
+      {
+        type: { label: categoryTypes[0].label, value: categoryTypes[0].value },
+        amount: "",
+      },
+    ],
+    participants: [{ label: "", value: "" }],
+  };
 };
