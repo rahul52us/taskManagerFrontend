@@ -13,7 +13,7 @@ import { BiBookmark } from "react-icons/bi";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 
-const VideoWrapper = styled(Box)`
+const ThumbnailWrapper = styled(Box)`
   position: relative;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@ const ThumbnailElementNoImage = styled(Box)`
   background-color: lightgray;
 `;
 
-const VideoThumbnail = styled(Image)`
+const ThumbnailCard = styled(Image)`
   position: absolute;
   top: 0;
   left: 0;
@@ -45,26 +45,26 @@ const VideoThumbnail = styled(Image)`
   background-color: lightgray;
 `;
 
-const TripCard = observer(({ item, handleClick }: any) => {
+const TripCard = observer(({ setTripFormData, item, handleClick }: any) => {
   const [thumbnailLoadError, setThumbnailLoadError] = useState(false);
   const bookmarkColor = useColorModeValue("gray.600", "gray.500");
   const { title, description, thumbnail } = item;
 
   return (
     <Card p={2} borderRadius="8px" overflow="hidden">
-      <VideoWrapper>
+      <ThumbnailWrapper>
         {thumbnailLoadError ? (
           <ThumbnailElementNoImage />
         ) : (
-          <VideoThumbnail
-            src={thumbnail}
-            alt={thumbnail}
+          <ThumbnailCard
+            src={thumbnail?.url}
+            alt={thumbnail?.name || "Image Not Found"}
             onError={() => {
               setThumbnailLoadError(true);
             }}
           />
         )}
-      </VideoWrapper>
+      </ThumbnailWrapper>
       <Flex mt={5} justify="space-between" alignItems="center">
         <IconButton
           icon={<BiBookmark />}
@@ -80,7 +80,10 @@ const TripCard = observer(({ item, handleClick }: any) => {
           color={bookmarkColor}
           _hover={{ color: "blue" }}
           transition="0.5s ease-in-out"
-          onClick={() => handleClick && handleClick(item)}
+          onClick={() => {
+            handleClick && handleClick(item);
+            setTripFormData({ open: true, data: item, type: "edit" });
+          }}
         >
           {title}
         </Heading>
@@ -96,7 +99,7 @@ const TripCard = observer(({ item, handleClick }: any) => {
         {description}
       </Text>
       <Text mt={2} fontSize="sm" color="gray.500">
-        Total Videos
+        Total Travels {item?.travelDetails?.length}
       </Text>
     </Card>
   );

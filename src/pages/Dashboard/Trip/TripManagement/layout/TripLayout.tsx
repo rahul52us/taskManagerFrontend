@@ -1,83 +1,45 @@
 import { observer } from "mobx-react-lite";
 import TripCard from "../component/TripCard";
 import { Grid } from "@chakra-ui/react";
-const TripLayout = observer(() => {
-return (
+import store from "../../../../../store/store";
+import { useEffect } from "react";
+const TripLayout = observer(({setTripFormData} : any) => {
+  const {
+    tripStore: {
+      getAllTrip,
+      trips: { hasFetch, data },
+    },
+    auth: { openNotification },
+  } = store;
+
+  useEffect(() => {
+    if (!hasFetch) {
+      getAllTrip()
+        .then(() => {})
+        .catch((err) => {
+          openNotification({ message: err.message, title: "Failed to Get Trips" });
+        });
+    }
+  }, [hasFetch, getAllTrip, openNotification]);
+
+  return (
     <div>
-    <Grid
+      <Grid
         templateColumns={{
-        base: "1fr",
-        sm: "1fr 1fr",
-        md: "1fr 1fr 1fr",
-        lg: "1fr 1fr 1fr 1fr",
+          base: "1fr",
+          sm: "1fr 1fr",
+          md: "1fr 1fr 1fr",
+          lg: "1fr 1fr 1fr 1fr",
         }}
         gap={4}
         columnGap={3}
-    >
-        {[
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        {
-            thumbnail:
-            "https://res.cloudinary.com/dsckn1jjj/image/upload/v1700761827/taskManager/spooky-tree-against-big-moon_1048-2912.avif",
-            title: "new Trip",
-            description:
-            "here is an description for the users and it is good to see you",
-        },
-        ].map((item: any, index: number) => {
-        return <TripCard key={index} item={item} />;
+      >
+        {data.map((item: any, index: number) => {
+          return <TripCard key={index} item={item} setTripFormData={setTripFormData} />;
         })}
-    </Grid>
+      </Grid>
     </div>
-);
+  );
 });
 
 export default TripLayout;

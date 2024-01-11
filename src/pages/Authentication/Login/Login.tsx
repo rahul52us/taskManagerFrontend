@@ -1,5 +1,4 @@
 import {
-  Flex,
   Box,
   Checkbox,
   Stack,
@@ -8,7 +7,6 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -20,7 +18,6 @@ import { authentication, main } from "../../../config/constant/routes";
 import { useState } from "react";
 
 const Login = observer(() => {
-  const [isBelowMd] = useMediaQuery("(max-width: md)");
   const [showError, setShowError] = useState(false);
   const {
     auth: { openNotification, login },
@@ -28,24 +25,14 @@ const Login = observer(() => {
   const navigate = useNavigate();
 
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+    <Box
+      bg={useColorModeValue("", "gray.800")}
     >
-      <Stack
-        spacing={8}
-        mx="auto"
-        maxW="lg"
-        py={12}
-        px={2}
-        minW={isBelowMd ? "100%" : "30%"}
-      >
-        <Stack align={"center"}>
+        <Stack align={"center"} mb={10}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+            to enjoy all of
+             our cool <Link color={"blue.400"}>features</Link> ✌️
           </Text>
         </Stack>
         <Box
@@ -144,8 +131,7 @@ const Login = observer(() => {
             )}
           </Formik>
         </Box>
-      </Stack>
-    </Flex>
+    </Box>
   );
 });
 

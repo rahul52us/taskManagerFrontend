@@ -1,5 +1,4 @@
 import {
-  Flex,
   Box,
   Checkbox,
   Stack,
@@ -8,7 +7,6 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import CustomInput from "../../../config/component/CustomInput/CustomInput";
 import { Form, Formik } from "formik";
@@ -23,22 +21,19 @@ const ForgotPassword = observer(() => {
   const [showError, setShowError] = useState(false)
   const {auth : { openNotification, forgotPasswordStore}} = store
   const navigate = useNavigate()
-  const [isBelowMd] = useMediaQuery("(max-width: md)");
 
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+    <Box
+      bg={useColorModeValue("", "gray.800")}
     >
-          <Stack spacing={8} mx="auto" maxW="lg" py={12} px={2} minW={isBelowMd ? "100%" : "30%"}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Forgot Password</Heading>
+           <Stack align={"center"} mb={10}>
+          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+            to enjoy all of
+             our cool <Link color={"blue.400"}>features</Link> ✌️
           </Text>
         </Stack>
+     
         <Box
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
@@ -111,8 +106,7 @@ const ForgotPassword = observer(() => {
             )}
           </Formik>
         </Box>
-      </Stack>
-    </Flex>
+    </Box>
   );
 });
 

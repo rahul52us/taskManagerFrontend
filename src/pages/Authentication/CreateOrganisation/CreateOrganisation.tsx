@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Flex,
   Box,
   Checkbox,
   Stack,
@@ -10,6 +9,7 @@ import {
   Text,
   useColorModeValue,
   useMediaQuery,
+  Grid,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -58,11 +58,9 @@ const CreateOrganisation = observer(() => {
   };
 
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+    <Box
+     
+      bg={useColorModeValue("", "gray.800")}
     >
       <Stack
         spacing={8}
@@ -123,7 +121,7 @@ const CreateOrganisation = observer(() => {
           >
             {({ handleSubmit, handleChange, errors, values, isSubmitting }) => (
               <Form onSubmit={handleSubmit}>
-                <Stack spacing={4}>
+                  <Grid gridTemplateColumns={{base : '1fr', md : '1fr 1fr'}} gap={2}>
                   <CustomInput
                     type="text"
                     name="first_name"
@@ -181,7 +179,8 @@ const CreateOrganisation = observer(() => {
                     value={values.password}
                     showError={showError}
                   />
-                  <Stack spacing={10}>
+                  </Grid>
+                  <Stack spacing={10} mt={5}>
                     <Stack
                       direction={{ base: "column", sm: "row" }}
                       align={"start"}
@@ -213,13 +212,12 @@ const CreateOrganisation = observer(() => {
                       Sign in
                     </Button>
                   </Stack>
-                </Stack>
               </Form>
             )}
           </Formik>
         </Box>
       </Stack>
-    </Flex>
+    </Box>
   );
 });
 

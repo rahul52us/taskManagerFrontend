@@ -9,6 +9,8 @@ interface CitySelectProps {
   onChange: (value: any) => void;
   name: string;
   label?: string;
+  showError?:boolean;
+  error?:any
 }
 
 const CitySelect: React.FC<CitySelectProps> = ({
@@ -18,6 +20,8 @@ const CitySelect: React.FC<CitySelectProps> = ({
   onChange,
   name,
   label,
+  showError,
+  error
 }) => {
   const [cities, setCities] = useState<any[]>([]);
 
@@ -62,6 +66,8 @@ const CitySelect: React.FC<CitySelectProps> = ({
       getOptionValue={(option) => option.isoCode}
       onChange={handleCityChange}
       placeholder="Select City"
+      showError={showError}
+      error={error}
     />
   );
 };

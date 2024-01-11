@@ -15,19 +15,26 @@ import { readFileAsBase64 } from "../../../constant/function";
 import FileViewer from "../../FilesViewer/FileViewer";
 import CustomDrawer from "../../Drawer/CustomDrawer";
 
-const ShowFileUploadFile = observer(({ files, removeFile }: any) => {
+const ShowFileUploadFile = observer(({ files, removeFile, edit }: any) => {
   const [selectedFile, setSelectedFile] = useState<any>({
-    type: null,
-    file: null,
+    type: edit ? files.type : null,
+    file: edit ? files.file : null,
   });
 
   const setSelectedFileFun = async (item: any) => {
-    let file: any = await readFileAsBase64(item);
-    if (file) {
-      if (item.name.endsWith(".pdf")) {
-        setSelectedFile({ type: "pdf", file: file });
-      } else {
-        setSelectedFile({ type: "image", file: file });
+    if (edit) {
+      setSelectedFile({
+        type: selectedFile.type,
+        file: selectedFile.file,
+      });
+    } else {
+      let file: any = await readFileAsBase64(item);
+      if (file) {
+        if (item.name.endsWith(".pdf")) {
+          setSelectedFile({ type: "pdf", file: file });
+        } else {
+          setSelectedFile({ type: "image", file: file });
+        }
       }
     }
   };
@@ -43,61 +50,60 @@ const ShowFileUploadFile = observer(({ files, removeFile }: any) => {
   };
 
   const checkFilesType = () => {
-    if (Array.isArray(files))
-      return files;
-      return [files]};
+    if (Array.isArray(files)) return files;
+    return [files];
+  };
 
   return (
     <>
       <Box mt={5}>
-        {
-          checkFilesType().map((item: any, index: number) => (
-            <Box
-              key={index}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              bg="gray.100"
-              p={3}
-              borderRadius="md"
-              boxShadow="md"
-              mt={2}
-              transition="box-shadow 0.3s"
-              _hover={{ boxShadow: "lg" }}
-            >
-              <Flex cursor="pointer" onClick={() => setSelectedFileFun(item)}>
-                {item?.name &&
-                  (item.name.endsWith(".pdf") ? (
-                    <FaFilePdf size={24} color="red" />
-                  ) : (
-                    <FaFileImage size={24} color="blue" />
-                  ))}
-                <Text
-                  fontSize="md"
-                  fontWeight="semibold"
-                  color="gray.800"
-                  ml={3}
-                  wordBreak={"break-word"}
-                >
-                  {item?.name}
-                </Text>
-              </Flex>
-              {removeFile && (
-                <Tooltip label="Delete" hasArrow placement="top">
-                  <IconButton
-                    icon={<MdDelete />}
-                    colorScheme="red"
-                    aria-label="Delete"
-                    size="sm"
-                    onClick={() => {
-                      removeFile(item, index);
-                      setSelectedFile({ type: null, file: null });
-                    }}
-                  />
-                </Tooltip>
-              )}
-            </Box>
-          ))}
+        {checkFilesType().map((item: any, index: number) => (
+          <Box
+            key={index}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            bg="gray.100"
+            p={3}
+            borderRadius="md"
+            boxShadow="md"
+            mt={2}
+            transition="box-shadow 0.3s"
+            _hover={{ boxShadow: "lg" }}
+          >
+            <Flex cursor="pointer" onClick={() => setSelectedFileFun(item)}>
+              {item?.name &&
+                (item.name.endsWith(".pdf") ? (
+                  <FaFilePdf size={24} color="red" />
+                ) : (
+                  <FaFileImage size={24} color="blue" />
+                ))}
+              <Text
+                fontSize="md"
+                fontWeight="semibold"
+                color="gray.800"
+                ml={3}
+                wordBreak={"break-word"}
+              >
+                {item?.name}
+              </Text>
+            </Flex>
+            {removeFile && (
+              <Tooltip label="Delete" hasArrow placement="top">
+                <IconButton
+                  icon={<MdDelete />}
+                  colorScheme="red"
+                  aria-label="Delete"
+                  size="sm"
+                  onClick={() => {
+                    removeFile(item, index);
+                    setSelectedFile({ type: null, file: null });
+                  }}
+                />
+              </Tooltip>
+            )}
+          </Box>
+        ))}
       </Box>
       <CustomDrawer
         open={selectedFile?.type ? true : false}

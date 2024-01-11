@@ -87,7 +87,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
   disabledDates,
   phone,
   onFileDrop,
-  props,
   // Added onFileDrop prop
   ...rest
 }) => {
@@ -131,15 +130,34 @@ const CustomInput: React.FC<CustomInputProps> = ({
       case "number":
         return (
           <Input
-            type="number"
+            type="text"
             style={style}
             value={value}
-            onChange={onChange}
+            onKeyDown={(e: any) => {
+              const regex = /^[0-9]*$/;
+              if (e.key === "Backspace") {
+                const newValue = e.target?.value?.slice(0, -1);
+                onChange &&
+                  onChange({ target: { name, value: newValue || "" } });
+              } else if (
+                regex.test(e.key) ||
+                (e.key === "." && e.target?.value?.indexOf(".") === -1) ||
+                e.key === "ArrowLeft" ||
+                e.key === "ArrowRight" ||
+                e.key === "Home" ||
+                e.key === "End"
+              ) {
+                const newValue = e.key.startsWith("Arrow") ? e.target.value : e.target.value + e.key;
+                onChange &&
+                  onChange({ target: { name, value: newValue } });
+              } else {
+                e.preventDefault();
+              }
+            }}
             name={name}
             placeholder={placeholder}
             disabled={disabled}
             _placeholder={{ fontSize: "12px" }}
-            {...props}
             {...rest}
           />
         );
@@ -200,7 +218,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
             name={name}
             onChange={onChange}
             isChecked={value}
-            {...props}
             {...rest}
           />
         );
