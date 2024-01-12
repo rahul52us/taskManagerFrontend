@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Card, Flex, Grid, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Grid,
+  IconButton,
+  StepIcon,
+} from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import BarChart from "../../../config/component/charts/BarChart";
 import store from "../../../store/store";
@@ -11,8 +19,16 @@ import DashPageHeader from "../../../config/component/common/DashPageHeader/Dash
 import { coursesBreadCrumb } from "../utils/breadcrumb.constant";
 import CourseList from "./component/CourseList";
 import CourseCategoryGridLayout from "./Layout/CourseCategoryGridLayout";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowBack, BiHome } from "react-icons/bi";
 import MainNotesForm from "./component/forms/MainNotes/MainNotesForm";
+import CustomStepper from "../../../config/component/Stepper/Stepper";
+
+const steps = [
+  { title: "Manager", description: "Contact Info", Icon: <StepIcon /> },
+  { title: "Financier", description: "Date & Time", Icon: <BiHome /> },
+  { title: "HR", description: "Select Rooms", Icon: <StepIcon /> },
+  { title: "CTO", description: "Food", Icon: <StepIcon /> },
+];
 
 const NotesIndex = observer(() => {
   const [openCategoryList, setOpenCategoryList] = useState({
@@ -73,6 +89,9 @@ const NotesIndex = observer(() => {
   return (
     <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader title="Videos" breadcrumb={coursesBreadCrumb} />
+      <Box mb={8}>
+        <CustomStepper steps={steps} activeStepIndex={4} />
+      </Box>
       <Grid gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
         <Card width={"100%"} minH={350} p={3} boxShadow={CardBoxShadow}>
           <BarChart

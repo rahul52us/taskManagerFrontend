@@ -19,16 +19,24 @@ const EditTripForm = observer(({ tripFormData, setTripFormData }: any) => {
   const [thumbnail, setThumbnail] = useState<any>([]);
 
   useEffect(() => {
-    if(tripFormData?.data?.thumbnail?.name && tripFormData?.data?.thumbnail?.url){
-      setThumbnail([{...tripFormData?.data?.thumbnail,file : tripFormData?.data?.thumbnail?.url}])
+    if (
+      tripFormData?.data?.thumbnail?.name &&
+      tripFormData?.data?.thumbnail?.url
+    ) {
+      setThumbnail([
+        {
+          ...tripFormData?.data?.thumbnail,
+          file: tripFormData?.data?.thumbnail?.url,
+        },
+      ]);
     }
-  },[tripFormData])
+  }, [tripFormData]);
 
   const setInitialValues = () => {
     const dt = generateEditInitialValues(tripFormData?.data);
     return {
       ...tripFormData?.data,
-      ...dt
+      ...dt,
     };
   };
 
@@ -36,7 +44,7 @@ const EditTripForm = observer(({ tripFormData, setTripFormData }: any) => {
     setLoading(true);
     values.thumbnail = thumbnail;
     const payload = await generateTripResponse(values);
-     updateTrip(payload,tripFormData?.data?._id)
+    updateTrip(payload, tripFormData?.data?._id)
       .then(() => {
         openNotification({
           title: "Trip Updated Successfully",
@@ -58,7 +66,7 @@ const EditTripForm = observer(({ tripFormData, setTripFormData }: any) => {
       });
   };
 
-  console.log('the thumbnail is', thumbnail)
+  console.log("the thumbnail is", thumbnail);
   return (
     <CustomDrawer
       title={`Edit Trip`}
@@ -73,7 +81,7 @@ const EditTripForm = observer(({ tripFormData, setTripFormData }: any) => {
         loading={loading}
         thumbnail={thumbnail}
         setThumbnail={setThumbnail}
-        initialValues={{...setInitialValues(),thumbnail : thumbnail}}
+        initialValues={{ ...setInitialValues(), thumbnail: thumbnail }}
         onSubmit={submitForm}
         showError={showError}
         setShowError={setShowError}
