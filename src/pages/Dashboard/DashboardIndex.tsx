@@ -10,6 +10,8 @@ import { headerHeight } from "../../config/constant/variable";
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { dashBreadCrumb } from "./utils/breadcrumb.constant";
 import DashboardRight from "./component/DashboardRight";
+// import MyCoursesTable from "./component/MyCoursesTable";
+// import SkeletanCategoryCard from "../../config/component/Card/CategoryCard/SkeletanCategoryCard";
 
 const DashboardIndex = observer(() => {
   const {
@@ -19,15 +21,18 @@ const DashboardIndex = observer(() => {
   return (
     <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader title="Dashboard" breadcrumb={dashBreadCrumb} />
-      <Grid templateColumns={{base : '1fr' , xl : '3.5fr 1fr'}} columnGap={3}>
+      <Grid templateColumns={{ base: "1fr", xl: "3.5fr 1fr " }} columnGap={3}>
         <GridItem>
           <DashboardBanner />
           <DashWidgetCard />
+          {/* <SkeletanCategoryCard/> */}
+          
           <DashChartContainer />
         </GridItem>
         <GridItem>
           <DashboardRight />
         </GridItem>
+        {/* <MyCoursesTable /> */}
       </Grid>
       <DeleteModel
         id={store.quiz.openDeleteCategoryModal?.data?._id}
