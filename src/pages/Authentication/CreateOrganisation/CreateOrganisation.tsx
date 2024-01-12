@@ -59,7 +59,7 @@ const CreateOrganisation = observer(() => {
 
   return (
     <Box
-     
+
       bg={useColorModeValue("", "gray.800")}
     >
       <Stack
