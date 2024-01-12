@@ -37,7 +37,6 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({
     close();
   };
 
-  console.log(size)
   return (
     <Drawer
       isOpen={open}
