@@ -12,7 +12,7 @@ const userData = [
   },
   {
     id: 2,
-    name: "Kashish Systumm",
+    name: "Kashish Systummmmm",
     avatarSrc: "https://bit.ly/dan-abramov",
     access: "access",
   },
