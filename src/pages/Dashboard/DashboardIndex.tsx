@@ -12,6 +12,7 @@ import { dashBreadCrumb } from "./utils/breadcrumb.constant";
 import DashboardRight from "./component/DashboardRight";
 // import MyCoursesTable from "./component/MyCoursesTable";
 // import SkeletanCategoryCard from "../../config/component/Card/CategoryCard/SkeletanCategoryCard";
+import ProfileCard from "./component/ProfileCard";
 
 const DashboardIndex = observer(() => {
   const {
@@ -19,6 +20,7 @@ const DashboardIndex = observer(() => {
   } = store;
 
   return (
+    <>
     <Box minHeight={`calc(100vh - ${headerHeight})`} m={-2} p={3}>
       <DashPageHeader title="Dashboard" breadcrumb={dashBreadCrumb} />
       <Grid templateColumns={{ base: "1fr", xl: "3.5fr 1fr" }} columnGap={3}>
@@ -43,6 +45,34 @@ const DashboardIndex = observer(() => {
         submit={deleteCategoryFunction}
       />
     </Box>
+      <ProfileCard title="title" />
+      <Box
+        display={"none"}
+        minHeight={`calc(100vh - ${headerHeight})`}
+        m={-2}
+        p={3}
+      >
+        <DashPageHeader title="Dashboard" breadcrumb={dashBreadCrumb} />
+        <Grid templateColumns={{ base: "1fr", xl: "3.5fr 1fr" }} columnGap={3}>
+          <GridItem>
+            <DashboardBanner />
+            <DashWidgetCard />
+            <DashChartContainer />
+          </GridItem>
+          <GridItem>
+            <DashboardRight />
+          </GridItem>
+        </Grid>
+        <DeleteModel
+          id={store.quiz.openDeleteCategoryModal?.data?._id}
+          open={store.quiz.openDeleteCategoryModal?.open}
+          close={setDeleteCategoryModal}
+          title={"Delete Category"}
+          content={`Are you sure , you want to delete ${store.quiz.openDeleteCategoryModal?.data?.title} category`}
+          submit={deleteCategoryFunction}
+        />
+      </Box>
+    </>
   );
 });
 
