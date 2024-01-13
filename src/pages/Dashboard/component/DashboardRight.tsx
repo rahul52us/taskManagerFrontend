@@ -30,7 +30,11 @@ const DashboardRight = observer(() => {
     <div>
       <DashboardRecentNotification />
       <DashboardRightCard />
-      <ProgressInfoCard count={9090} title="Due Fees" />
+      <ProgressInfoCard
+        count={9090}
+        title="Due Fees"
+        gradientColors={["#f54646", "#fc9e45"]}
+      />
       <AddUserCard userData={userData} />
     </div>
   );

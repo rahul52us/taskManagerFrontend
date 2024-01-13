@@ -36,7 +36,6 @@ const WidgetCard = ({
       bgGradient="linear(to-r, #5ba6ff, #5fb8ff)"
       boxShadow="rgb(0 0 0 / 20%) 0px 0px 8px"
       p={"2rem 2rem 1rem 2rem"}
-      boxSize={"3xs"}
       borderRadius={"3xl"}
       _hover={{
         transform: "scale(1.05)",
@@ -47,13 +46,24 @@ const WidgetCard = ({
       transition="transform 0.2s, box-shadow 0.2s"
       textAlign="center"
       onClick={() => navigate(link)}
-      templateRows={"2fr 0.5fr 1.25fr"}
+      templateRows={{ lg: "2fr 0.5fr 1.25fr", sm: "auto" }}
+      templateColumns={{ lg: "1fr", sm: "1fr 0.5fr 1fr" }}
     >
-      <Icon as={FaRegPlayCircle} fontSize={"6xl"} rounded={10} p={2} />
-      <Text fontSize="xl" fontWeight="bold">
+      <Icon
+        as={FaRegPlayCircle}
+        fontSize={"6xl"}
+        rounded={10}
+        p={2}
+        gridColumn={{ sm: "1" }}
+      />
+      <Text fontSize="xl" fontWeight="bold" gridColumn={{ lg: "1", sm: "2" }}>
         {title}
       </Text>
-      <Text fontSize="xl" fontWeight="semibold">
+      <Text
+        fontSize="xl"
+        fontWeight="semibold"
+        gridColumn={{ lg: "1", sm: "2" }}
+      >
         {count < totalCount ? count : totalCount}
       </Text>
     </Grid>
