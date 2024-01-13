@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
-import { Box, Text, Flex, Icon } from "@chakra-ui/react";
-import { FiUsers } from "react-icons/fi";
+import { Text, Icon, Grid } from "@chakra-ui/react";
+// import { FiUsers } from "react-icons/fi";
+import { FaRegPlayCircle } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 
-const WidgetCard = ({ totalCount, title, link }: { totalCount: number; title: string; link: string }) => {
+const WidgetCard = ({
+  totalCount,
+  title,
+  link,
+}: {
+  totalCount: number;
+  title: string;
+  link: string;
+}) => {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const intervalDelay = 5;
@@ -19,29 +29,34 @@ const WidgetCard = ({ totalCount, title, link }: { totalCount: number; title: st
   }, [count, totalCount]);
 
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      p={3}
-      bgGradient="linear(to-r, #4FACFE, #2B8FF7)"
-      boxShadow="lg"
-      _hover={{ transform: "scale(1.05)", boxShadow: "xl" }}
+    <Grid
+      border={"1px solid"}
+      bg={"gray.50"}
+      borderColor={"gray.300"}
+      bgGradient="linear(to-r, #5ba6ff, #5fb8ff)"
+      boxShadow="rgb(0 0 0 / 20%) 0px 0px 8px"
+      p={"2rem 2rem 1rem 2rem"}
+      boxSize={"3xs"}
+      borderRadius={"3xl"}
+      _hover={{
+        transform: "scale(1.05)",
+        boxShadow: "xl",
+        bgGradient: "linear(to-r, #2ea8fc, #0060f6)",
+      }}
       cursor="pointer"
       transition="transform 0.2s, box-shadow 0.2s"
-      color="white"
       textAlign="center"
       onClick={() => navigate(link)}
+      templateRows={"2fr 0.5fr 1.25fr"}
     >
-      <Flex align="center" justify="center" mb={2}>
-        <Icon as={FiUsers} boxSize={8} mr={2} />
-        <Text fontSize="3xl" fontWeight="bold">
-          {count < totalCount ? count : totalCount}
-        </Text>
-      </Flex>
-      <Text fontSize="xl" fontWeight="semibold" mb={3}>
+      <Icon as={FaRegPlayCircle} fontSize={"6xl"} rounded={10} p={2} />
+      <Text fontSize="xl" fontWeight="bold">
         {title}
       </Text>
-    </Box>
+      <Text fontSize="xl" fontWeight="semibold">
+        {count < totalCount ? count : totalCount}
+      </Text>
+    </Grid>
   );
 };
 

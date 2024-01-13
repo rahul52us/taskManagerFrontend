@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import DashboardRecentNotification from "./DashboardRecentNotification";
 import DashboardRightCard from "./DashboardRightCard";
 import AddUserCard from "./AddUserCard";
+import ProgressInfoCard from "./ProgressInfoCard";
 
 const userData = [
   {
@@ -12,13 +13,13 @@ const userData = [
   },
   {
     id: 2,
-    name: "Kashish Systummmmm",
+    name: "Kashish Systum",
     avatarSrc: "https://bit.ly/dan-abramov",
     access: "access",
   },
   {
     id: 2,
-    name: "Ayush Yadav",
+    name: "Ayush Yadavvvv",
     avatarSrc: "https://bit.ly/dan-abramov",
     access: "access",
   },
@@ -29,6 +30,7 @@ const DashboardRight = observer(() => {
     <div>
       <DashboardRecentNotification />
       <DashboardRightCard />
+      <ProgressInfoCard count={9090} title="Due Fees" />
       <AddUserCard userData={userData} />
     </div>
   );
