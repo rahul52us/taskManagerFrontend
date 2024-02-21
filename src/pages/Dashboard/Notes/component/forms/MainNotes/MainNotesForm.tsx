@@ -144,7 +144,7 @@ const MainNotesForm = observer(({ formData }: any) => {
                     onChange={handleChange}
                     error={errors.rating}
                     showError={showError}
-                    props={{ max: 5, min: 1 }}
+                    rest={{ max: 5, min: 1 }}
                   />
                 </Grid>
                 <Grid gap={2}>
