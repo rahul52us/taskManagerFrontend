@@ -21,7 +21,7 @@ type ProfileCardI= {
 
 function ProfileCard({ src }: ProfileCardI) {
   return (
-    <Grid templateColumns={{ md: "1fr 1fr" }}>
+    <Grid templateColumns={{ md: "1fr 1fr 1fr" }}>
       <Grid
         className="main"
         p={2}
